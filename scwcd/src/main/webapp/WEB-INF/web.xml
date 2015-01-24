@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="scwcd_test" version="2.4" 
+xmlns="http://java.sun.com/xml/ns/j2ee" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<display-name>justin scwcd project</display-name>
+
+	<!-- <context-param> is accessible to all components of this webapp. You 
+		can retrieve the parameter in a servlet using: servletContext.getInitParameter("webmaster"); 
+		It returns a string. -->
+
+	<context-param>		
+		<param-name>Author</param-name>
+		<param-value>Justin_Wu</param-value>
+	</context-param>
+	<context-param>
+		<param-name>Date</param-name>
+		<param-value>July,2006</param-value>
+	</context-param>
+
+	<filter>
+		<filter-name>helloworldfilter</filter-name>
+		<filter-class>listener.HelloWorldFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>helloworldfilter</filter-name>
+		<url-pattern>/filter/*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>listener.HttpSessionListener1</listener-class>
+	</listener>
+	<listener>
+		<listener-class>listener.MyServletContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>listener.HttpSessionAttributerListener1</listener-class>
+	</listener>
+	<listener>
+		<!-- One listener class can be used to listen for multiple kinds of events 
+			if it implements multiple listener interfaces. -->
+		<listener-class>listener.ServletComboListener</listener-class>
+	</listener>
+
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>/noScript/*</url-pattern>
+			<el-ignored>true</el-ignored>
+			<page-encoding>UTF-8</page-encoding>
+			<!-- <scripting-invalid>true</scripting-invalid> -->
+		</jsp-property-group>
+	</jsp-config>
+
+
+	<servlet>
+		<servlet-name>getHeaders</servlet-name>
+		<servlet-class>scwcd.getHeaders</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>logging</servlet-name>
+		<servlet-class>scwcd.Logging</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>initTestServlet</servlet-name>
+		<jsp-file>/initTest.jsp</jsp-file>
+		<init-param>
+			<param-name>region</param-name>
+			<param-value>North American</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<servlet-name>controlservlet</servlet-name>
+		<servlet-class>servlet.ControlServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>firesession</servlet-name>
+		<servlet-class>scwcd.session.FireSession</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>retrievesourcecode</servlet-name>
+		<servlet-class>scwcd.RetrieveSourceCode</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>testmethod</servlet-name>
+		<servlet-class>scwcd.TestMethod</servlet-class>
+		<load-on-startup>5</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>sqlerror</servlet-name>
+		<servlet-class>scwcd.SQLError</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>initparameter</servlet-name>
+		<servlet-class>scwcd.InitParameter</servlet-class>
+		<init-param>
+			<param-name>xyz</param-name>
+			<param-value>xyzxyz</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<servlet-name>include</servlet-name>
+		<servlet-class>nested.Include</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>exceptionhandler</servlet-name>
+		<servlet-class>scwcd.ExceptionHandler</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>DestroySession</servlet-name>
+		<servlet-class>scwcd.session.DestroySession</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>sendError</servlet-name>
+		<servlet-class>servlet.SendError</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AfterSendError</servlet-name>
+		<servlet-class>scwcd.AfterSendError</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>SecureServlet</servlet-name>
+		<servlet-class>servlet.SecureServlet</servlet-class>
+		<security-role-ref>
+			<role-name>director</role-name>
+			<!--Role name hard-coded in the servlet -->
+
+			<role-link>tomcat</role-link>
+			<!--Role name defined in the servlet container -->
+		</security-role-ref>
+	</servlet>
+	<servlet>
+		<servlet-name>AllServletPath</servlet-name>
+		<servlet-class>servlet.AllServletPath</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>NoWay</servlet-name>
+		<servlet-class>servlet.AllServletPath</servlet-class>
+		<init-param>
+			<param-name>noway</param-name>
+			<param-value>noway to come this servlet</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>SessionSwitchServlet</servlet-name>
+		<servlet-class>scwcd.session.SessionSwitchServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>SessionSwitchServlet</servlet-name>
+		<url-pattern>/SessionSwitchServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>NoWay</servlet-name>
+		<url-pattern>*.noway</url-pattern>
+	</servlet-mapping>
+	<!--an extension mapping is considered ONLY if there is no path matching -->
+
+	<servlet-mapping>
+		<servlet-name>AllServletPath</servlet-name>
+		<url-pattern>/eachServletPath/xxx/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>initTestServlet</servlet-name>
+		<url-pattern>/initTestServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>controlservlet</servlet-name>
+		<url-pattern>/controlservlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>logging</servlet-name>
+		<url-pattern>/logging</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>firesession</servlet-name>
+		<url-pattern>/firesession</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>getHeaders</servlet-name>
+		<url-pattern>/getHeaders</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>retrievesourcecode</servlet-name>
+		<url-pattern>/retrievesourcecode</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>testmethod</servlet-name>
+		<url-pattern>/testmethod</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>sqlerror</servlet-name>
+		<url-pattern>/sqlerror</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>SecureServlet</servlet-name>
+		<url-pattern>/SecureServlet</url-pattern>
+	</servlet-mapping>
+
+	<!-- those are incorrect url patterns: <servlet-mapping> <servlet-name>sqlerror</servlet-name> 
+		<url-pattern>/sql/*.err</url-pattern> </servlet-mapping> this can't use *.err 
+		with / <servlet-mapping> <servlet-name>initparameter</servlet-name> <url-pattern>initparameter2</url-pattern> 
+		</servlet-mapping> This must start with / -->
+
+	<servlet-mapping>
+		<servlet-name>initparameter</servlet-name>
+		<url-pattern>/initparameter</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>include</servlet-name>
+		<url-pattern>/include</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>exceptionhandler</servlet-name>
+		<url-pattern>/exceptionhandler</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DestroySession</servlet-name>
+		<url-pattern>/DestroySession</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AfterSendError</servlet-name>
+		<url-pattern>/AfterSendError</url-pattern>
+	</servlet-mapping>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error_page/error404.html</location>
+	</error-page>
+
+	<error-page>
+		<exception-type>java.sql.SQLException</exception-type>
+		<location>/error_page/error_sql.html</location>
+	</error-page>
+
+	<error-page>
+		<exception-type>java.io.IOException</exception-type>
+		<location>/exceptionhandler</location>
+	</error-page>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>Dev</realm-name>
+	</login-config>
+
+	<!-- Specifies the roles that are defined in the application server. For 
+		example, Tomcat defines it in conf\tomcat-users.xml -->
+	<security-role>
+		<role-name>tomcat</role-name>
+		<!-- this is default role of netbeans 5.5 tomcat -->
+	</security-role>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>security</web-resource-name>
+			<description>test authorization</description>
+			<url-pattern>/security.html</url-pattern>
+		</web-resource-collection>
+
+		<web-resource-collection>
+			<web-resource-name>secureServlet</web-resource-name>
+			<description>test servlet authorization</description>
+			<url-pattern>/SecureServlet</url-pattern>
+		</web-resource-collection>
+
+		<auth-constraint>
+			<role-name>tomcat</role-name>
+			<!--The role-name that we use here must be defined in the security-role 
+				section. -->
+		</auth-constraint>
+
+		<!-- <user-data-constraint> <transport-guarantee>CONFIDENTIAL</transport-guarantee> 
+			</user-data-constraint> -->
+
+	</security-constraint>
+</web-app>

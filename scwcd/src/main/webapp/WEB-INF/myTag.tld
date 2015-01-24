@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" 
+xmlns="http://java.sun.com/xml/ns/j2ee" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
+
+    <tlib-version>1.0</tlib-version>
+    <shortname>Custom Taga for scwcd System</shortname>
+    <tag>
+        <name>firstTag</name>
+        <tag-class>tag.FirstTag</tag-class>
+        <body-content>empty</body-content>
+        <!--jsp 2.0 add hyphen into bodycontent and tag-class -->
+    </tag>
+    <tag>
+        <name>tagDependent</name>
+        <tagclass>tag.TagDependent</tagclass>
+        <bodycontent>tagdependent</bodycontent>
+    </tag>
+    <tag>
+        <name>tagJsp</name>
+        <tagclass>tag.TagDependent</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <!-- it must be UpperCase-->
+    </tag>
+    <tag>
+        <name>skipContent</name>
+        <tagclass>tag.SkipContentTag</tagclass>
+        <bodycontent>tagdependent</bodycontent>
+    </tag>
+    <tag>
+        <name>tagException</name>
+        <tagclass>tag.TagException</tagclass>
+        <bodycontent>empty</bodycontent>
+    </tag>
+    <tag>
+        <name>tagSequence</name>
+        <tagclass>tag.TagSequence</tagclass>
+        <bodycontent>empty</bodycontent>
+    </tag>
+    <tag>
+        <name>tagParam</name>
+        <tagclass>tag.TagParam</tagclass>
+        <attribute>
+            <name>age</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <bodycontent>empty</bodycontent>
+    </tag>
+    <tag>
+        <name>nestedTag</name>
+        <tagclass>tag.NestedTag</tagclass>
+        <bodycontent>tagdependent</bodycontent>
+    </tag>
+    <tag>
+        <name>nestedTag2</name>
+        <tagclass>tag.NestedTag2</tagclass>
+    </tag>
+    <tag>
+        <name>forwardTag</name>
+        <tagclass>tag.ForwardTag</tagclass>
+        <bodycontent>empty</bodycontent>
+    </tag>
+    <tag>
+        <name>AdjustContent</name>
+        <tag-class>tag.AdjustContent</tag-class>
+        <body-content>JSP</body-content>
+    </tag>
+    <tag>
+        <name>InnerAdjuster</name>
+        <tag-class>tag.InnerAdjuster</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+    
+    <tag>
+        <name>message</name>
+        <tag-class>tag.SimpleTagExample</tag-class>
+        <body-content>empty</body-content>
+        <description>Sends a message to the JSP</description>
+    </tag>
+    
+    <tag>
+        <name>functions</name>
+        <tag-class>tag.MathTag</tag-class>
+        <body-content>tagdependent</body-content>
+        <attribute>
+            <name>num</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <dynamic-attributes>
+            true
+        </dynamic-attributes>    
+        
+        <description>
+            Sends a math expression to the JSP
+        </description>
+    </tag>  
+    
+</taglib>
