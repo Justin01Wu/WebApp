@@ -1,5 +1,7 @@
 <html>
 <body>
-<h2>Hello World!</h2>
+	<h2>This is a demo for Jersey Restful</h2>
+
+	<a href="rest/hello/myMsg" target="_blank">click me</a>
 </body>
 </html>
