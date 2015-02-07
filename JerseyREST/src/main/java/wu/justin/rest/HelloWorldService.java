@@ -29,5 +29,12 @@ public class HelloWorldService {
 	public String sayXMLHello() {
 	    return "<?xml version=\"1.0\"?>" + "<hello> Hello Jersey" + "</hello>";
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/json")
+	public String sayJsonHello() {
+	    return "{\"msg\":\"Hello Jersey\"}";
+	}
 
 }
