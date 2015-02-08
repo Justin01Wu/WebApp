@@ -26,14 +26,14 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
-			<version>1.18</version>
+			<version>1.18.3</version>
 		</dependency>
 		
 		<!-- add this to support @XmlRootElement, ie, java json mapping  -->
 		<dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-bundle</artifactId>
-            <version>1.18</version>
+            <version>1.18.3</version>
         </dependency>
         
         <!--  to support @XmlRootElement -->
