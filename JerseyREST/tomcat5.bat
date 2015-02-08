@@ -18,7 +18,7 @@ echo deleting folder C:\program2\apache-tomcat-5.5.26\work\Catalina
 rmdir /S /Q C:\program2\apache-tomcat-5.5.26\work\Catalina
 
 rem copy war file
-echo copying file build\results_dnf\jersey-rest.war
+echo copying file target\jersey-rest.war
 copy /Y target\jersey-rest.war C:\program2\apache-tomcat-5.5.26\webapps
 
 rem start tomcat
