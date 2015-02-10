@@ -1,11 +1,18 @@
 package wu.justin.rest.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
+
 @XmlRootElement
 public class User {
 	
 	private Integer id;	
 	private String name;
+	private List<String> emails = new ArrayList<String>();	
+	
+	private Address homeAddress;
 	
 	public User(){		
 	}
@@ -27,5 +34,23 @@ public class User {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public List<String> getEmails() {
+		return emails;
+	}
+	public void setEmails(List<String> emailList) {
+		this.emails = emailList;
+	}
+	public void addEmails(String email) {
+		this.emails.add(email);
+	}
+	
+	public Address getHomeAddress() {
+		return homeAddress;
+	}
+	
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
 	}
 }
