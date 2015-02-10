@@ -36,7 +36,7 @@
             <version>1.18.3</version>
         </dependency>
         
-        <!--  to support @XmlRootElement -->
+        <!--  to define @XmlRootElement -->
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
