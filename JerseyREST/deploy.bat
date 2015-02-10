@@ -21,8 +21,10 @@ echo copying file target\jersey-rest.war
 copy /Y target\jersey-rest.war %CATALINA_HOME%\webapps
 
 rem start tomcat
+set startdir=%cd%
+echo current folder is %startdir%
 cd %CATALINA_HOME%\bin
 call _debug.bat
-cd C:\samples\WebApp\WebApp\JerseyREST
+cd %startdir%
 
 rem pause
