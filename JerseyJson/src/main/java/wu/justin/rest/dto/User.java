@@ -3,11 +3,19 @@ package wu.justin.rest.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class User {
 	
 	private Integer id;	
 	private String name;
-	private List<String> emails = new ArrayList<String>();	
+	
+	@JsonIgnore
+	private String password;
+	
+	private List<String> emails = new ArrayList<String>();
+	
+	
 	
 	private Address homeAddress;
 	
@@ -49,5 +57,11 @@ public class User {
 	
 	public void setHomeAddress(Address homeAddress) {
 		this.homeAddress = homeAddress;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

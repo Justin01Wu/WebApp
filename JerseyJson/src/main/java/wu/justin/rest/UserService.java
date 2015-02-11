@@ -30,6 +30,8 @@ public class UserService {
 		user.addEmails("justin01.wu@gmail.com");
 		user.addEmails("wuyg719@gmail.com");
 		
+		user.setPassword("abcd1234");
+		
 		Address homeAddress =  new Address();
 		homeAddress.setId(123768);
 		homeAddress.setCountry("Canada");
