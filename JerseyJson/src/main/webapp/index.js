@@ -13,19 +13,26 @@ function getAPIUrlBase(){
 	//return "http://localhost:8080/api";
 }
 
+
 function callMenuApi(){
 	var menuUrl = getAPIUrlBase() + '/user/current/menu';
 	//var menuUrl = 'WEB-INF/menus_uw.json';  // for local testing
 	//var menuUrl = 'WEB-INF/menus_analysis2.json';  // for local testing
 	//var menuUrl = 'WEB-INF/menus_admin.json';  // for local testing
-	jQuery("#urlStr").text(menuUrl);
+	callApi(menuUrl);
+	
+}
+function callApi(url){
+
+	console.log("going to call API: " + url);
+	
+	jQuery("#urlStr").text(url);
 	jQuery.ajax({
-		url : menuUrl,
+		url : url,
 		dataType : 'json',
 		success : function(json) {
-			console.log("got menu json...");
-			jQuery("#responseJson").text(JSON.stringify(json, null, 4));
-			
+			console.log("got json...");
+			jQuery("#responseJson").text(JSON.stringify(json, null, 4));			
 			
 		},
 		error: function(jqXHR,error, errorThrown) {  
@@ -33,7 +40,7 @@ function callMenuApi(){
             if(jqXHR.status&&jqXHR.status==400){
                  alert(jqXHR.responseText); 
             }else{
-                alert("loading menu failed, please refresh page or contact admin");
+                alert("loading json failed, please refresh page or contact admin");
             }
        }
 	});
