@@ -1,4 +1,8 @@
 <html>
+
+<script src="index.js"></script>
+<script src="jquery-1.10.2.min.js"></script>
+
 <body>
 	<h2>This is a demo for Jersey + Jackson RESTful</h2>
 
@@ -23,6 +27,13 @@
 	
 	<br/>
 	<a href="api/user/current/menu" >load json from a file</a>
+	
+	<br/>
+	<button type="button" onclick="callMenuApi();">call Menu API</button>
+	<br/>
+	<label id="urlStr"></label>
+	<br/>
+	<textarea id="responseJson" style="width: 300px; height: 300px;" readonly="readonly">
 	
 	
 </body>
