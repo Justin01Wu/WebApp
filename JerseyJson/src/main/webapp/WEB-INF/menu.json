@@ -1,0 +1,31 @@
+{
+  "__desc": " This menu json comes from WEB-INF/menu.json file ",
+  "menus": [
+    {
+      "menuId": 201000,
+      "systemId": 20,
+      "subMenus": null,
+      "functionId": 101000,
+      "functionName": null,
+      "functionPath": "Home.html",
+      "menuName": "HOME",
+      "displayOrder": 10,
+      "parentId": null,
+      "menuLevel": 1
+    },
+    {
+      "menuId": 209000,
+      "systemId": 20,
+      "subMenus": null,
+      "functionId": 109000,
+      "functionName": null,
+      "functionPath": "login.jsf",
+      "menuName": "EXIT",
+      "target": "_top",
+      "displayOrder": 100,
+      "parentId": null,
+      "menuLevel": 1
+    }
+  ]
+ 
+}

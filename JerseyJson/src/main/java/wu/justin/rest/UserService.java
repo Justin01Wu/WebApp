@@ -1,11 +1,15 @@
 package wu.justin.rest;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.codehaus.jackson.map.util.BeanUtil;
+import org.apache.commons.io.FileUtils;
 
 import wu.justin.business.User;
 import wu.justin.rest.dto.Address;
@@ -24,6 +28,7 @@ public class UserService {
 	    return "{\"user\":\"Justin Wu\"}";
 	}
 	
+	/** demop how to convert java object tree to json */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/current")
@@ -44,6 +49,7 @@ public class UserService {
 	    return user;
 	}
 	
+	/** demo how to hide password */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/currentNoPassword")
@@ -64,5 +70,15 @@ public class UserService {
 
 	    return user;
 	}
-	
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/current/menu")
+	public String getUserMenu() throws IOException {
+
+		URL url = UserService.class.getResource("/../menu.json");
+		File menuFile = new File(url.getPath());	
+		String menuStr = FileUtils.readFileToString(menuFile);
+		return menuStr;
+	}
 }
