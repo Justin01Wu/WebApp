@@ -1,0 +1,20 @@
+package wu.justin.rest.dto;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import wu.justin.business.User;
+
+public class UserDTO  extends User {
+	
+	public UserDTO(Integer id, String name){
+		super(id, name);
+	}
+	
+	@JsonIgnore
+	@Override
+	public String getPassword() {
+		return super.getPassword();
+	}
+
+
+}
