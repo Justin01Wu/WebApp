@@ -22,11 +22,5 @@ public class UserDTO  extends User {
 	public String getName() {
 		return super.getName();
 	}
-	
-//	@JsonProperty("fullName")
-//	@Override
-//	public void setName(String name) {
-//		this.setName(name);
-//	}	
 
 }

@@ -46,6 +46,8 @@ public class UserService {
 		homeAddress.setAddress("2244 munn's ave");
 		
 		user.setHomeAddress(homeAddress);
+		
+		user.setDesc("This is a sample to demo how Jackson convert a Java object tree into json");
 	    return user;
 	}
 	
@@ -67,7 +69,7 @@ public class UserService {
 		homeAddress.setAddress("273 sixteen");
 		
 		user.setHomeAddress(homeAddress);
-
+		user.setDesc("This is a sample to hide password and set special name on json when convert a Java object tree into json");
 	    return user;
 	}
 

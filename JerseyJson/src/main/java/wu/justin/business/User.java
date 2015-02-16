@@ -7,6 +7,7 @@ import wu.justin.rest.dto.Address;
 
 public class User {
 	
+	private String desc;	
 	private Integer id;	
 	private String name;	
 	private String password;	
@@ -60,5 +61,11 @@ public class User {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getDesc() {
+		return desc;
+	}
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 }
