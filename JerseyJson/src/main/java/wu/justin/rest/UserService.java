@@ -28,7 +28,7 @@ public class UserService {
 	    return "{\"user\":\"Justin Wu\"}";
 	}
 	
-	/** demop how to convert java object tree to json */
+	/** demo how to convert java object tree to json */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/current")
