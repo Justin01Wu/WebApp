@@ -19,9 +19,20 @@ function callMenuApi(){
 	//var menuUrl = 'WEB-INF/menus_uw.json';  // for local testing
 	//var menuUrl = 'WEB-INF/menus_analysis2.json';  // for local testing
 	//var menuUrl = 'WEB-INF/menus_admin.json';  // for local testing
-	callApi(menuUrl);
-	
+	callApi(menuUrl);	
 }
+
+function callUserApi(){
+	var url = getAPIUrlBase() + '/user/current';
+	callApi(url);	
+}
+
+function callUserNoPasswordApi(){
+	var url = getAPIUrlBase() + '/user/currentNoPassword';
+	callApi(url);	
+}
+
+
 function callApi(url){
 
 	console.log("going to call API: " + url);
