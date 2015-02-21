@@ -13,6 +13,7 @@ import org.apache.commons.io.FileUtils;
 
 import wu.justin.business.User;
 import wu.justin.rest.dto.Address;
+import wu.justin.rest.dto.AddressDTO;
 import wu.justin.rest.dto.UserDTO;
 
 //it comes from 
@@ -89,5 +90,17 @@ public class UserService {
 		File menuFile = new File(url.getPath());	
 		String menuStr = FileUtils.readFileToString(menuFile);
 		return menuStr;
+	}
+	
+	/** demo how to hide most of fields */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/currentAddress")
+	public AddressDTO getCurrentAddress() {			
+		AddressDTO homeAddress =  new AddressDTO();
+		homeAddress.setId(123768);
+		homeAddress.setCountry("Canada");
+		homeAddress.setAddress("This is a demo how to hide most of fields");		
+	    return homeAddress;
 	}
 }

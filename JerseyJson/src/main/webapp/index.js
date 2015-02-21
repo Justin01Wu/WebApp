@@ -27,6 +27,11 @@ function callUserJsonString(){
 	callApi(url);	
 }
 
+function callHideFieldsApi(){
+	var url = getAPIUrlBase() + '/user/currentAddress';
+	callApi(url);	
+}
+
 function callInvalidChar(){
 	var url = getAPIUrlBase() + '/user/invalidChar';
 	callApi(url);	
