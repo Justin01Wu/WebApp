@@ -25,7 +25,14 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/json")
 	public String sayJsonHello() {
-	    return "{\"user\":\"Justin Wu\"}";
+	    return "{\"user\" : \"Justin Wu\"}";
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/invalidChar")
+	public String invalidJsonChar() {
+	    return "{\"invalidChar\":\"This is a tab[	], which is invlid, UI will complain\"}";
 	}
 	
 	/** demo how to convert java object tree to json */
@@ -43,7 +50,7 @@ public class UserService {
 		Address homeAddress =  new Address();
 		homeAddress.setId(123768);
 		homeAddress.setCountry("Canada");
-		homeAddress.setAddress("2244 munn's ave");
+		homeAddress.setAddress("This is a tab character[	],but jackson will convert it into \t");
 		
 		user.setHomeAddress(homeAddress);
 		

@@ -22,6 +22,16 @@ function callMenuApi(){
 	callApi(menuUrl);	
 }
 
+function callUserJsonString(){
+	var url = getAPIUrlBase() + '/user/json';
+	callApi(url);	
+}
+
+function callInvalidChar(){
+	var url = getAPIUrlBase() + '/user/invalidChar';
+	callApi(url);	
+}
+
 function callUserApi(){
 	var url = getAPIUrlBase() + '/user/current';
 	callApi(url);	
