@@ -3,8 +3,6 @@ package wu.justin.business;
 import java.util.ArrayList;
 import java.util.List;
 
-import wu.justin.rest.dto.Address;
-
 public class User {
 	
 	private String desc;	

@@ -1,8 +1,10 @@
 package wu.justin.rest.dto;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import wu.justin.business.Address;
 
 @JsonAutoDetect(
 		fieldVisibility=Visibility.NONE,

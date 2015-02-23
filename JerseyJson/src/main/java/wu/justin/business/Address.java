@@ -1,4 +1,4 @@
-package wu.justin.rest.dto;
+package wu.justin.business;
 
 public class Address {
 	private int id;

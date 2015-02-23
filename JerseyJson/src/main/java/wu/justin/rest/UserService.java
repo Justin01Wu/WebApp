@@ -11,8 +11,8 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.FileUtils;
 
+import wu.justin.business.Address;
 import wu.justin.business.User;
-import wu.justin.rest.dto.Address;
 import wu.justin.rest.dto.AddressDTO;
 import wu.justin.rest.dto.UserDTO;
 
