@@ -3,6 +3,7 @@ package wu.justin.rest;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -45,6 +46,7 @@ public class UserService {
 		User user = new User(56239, "Justin Wu");
 		user.addEmails("justin01.wu@gmail.com");
 		user.addEmails("wuyg719@gmail.com");
+		user.setBirthDate(new Date());
 		
 		user.setPassword("abcd1234");
 		
@@ -70,6 +72,7 @@ public class UserService {
 		user.addEmails("wuyg719@gmail.com");
 		
 		user.setPassword("abcd1234");
+		user.setBirthDate(new Date());
 		
 		Address homeAddress =  new Address();
 		homeAddress.setId(123768);

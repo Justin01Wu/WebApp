@@ -1,7 +1,10 @@
 package wu.justin.rest.dto;
 
+import java.util.Date;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import wu.justin.business.User;
 
@@ -23,6 +26,12 @@ public class UserDTO  extends User {
 	@Override
 	public String getName() {
 		return super.getName();
+	}
+	
+	@Override
+	@JsonSerialize(using = CustomJsonDateSerializer.class)
+	public Date getBirthDate() {
+		return super.getBirthDate();
 	}
 
 }

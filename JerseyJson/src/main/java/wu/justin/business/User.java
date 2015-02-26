@@ -1,6 +1,7 @@
 package wu.justin.business;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class User {
@@ -9,6 +10,7 @@ public class User {
 	private Integer id;	
 	private String name;	
 	private String password;	
+	private Date birthDate;
 	private List<String> emails = new ArrayList<String>();
 	
 	private Address homeAddress;
@@ -65,5 +67,11 @@ public class User {
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	public Date getBirthDate() {
+		return birthDate;
+	}
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 }
