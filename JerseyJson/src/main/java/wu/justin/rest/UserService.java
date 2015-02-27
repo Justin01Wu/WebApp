@@ -18,7 +18,7 @@ import org.apache.commons.io.FileUtils;
 
 import wu.justin.business.Address;
 import wu.justin.business.User;
-import wu.justin.rest.dto.AddressDTO;
+import wu.justin.rest.dto.AddressHideDTO;
 import wu.justin.rest.dto.AddressXMLDTO;
 import wu.justin.rest.dto.UserDTO;
 
@@ -108,7 +108,7 @@ public class UserService {
 	 @PUT
 	 @Consumes(MediaType.APPLICATION_XML)
 	 @Path("/updateAddress")
-	 public Response updateAddress(JAXBElement<AddressDTO> addressDTO) {
+	 public Response updateAddress(JAXBElement<AddressHideDTO> addressDTO) {
 		 System.out.println("updateAddress...");
 		 System.out.println(addressDTO.getValue().getAddress());		 
 	    return Response.status(200).entity("success").build();
@@ -118,11 +118,11 @@ public class UserService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/currentAddress")
-	public AddressDTO getCurrentAddress() {	
+	public AddressHideDTO getCurrentAddress() {	
 		
 		System.out.println("getCurrentAddress...");
 		
-		AddressDTO homeAddress =  new AddressDTO();
+		AddressHideDTO homeAddress =  new AddressHideDTO();
 		homeAddress.setId(123768);
 		homeAddress.setCountry("Canada");
 		homeAddress.setAddress("This is a demo how to hide most of fields");		
