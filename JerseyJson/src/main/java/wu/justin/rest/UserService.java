@@ -105,42 +105,4 @@ public class UserService {
 		return menuStr;
 	}
 	
-	 @PUT
-	 @Consumes(MediaType.APPLICATION_XML)
-	 @Path("/updateAddress")
-	 public Response updateAddress(JAXBElement<AddressHideDTO> addressDTO) {
-		 System.out.println("updateAddress...");
-		 System.out.println(addressDTO.getValue().getAddress());		 
-	    return Response.status(200).entity("success").build();
-	  }
-	
-	/** demo how to hide most of fields */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/currentAddress")
-	public AddressHideDTO getCurrentAddress() {	
-		
-		System.out.println("getCurrentAddress...");
-		
-		AddressHideDTO homeAddress =  new AddressHideDTO();
-		homeAddress.setId(123768);
-		homeAddress.setCountry("Canada");
-		homeAddress.setAddress("This is a demo how to hide most of fields");		
-	    return homeAddress;
-	}
-	
-	/** demo how to hide most of fields */
-	@GET
-	@Produces(MediaType.APPLICATION_XML)
-	@Path("/xml/currentAddress")
-	public AddressXMLDTO getCurrentXmlAddress() {	
-		
-		System.out.println("getCurrentXmlAddress...");
-		
-		AddressXMLDTO homeAddress =  new AddressXMLDTO();
-		homeAddress.setId(123768);
-		homeAddress.setCountry("Canada");
-		homeAddress.setAddress("This is a demo how to get xml data from java object");		
-	    return homeAddress;
-	}
 }

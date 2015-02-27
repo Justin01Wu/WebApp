@@ -22,7 +22,7 @@ function callMenuApi(){
 	callApi(menuUrl);	
 }
 function callxmlAddress(){
-	var url = getAPIUrlBase() + '/user/xml/currentAddress';
+	var url = getAPIUrlBase() + '/user/address/xml/current';
 	callXmlApi(url);	
 }
 
@@ -33,7 +33,7 @@ function callUserJsonString(){
 }
 
 function callHideFieldsApi(){
-	var url = getAPIUrlBase() + '/user/currentAddress';
+	var url = getAPIUrlBase() + '/user/address/current';
 	callApi(url);	
 }
 
