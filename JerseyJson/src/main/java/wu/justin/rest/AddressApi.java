@@ -10,11 +10,37 @@ import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
 
 import wu.justin.rest.dto.AddressHideDTO;
+import wu.justin.rest.dto.AddressJsonDTO;
 import wu.justin.rest.dto.AddressXMLDTO;
 
 @Path("/user/address")
 public class AddressApi {
+	
+	/** demo how to get json from a java object */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/json/current")
+	public AddressJsonDTO getCurrentJsonAddress() {	
+		
+		System.out.println("getCurrentJsonAddress...");
+		
+		AddressJsonDTO homeAddress =  new AddressJsonDTO();
+		homeAddress.setId(123768);
+		homeAddress.setCountry("Canada");
+		homeAddress.setAddress("This is a demo how to get json from a java object");		
+	    return homeAddress;
+	}
+	
 
+	 @PUT
+	 @Consumes(MediaType.APPLICATION_JSON)
+	 @Path("/json/update")
+	 public Response updateJsonAddress(AddressJsonDTO addressJsonDTO) {
+		 System.out.println("updateJsonAddress...");		
+	    return Response.status(200).entity("success").build();
+	 }
+
+	 
 	 @PUT
 	 @Consumes(MediaType.APPLICATION_XML)
 	 @Path("/update")
@@ -22,7 +48,7 @@ public class AddressApi {
 		 System.out.println("updateAddress...");
 		 System.out.println(addressDTO.getValue().getAddress());		 
 	    return Response.status(200).entity("success").build();
-	  }
+	 }
 	
 	/** demo how to hide most of fields */
 	@GET
