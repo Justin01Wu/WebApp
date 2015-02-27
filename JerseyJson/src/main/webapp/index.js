@@ -21,6 +21,11 @@ function callMenuApi(){
 	//var menuUrl = 'WEB-INF/menus_admin.json';  // for local testing
 	callApi(menuUrl);	
 }
+function callxmlAddress(){
+	var url = getAPIUrlBase() + '/user/xml/currentAddress';
+	callXmlApi(url);	
+}
+
 
 function callUserJsonString(){
 	var url = getAPIUrlBase() + '/user/json';
@@ -48,6 +53,37 @@ function callUserNoPasswordApi(){
 }
 
 
+function callXmlApi(url){
+
+	console.log("going to call API: " + url);
+	
+	jQuery("#urlStr").text(url);
+	jQuery.ajax({
+		url : url,
+		dataType : 'xml',
+		success : function(xmlDoc) {
+			console.log("got xml...");
+			
+		    var xmlString;
+		    //IE
+		    if (window.ActiveXObject){
+		        xmlString = xmlDoc.xml;
+		    }
+		    // code for Mozilla, Firefox, Opera, etc.
+		    else{
+		        xmlString = (new XMLSerializer()).serializeToString(xmlDoc);
+		    }
+			jQuery("#responseJson").text(xmlString);			
+			
+		},
+		error: function(jqXHR,error, errorThrown) {  
+			console.error("loading ajax error with status: " + jqXHR.status);
+            alert("loading xml failed, please refresh page or contact admin");
+       }
+	});
+}
+
+
 function callApi(url){
 
 	console.log("going to call API: " + url);
@@ -62,7 +98,7 @@ function callApi(url){
 			
 		},
 		error: function(jqXHR,error, errorThrown) {  
-			console.error("loading menu error with status: " + jqXHR.status);
+			console.error("loading ajax error with status: " + jqXHR.status);
             if(jqXHR.status&&jqXHR.status==400){
                  alert(jqXHR.responseText); 
             }else{

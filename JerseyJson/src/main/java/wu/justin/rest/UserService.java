@@ -5,16 +5,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.io.FileUtils;
 
 import wu.justin.business.Address;
 import wu.justin.business.User;
 import wu.justin.rest.dto.AddressDTO;
+import wu.justin.rest.dto.AddressXMLDTO;
 import wu.justin.rest.dto.UserDTO;
 
 //it comes from 
@@ -43,6 +48,8 @@ public class UserService {
 	@Path("/current")
 	public User getCurrentUser() {
 		
+		System.out.println("getCurrentUser...");
+		
 		User user = new User(56239, "Justin Wu");
 		user.addEmails("justin01.wu@gmail.com");
 		user.addEmails("wuyg719@gmail.com");
@@ -67,6 +74,8 @@ public class UserService {
 	@Path("/currentNoPassword")
 	public UserDTO getCurrentUser2() {
 		
+		System.out.println("getCurrentUser2...");
+		
 		UserDTO user = new UserDTO(77349, "Justin Wu");
 		user.addEmails("justin01.wu@gmail.com");
 		user.addEmails("wuyg719@gmail.com");
@@ -89,21 +98,49 @@ public class UserService {
 	@Path("/current/menu")
 	public String getUserMenu() throws IOException {
 
+		System.out.println("getUserMenu...");
 		URL url = UserService.class.getResource("/../menu.json");
 		File menuFile = new File(url.getPath());	
 		String menuStr = FileUtils.readFileToString(menuFile);
 		return menuStr;
 	}
 	
+	 @PUT
+	 @Consumes(MediaType.APPLICATION_XML)
+	 @Path("/updateAddress")
+	 public Response updateAddress(JAXBElement<AddressDTO> addressDTO) {
+		 System.out.println("updateAddress...");
+		 System.out.println(addressDTO.getValue().getAddress());		 
+	    return Response.status(200).entity("success").build();
+	  }
+	
 	/** demo how to hide most of fields */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/currentAddress")
-	public AddressDTO getCurrentAddress() {			
+	public AddressDTO getCurrentAddress() {	
+		
+		System.out.println("getCurrentAddress...");
+		
 		AddressDTO homeAddress =  new AddressDTO();
 		homeAddress.setId(123768);
 		homeAddress.setCountry("Canada");
 		homeAddress.setAddress("This is a demo how to hide most of fields");		
+	    return homeAddress;
+	}
+	
+	/** demo how to hide most of fields */
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	@Path("/xml/currentAddress")
+	public AddressXMLDTO getCurrentXmlAddress() {	
+		
+		System.out.println("getCurrentXmlAddress...");
+		
+		AddressXMLDTO homeAddress =  new AddressXMLDTO();
+		homeAddress.setId(123768);
+		homeAddress.setCountry("Canada");
+		homeAddress.setAddress("This is a demo how to get xml data from java object");		
 	    return homeAddress;
 	}
 }
