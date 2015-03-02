@@ -1,0 +1,22 @@
+package wu.justin.rest.exception;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
+
+// comes from http://www.codingpedia.org/ama/error-handling-in-rest-api-with-jersey/
+
+@Provider
+public class AppExceptionMapper implements ExceptionMapper<AppException> {
+
+	public Response toResponse(AppException ex) {
+		return Response.status(400)
+				.entity(ex.getMessage())
+				.type(MediaType.TEXT_PLAIN).
+				build();
+	}
+
+
+
+}
