@@ -9,9 +9,9 @@ import javax.ws.rs.ext.Provider;
 // and http://www.codingpedia.org/ama/custom-reason-phrase-in-http-status-error-message-response-with-jax-rs-jersey/
 
 @Provider
-public class AppExceptionMapper implements ExceptionMapper<AppException> {
+public class AppExceptionMapper implements ExceptionMapper<BadRequestException> {
 
-	public Response toResponse(AppException ex) {
+	public Response toResponse(BadRequestException ex) {
 		return Response.status(400)
 				.entity(ex.getMessage())
 				.type(MediaType.TEXT_PLAIN).

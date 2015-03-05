@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import wu.justin.rest.exception.AppException;
+import wu.justin.rest.exception.BadRequestException;
 
 // it comes from 
 // http://www.mkyong.com/webservices/jax-rs/jersey-hello-world-example/
@@ -43,8 +43,8 @@ public class HelloWorldService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/error")
-	public String sayJsonHello2 () throws AppException {
-	    throw new AppException("this is my error message 12456745");
+	public String sayJsonHello2 () throws BadRequestException {
+	    throw new BadRequestException("this is my error message 12456745");
 	}
 
 	
