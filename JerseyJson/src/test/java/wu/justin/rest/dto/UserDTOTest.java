@@ -12,18 +12,26 @@ public class UserDTOTest {
 
 	@Test
 	public void testBeanUpdater() {
-		User user = new User();
-		user.setId(24234);
-		user.setName("Justin");
 		
 		UserDTO dest = new UserDTO();
-		dest.setName("Justin New");
+		dest.setName("Justin");
 
 		Address homeAddress = new Address();
-		homeAddress.setId(445);
-		homeAddress.setCountry("cou");
-		homeAddress.setAddress("add");
+		homeAddress.setId(1111);
+		homeAddress.setCountry("cou11");
+		homeAddress.setAddress("add11");
 		dest.setHomeAddress(homeAddress);
+		
+		User user = new User();
+		user.setId(222);
+		user.setName("Justin New");
+		
+		Address homeAddress2 = new Address();
+		homeAddress2.setId(2222);
+		homeAddress2.setCountry("cou22");
+		homeAddress2.setAddress("add22");
+		user.setHomeAddress(homeAddress2);
+		
 		
 		try {
 //			BeanUtilsBean beanUtilsBean = BeanUtilsBean.getInstance();
@@ -36,10 +44,10 @@ public class UserDTOTest {
 		} catch (Exception e) {
 			throw new RuntimeException("BeanUtils.copyProperties fail", e);
 		}
-		assertTrue(dest.getId() == 24234);
-		assertEquals(dest.getName(), "Justin");
-		assertEquals(dest.getHomeAddress().getId(), 445);
-		assertEquals(dest.getHomeAddress().getCountry(), "cou");
+		assertTrue(dest.getId() == 222);
+		assertEquals(dest.getName(), "Justin New");
+		assertEquals(dest.getHomeAddress().getId(), 2222);
+		assertEquals(dest.getHomeAddress().getCountry(), "cou22");
 		
 	}
 
