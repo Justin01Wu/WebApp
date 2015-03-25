@@ -12,6 +12,8 @@ import wu.justin.business.User;
 // http://www.cowtowncoder.com/blog/archives/2011/02/entry_443.html
 public class UserDTO  extends User {
 	
+	UserDTO(){		
+	}
 	public UserDTO(Integer id, String name){
 		super(id, name);
 	}
