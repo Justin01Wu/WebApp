@@ -13,6 +13,8 @@ public class User {
 	private Date birthDate;
 	private List<String> emails = new ArrayList<String>();
 	
+	private int x;
+	
 	private Address homeAddress;
 	
 	public User(){		
@@ -74,4 +76,12 @@ public class User {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
+	
+	public int getX() {
+		return x;
+	}
+	public void setX(int x) {
+		this.x = x;
+	}
+	
 }

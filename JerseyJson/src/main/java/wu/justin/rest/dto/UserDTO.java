@@ -12,6 +12,12 @@ import wu.justin.business.User;
 // http://www.cowtowncoder.com/blog/archives/2011/02/entry_443.html
 public class UserDTO  extends User {
 	
+	@JsonIgnore
+	@Override
+	public int getX() {
+		return super.getX();
+	}
+	
 	UserDTO(){		
 	}
 	public UserDTO(Integer id, String name){

@@ -25,6 +25,7 @@ public class UserDTOTest {
 		User user = new User();
 		user.setId(222);
 		user.setName("Justin New");
+		user.setX(555);
 		
 		Address homeAddress2 = new Address();
 		homeAddress2.setId(2222);
@@ -46,8 +47,10 @@ public class UserDTOTest {
 		}
 		assertTrue(dest.getId() == 222);
 		assertEquals(dest.getName(), "Justin New");
+		assertEquals(dest.getX(), 555);
 		assertEquals(dest.getHomeAddress().getId(), 2222);
 		assertEquals(dest.getHomeAddress().getCountry(), "cou22");
+		
 		
 	}
 
