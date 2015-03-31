@@ -1,7 +1,8 @@
 call mvn clean package
 
 rem set tomcat home
-SET CATALINA_HOME=C:\program2\tomcat-7.0.55-x64
+rem SET CATALINA_HOME=C:\program2\tomcat-7.0.55-x64
+set CATALINA_HOME=C:\program2\apache-tomcat-7.0.55
 set TARGET_NAME=jersey-json
 
 rem shutdown tomcat
