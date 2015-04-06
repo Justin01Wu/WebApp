@@ -14,20 +14,23 @@ public class ObjectUpdater {
 
 	private static Map<Class, PropertyDescriptor[]> descriptorsMap = new HashMap<Class, PropertyDescriptor[]>();
 
-	public static void updateObject(Object updateObject, Object originalObject)
+	/**
+	 * update targetObject with originalObject if the field in originalObject is NOT null, we will have trouble if the field is primitive type
+	 */
+	public static void updateObject(Object targetObject, Object originalObject)
 			throws InvocationTargetException, IllegalAccessException {
-		if (updateObject == null || originalObject == null) {
+		if (targetObject == null || originalObject == null) {
 			throw new NullPointerException(
 					"A null paramter was passed into updateObject");
 		}
 
 		// Only go through the process if the objects are not the same reference
-		if (originalObject == updateObject) {
+		if (originalObject == targetObject) {
 			return;
 		}
 		
 		Class orignalClass = originalObject.getClass();
-		Class updateClass = updateObject.getClass();
+		Class updateClass = targetObject.getClass();
 
 //		// you may want to work this check if you need to handle polymorphic
 //		// relations
@@ -44,7 +47,7 @@ public class ObjectUpdater {
 		}
 
 		for (PropertyDescriptor descriptor : descriptors) {
-			updateProperty(originalObject, updateObject, descriptor);
+			updateProperty(originalObject, targetObject, descriptor);
 		}
 		
 	}
