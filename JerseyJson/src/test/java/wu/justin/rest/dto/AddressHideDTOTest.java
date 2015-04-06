@@ -66,6 +66,17 @@ public class AddressHideDTOTest {
 		}
 		// always return "valid", don't know why		
 		
+		System.out.println("");
+		
+		for(AnnotatedMethod m: ac.memberMethods()){
+			if(ai.hasIgnoreMarker(m)){
+				System.out.println("ignored: " + m.getName());	
+			}else{
+				System.out.println("valid: " + m.getName());
+			}			
+		}
+		
+		
 		
 		String[] ignoredList = ai.findPropertiesToIgnore(ac);		
 		// ignoredList is always null, don't know why
