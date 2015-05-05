@@ -18,9 +18,25 @@
 		<!-- JERSEY -->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
+			
+			<!-- use this if your  Servlet API >= 3.0-->
+			<!--  
+			<artifactId>jersey-container-servlet</artifactId>
+			 -->
+			  
 			<!-- if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core" -->
+			 
 			<artifactId>jersey-container-servlet-core</artifactId>
+						
 			<version>2.17</version>
+		</dependency>
+		
+		<!--  this is required for java json mapping -->
+		<dependency>
+  			<groupId>org.glassfish.jersey.media</groupId>
+  			<artifactId>jersey-media-json-jackson</artifactId>
+  			<scope>runtime</scope>
+  			<version>2.17</version>
 		</dependency>
 
 
