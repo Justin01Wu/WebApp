@@ -28,14 +28,13 @@ public class CallJmx {
 			// set CATALINA_OPTS=-Dcom.sun.management.jmxremote 
 			//     -Dcom.sun.management.jmxremote.ssl=false 
 			//     -Dcom.sun.management.jmxremote.port=9087 
-			//     -Dcom.sun.management.jmxremote.authenticate=true 
 			//     -Dcom.sun.management.jmxremote.authenticate=false
 
 			JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
 
 			MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
 
-			//getRootLogLevel(mbsc);
+			getRootLogLevel(mbsc);
 			
 			getClassLogLevel(mbsc, "bm.validusre.vcaps.cmc.service.AttachedDatabaseDao");
 			
