@@ -1,5 +1,5 @@
 
 
 if(window.concole){
-	console.log("sss");
+	console.log("a.js starting...");
 }
