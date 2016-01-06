@@ -22,13 +22,13 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 
 	</dependencies>
-	
+
 	<properties>
-   		<myTimestamp>${maven.build.timestamp}</myTimestamp>
-   		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss</maven.build.timestamp.format>
+		<myTimestamp>${maven.build.timestamp}</myTimestamp>
+		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss</maven.build.timestamp.format>
 	</properties>
 
 	<build>
@@ -42,45 +42,45 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-			
-			
-			<!--  find all js files and append build number to their folder  -->
-			<!--  for example:   src="js/a.js"  will become src="js2016-01-05T12:34:30/a.js"  -->	
 
-        <plugin>
-            <groupId>com.google.code.maven-replacer-plugin</groupId>
-            <artifactId>replacer</artifactId>
-            <version>1.5.3</version>
-            <executions>                
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>replace</goal>
-                    </goals>                    
-                </execution>
-            </executions>
-            <configuration>
-                <file>${project.build.directory}/${project.artifactId}/test_build.html</file>
-                <outputFile>${project.build.directory}/${project.artifactId}/test_build2.html</outputFile>
-                <regex>true</regex>
-                <replacements>
-                   
-                   <replacement>
-                        <token>src=['"](js)/(.*)\.js['"]</token>
-                        <value>src="$1-${myTimestamp}/$2.js"</value>                        
-                   </replacement>
-                                   
-                   <replacement>
-                		<token>DDDDDD</token>
-                		<value>EEEEEE</value>
-                   </replacement>
-                   
-                </replacements>
-            </configuration>
-        </plugin>	
-        
-                
-        		
+
+			<!-- find all js files and append build number to their folder -->
+			<!-- for example: src="js/a.js" will become src="js2016-01-05T12:34:30/a.js" -->
+
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>1.5.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<file>${project.build.directory}/${project.artifactId}/test_build.html</file>
+					<outputFile>${project.build.directory}/${project.artifactId}/test_build2.html</outputFile>
+					<regex>true</regex>
+					<replacements>
+
+						<replacement>
+							<token>src=['"](js)/(.*)\.js['"]</token>
+							<value>src="$1-${myTimestamp}/$2.js"</value>
+						</replacement>
+
+						<replacement>
+							<token>DDDDDD</token>
+							<value>EEEEEE</value>
+						</replacement>
+
+					</replacements>
+				</configuration>
+			</plugin>
+
+
+
 		</plugins>
 		<finalName>${project.artifactId}</finalName>
 	</build>
