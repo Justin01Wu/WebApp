@@ -28,7 +28,7 @@
 	
 	<properties>
    		<myTimestamp>${maven.build.timestamp}</myTimestamp>
-   		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+   		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss</maven.build.timestamp.format>
 	</properties>
 
 	<build>
@@ -44,8 +44,8 @@
 			</plugin>
 			
 			
-			<!--  find all js files and append build number to ttheir folder  -->
-			<!--  for example:   src="js/a.js"  will become src="js2016-01-05 12:34:30/a.js"  -->	
+			<!--  find all js files and append build number to their folder  -->
+			<!--  for example:   src="js/a.js"  will become src="js2016-01-05T12:34:30/a.js"  -->	
 
         <plugin>
             <groupId>com.google.code.maven-replacer-plugin</groupId>
