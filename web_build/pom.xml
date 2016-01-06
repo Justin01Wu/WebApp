@@ -1,0 +1,133 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>wu.justa.build</groupId>
+	<artifactId>web-build</artifactId>
+	<packaging>war</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>web Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<properties>
+		<myTimestamp>${maven.build.timestamp}</myTimestamp>
+		<maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
+	</properties>	
+	
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		
+		<plugins>
+		
+
+			<!-- copy home page to create shadow web system  -->
+			<plugin>
+				<groupId>com.coderplus.maven.plugins</groupId>
+				<artifactId>copy-rename-maven-plugin</artifactId>
+				<version>1.0.1</version>
+				<executions>
+					<execution>
+						<id>rename-file</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>${project.build.directory}/${project.artifactId}/test_build.html</sourceFile>
+							<destinationFile>${project.build.directory}/${project.artifactId}/test_build_dev.html</destinationFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>	
+			
+			<!-- concat all js files together  -->					
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+					<preProcessAggregates>true</preProcessAggregates>
+					<aggregations>
+						<aggregation>
+							<insertNewLine>true</insertNewLine>
+							<output>${project.build.directory}/${project.artifactId}/asset-${myTimestamp}/single.js</output>
+							<inputDir>${basedir}/src/main/webapp/asset/js</inputDir>
+							<includes>
+								<include>**/*.js</include>
+							</includes>
+							<excludes>
+								<exclude>**/*.test.js</exclude>
+								<exclude>**/*.spec.js</exclude>
+								<exclude>**/compressed.css</exclude>
+							</excludes>
+						</aggregation>
+					</aggregations>
+					<excludes>
+						<exclude>**/*-min.js</exclude>
+						<exclude>**/*.min.js</exclude>
+						<exclude>**/*-min.css</exclude>
+						<exclude>**/*.min.css</exclude>
+					</excludes>
+					<jswarn>false</jswarn>
+					<nosuffix>false</nosuffix>
+					<sourceDirectory>${basedir}/target</sourceDirectory>
+					<outputDirectory>${basedir}/target</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>compress_js_css</id>
+						<phase>package</phase>
+						<goals>
+							<goal>compress</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- find all js files in home page and append build number to their folder -->
+			<!-- for example: src="js/a.js" will become src="js2016-01-05T12:34:30/a.js" -->
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>1.5.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<file>${project.build.directory}/${project.artifactId}/test_build.html</file>
+					<outputFile>${project.build.directory}/${project.artifactId}/test_build.html</outputFile>
+					
+					<regex>true</regex>
+					<regexFlags><regexFlag>DOTALL</regexFlag></regexFlags><!--  this mean regular express will apply to multiple lines -->					
+					
+					<replacements>
+
+						<replacement>							
+							<token><![CDATA[<!--BeginToBeReplacedByReplacer1.*EndToBeReplacedByReplacer1-->]]></token>
+							<value><![CDATA[<script src="asset-${myTimestamp}/single.js"></script>]]></value>
+						</replacement>
+
+						<replacement>
+							<token>DEV_DEV</token>
+							<value>REL_REL</value>
+						</replacement>
+
+					</replacements>
+				</configuration>
+			</plugin>			
+		</plugins>
+	</build>
+</project>

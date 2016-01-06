@@ -1,0 +1,10 @@
+span.spinBgIcon {
+   	background-image: url('../img/loading_circle.gif');
+   	background-size: 100px 100px;
+   	background-repeat: no-repeat;   
+   	width: 100px;
+   	height: 100px;
+   	outline: medium none;    
+   	display: inline-block;
+   	border-style: none;
+}
