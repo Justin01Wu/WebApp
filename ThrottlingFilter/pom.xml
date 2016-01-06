@@ -28,7 +28,7 @@
 
 	<properties>
 		<myTimestamp>${maven.build.timestamp}</myTimestamp>
-		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss</maven.build.timestamp.format>
+		<maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
 	</properties>
 
 	<build>
@@ -43,10 +43,52 @@
 				</configuration>
 			</plugin>
 
+			<!-- copy home page to create shadow web system  -->
+			<plugin>
+				<groupId>com.coderplus.maven.plugins</groupId>
+				<artifactId>copy-rename-maven-plugin</artifactId>
+				<version>1.0.1</version>
+				<executions>
+					<execution>
+						<id>rename-file</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>${project.build.directory}/${project.artifactId}/test_build.html</sourceFile>
+							<destinationFile>${project.build.directory}/${project.artifactId}/test_build_dev.html</destinationFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>			
 
-			<!-- find all js files and append build number to their folder -->
+			<!-- copy all js files to js-${timestamp} folder from js folder -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>			
+					<execution>
+						<id>copy-resources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/${project.artifactId}/js-${myTimestamp}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}/${project.artifactId}/js/</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>					
+				</executions>
+			</plugin>
+
+			<!-- find all js files in home page and append build number to their folder -->
 			<!-- for example: src="js/a.js" will become src="js2016-01-05T12:34:30/a.js" -->
-
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
 				<artifactId>replacer</artifactId>
@@ -61,7 +103,7 @@
 				</executions>
 				<configuration>
 					<file>${project.build.directory}/${project.artifactId}/test_build.html</file>
-					<outputFile>${project.build.directory}/${project.artifactId}/test_build2.html</outputFile>
+					<outputFile>${project.build.directory}/${project.artifactId}/test_build.html</outputFile>
 					<regex>true</regex>
 					<replacements>
 
@@ -71,8 +113,8 @@
 						</replacement>
 
 						<replacement>
-							<token>DDDDDD</token>
-							<value>EEEEEE</value>
+							<token>DEV_DEV</token>
+							<value>REL_REL</value>
 						</replacement>
 
 					</replacements>
