@@ -8,8 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import javax.ws.rs.ext.Provider;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,7 +18,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 public class ISO8601ShortDateConverter {
 	
-	@Provider
 	public static class ISO8601ShortDateSerializer extends JsonSerializer<Date> {
 		
 		public static final String DateFormatStr = "yyyy-MM-dd";
@@ -41,7 +38,6 @@ public class ISO8601ShortDateConverter {
 		}
 	}
 	
-	@Provider
 	public static class ISO8601ShortDateDeserializer extends JsonDeserializer<Date> {
 		
 		@Override
