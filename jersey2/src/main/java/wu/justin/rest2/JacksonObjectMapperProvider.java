@@ -8,6 +8,12 @@ import javax.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * 
+ * from http://jmchung.github.io/blog/2014/06/18/how-to-customise-the-jackson-json-objectmapper-in-java-ee-enterprise-application/
+ * and http://stackoverflow.com/questions/16380065/how-to-extract-objectmapper-from-jax-rs-client/16384686#16384686
+ *
+ */
 @Provider
 public class JacksonObjectMapperProvider implements ContextResolver<ObjectMapper> {
 
