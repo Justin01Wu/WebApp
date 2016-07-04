@@ -15,14 +15,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class DateConvert {
 	
-	private java.util.Date utilDate;      // this one will be converted into 1467654248281
-	private java.sql.Date sqlDate;        // this one will be converted into 2016-07-04 
-	private Timestamp timestamp;           // this one will be converted into 1467654248281
+	private java.util.Date utilDate;      // it suppose to be 1467654248281, to but we set format in JacksonObjectMapperProvider, so it is 2016/07/04  
+	private java.sql.Date sqlDate;        // this one will be converted into 2016-07-04 , Jackson handle it in special way, Jackson suggest not use it
+	private Timestamp timestamp;           // it suppose to be 1467654248281, to but we set format in JacksonObjectMapperProvider, so it is 2016/07/04  
 	private java.util.Date sqlInUtilDate;  // this one will be converted into 2016-07-04  , because it true type is java.sql.Date
 	private java.util.Date utilDateOnCustimized;  // this one will be converted into 2016-07-04  , because it has customized converter
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="CET")
-	private java.util.Date utilDateOnFormat;  // this one will be converted into 2016-07-04  , because it has format definition 
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MMM-yyyy-dd", timezone="CET")
+	private java.util.Date utilDateOnFormat;  // this one will be converted into Jul-2016-04  , because it has format definition 
 	
 	public DateConvert(){
 		utilDate = new java.util.Date();
