@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import wu.justin.rest2.ISO8601ShortDateConverter.ISO8601ShortDateSerializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 
@@ -20,12 +21,17 @@ public class DateConvert {
 	private java.util.Date sqlInUtilDate;  // this one will be converted into 2016-07-04  , because it true type is java.sql.Date
 	private java.util.Date utilDateOnCustimized;  // this one will be converted into 2016-07-04  , because it has customized converter
 	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="CET")
+	private java.util.Date utilDateOnFormat;  // this one will be converted into 2016-07-04  , because it has format definition 
+	
 	public DateConvert(){
 		utilDate = new java.util.Date();
 		sqlDate = new java.sql.Date(utilDate.getTime());
 		timestamp = new Timestamp(utilDate.getTime());
 		sqlInUtilDate = sqlDate;
 		utilDateOnCustimized = new java.util.Date();
+		utilDateOnFormat = new java.util.Date();
+		
 		
 	}
 	
@@ -61,6 +67,14 @@ public class DateConvert {
 
 	public void setUtilDateOnCustimized(java.util.Date utilDateOnCustimized) {
 		this.utilDateOnCustimized = utilDateOnCustimized;
+	}
+
+	public java.util.Date getUtilDateOnFormat() {
+		return utilDateOnFormat;
+	}
+
+	public void setUtilDateOnFormat(java.util.Date utilDateOnFormat) {
+		this.utilDateOnFormat = utilDateOnFormat;
 	} 
 	
 
