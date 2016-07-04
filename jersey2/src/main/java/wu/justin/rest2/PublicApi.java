@@ -11,9 +11,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import wu.justin.bean.Address;
+import wu.justin.bean.DateConvert;
 import wu.justin.bean.User;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 
@@ -90,6 +90,13 @@ public class PublicApi {
 		user.setDesc("This is a sample to demo how Jackson convert a Java object tree into json");
 	    return user;
 		
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/dateFormat")
+	public DateConvert dateFormat() {		
+	    return new DateConvert();
 	}
 
 }
