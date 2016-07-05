@@ -2,7 +2,7 @@ package wu.justin.bean;
 
 import java.sql.Timestamp;
 
-import wu.justin.rest2.ISO8601ShortDateConverter.ISO8601ShortDateSerializer;
+import wu.justin.rest2.ISO8601DateConverter.ISO8601DateSerializer;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -15,14 +15,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class DateConvert {
 	
-	private java.util.Date utilDate;      // it suppose to be 1467654248281, to but we set format in JacksonObjectMapperProvider, so it is 2016/07/04  
-	private java.sql.Date sqlDate;        // this one will be converted into 2016-07-04 , Jackson handle it in special way, Jackson suggest not use it
-	private Timestamp timestamp;           // it suppose to be 1467654248281, to but we set format in JacksonObjectMapperProvider, so it is 2016/07/04  
-	private java.util.Date sqlInUtilDate;  // this one will be converted into 2016-07-04  , because it true type is java.sql.Date
-	private java.util.Date utilDateOnCustimized;  // this one will be converted into 2016-07-04  , because it has customized converter
+	private java.util.Date utilDate;      // it suppose to be 1467725549246, to but we set format in JacksonObjectMapperProvider, so it is Jul/2016/05T09:33:21-0400
+	private java.sql.Date sqlDate;        // this one will be converted into 2016-07-05 , Jackson handle it in special way, Jackson suggest not use it
+	private Timestamp timestamp;           // it suppose to be 1467725549246, to but we set format in JacksonObjectMapperProvider, so it is Jul/2016/05T09:33:21-0400
+	private java.util.Date sqlInUtilDate;  // this one will be converted into 2016-07-05  , because it true type is java.sql.Date
+	private java.util.Date utilDateOnCustimized;  // this one will be converted into 2016-07-05T13:33:21+0000  , because it has customized converter
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MMM-yyyy-dd", timezone="CET")
-	private java.util.Date utilDateOnFormat;  // this one will be converted into Jul-2016-04  , because it has format definition 
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MMM-yyyy-dd", timezone="EST")  // Eastern Standard Time UTC-5
+	private java.util.Date utilDateOnFormat;  // this one will be converted into Jul-2016-05  , because it has format definition 
 	
 	public DateConvert(){
 		utilDate = new java.util.Date();
@@ -60,7 +60,7 @@ public class DateConvert {
 		this.sqlInUtilDate = sqlInUtilDate;
 	}
 
-	@JsonSerialize(using = ISO8601ShortDateSerializer.class)
+	@JsonSerialize(using = ISO8601DateSerializer.class)
 	public java.util.Date getUtilDateOnCustimized() {
 		return utilDateOnCustimized;
 	}

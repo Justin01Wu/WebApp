@@ -29,7 +29,7 @@ public class JacksonObjectMapperProvider implements ContextResolver<ObjectMapper
 
     private static ObjectMapper createDefaultMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat df = new SimpleDateFormat("MMM/yyyy/dd'T'HH:mm:ssZ");
         mapper.setDateFormat(df); // 1.8 and above
 
         return mapper;
