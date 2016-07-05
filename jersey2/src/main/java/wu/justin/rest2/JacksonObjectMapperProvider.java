@@ -28,7 +28,7 @@ public class JacksonObjectMapperProvider implements ContextResolver<ObjectMapper
     }
 
     private static ObjectMapper createDefaultMapper() {
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper(); // This will change default date conversion, TODO: please find a correct way
         DateFormat df = new SimpleDateFormat("MMM/yyyy/dd'T'HH:mm:ssZ");
         mapper.setDateFormat(df); // 1.8 and above
 
