@@ -23,7 +23,7 @@ public class DateConvert {
 	private java.sql.Date sqlDate;        // this one will be converted into 2016-07-05 , Jackson handle it in special way, Jackson suggest not use it
 	private Timestamp timestamp;           // it suppose to be 1467725549246, to but we set format in JacksonObjectMapperProvider, so it is Jul/2016/05T09:33:21-0400
 	private java.util.Date sqlInUtilDate;  // this one will be converted into 2016-07-05  , because it true type is java.sql.Date
-	private java.util.Date utilDateOnCustimized;  // this one will be converted into 2016-07-05T13:33:21+0000  , because it has customized converter
+	private java.util.Date utilDateOnCustomized;  // this one will be converted into 2016-07-05T13:33:21+0000  , because it has customized converter
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MMM-yyyy-dd", timezone="EST")  // Eastern Standard Time UTC-5
 	private java.util.Date utilDateOnFormat;  // this one will be converted into Jul-2016-05  , because it has format definition
@@ -35,7 +35,7 @@ public class DateConvert {
 		sqlDate = new java.sql.Date(utilDate.getTime());
 		timestamp = new Timestamp(utilDate.getTime());
 		sqlInUtilDate = sqlDate;
-		utilDateOnCustimized = new java.util.Date();
+		utilDateOnCustomized = new java.util.Date();
 		utilDateOnFormat = new java.util.Date();
 		dateOnCalendar = Calendar.getInstance();
 		
@@ -68,13 +68,13 @@ public class DateConvert {
 	}
 
 	@JsonSerialize(using = ISO8601DateSerializer.class)
-	public java.util.Date getUtilDateOnCustimized() {
-		return utilDateOnCustimized;
+	public java.util.Date getUtilDateOnCustomized() {
+		return utilDateOnCustomized;
 	}
 
 	@JsonDeserialize(using = ISO8601DateDeserializer.class)
-	public void setUtilDateOnCustimized(java.util.Date utilDateOnCustimized) {
-		this.utilDateOnCustimized = utilDateOnCustimized;
+	public void setUtilDateOnCustomized(java.util.Date utilDateOnCustomized) {
+		this.utilDateOnCustomized = utilDateOnCustomized;
 	}
 
 	public java.util.Date getUtilDateOnFormat() {

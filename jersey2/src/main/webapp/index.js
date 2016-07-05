@@ -17,7 +17,7 @@
 
 		$scope.sendWorngDateOnCustimized = function(){
 			var requestJson = {
-					"utilDateOnCustimized": "2016-05-12"
+					"utilDateOnCustomized": "2016-05-12"
 			};
 			$scope.sendDateJson(requestJson);
 		};
@@ -32,7 +32,7 @@
 					"sqlInUtilDate": "2016-04-05",					
 					"timestamp": "2016-07-05T14:32:30Z",
 					"utilDate" : 1467525543246,
-					"utilDateOnCustimized": "2016-07-12T06:33:21+0000",
+					"utilDateOnCustomized": "2016-07-12T06:33:21+0000",
 					"utilDateOnFormat": "Jul-2016-05"
 			};			
 			$scope.sendDateJson(requestJson);
@@ -44,6 +44,9 @@
 			$scope.requestJson = requestJson;
 			
 			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
+			
+			$scope.errorMessage ="";
+			$scope.responsJsonDisp ="";
 			
 			var apiUrl = API_UTIL.getAPIUrlBase() + "/dateFormat.json";
 
@@ -72,7 +75,8 @@
 		$scope.getDateJson = function(){
 			console.log("getDateJson...");
 
-			$scope.requestJsonDisp="";
+			$scope.errorMessage ="";
+			$scope.responsJsonDisp ="";
 			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
 			
 			var apiUrl = API_UTIL.getAPIUrlBase() + "/dateFormat.json";
