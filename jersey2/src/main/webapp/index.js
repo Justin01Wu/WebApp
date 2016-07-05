@@ -7,16 +7,42 @@
 	var app = angular.module('myApp', []);
 	app.controller('myCtrl', function($scope, $http) {
 		
-		$scope.sendDateJson = function(){
-			console.log("sendDateJson...");
-			$scope.requestJson = {
+		
+		$scope.sendWorngUtilDateOnFormat = function(){
+			var requestJson = {
+					"utilDateOnFormat": "2016-05-12"
+			};
+			$scope.sendDateJson(requestJson);
+		};
+
+		$scope.sendWorngDateOnCustimized = function(){
+			var requestJson = {
+					"utilDateOnCustimized": "2016-05-12"
+			};
+			$scope.sendDateJson(requestJson);
+		};
+
+		
+		
+		
+		$scope.sendCorrectDateJson = function(){
+			var requestJson = {
 					"dateOnCalendar":"2016-06-05T17:32:30Z",
 					"sqlDate" : "2014-11-05",
 					"sqlInUtilDate": "2016-04-05",					
 					"timestamp": "2016-07-05T14:32:30Z",
 					"utilDate" : 1467525543246,
-					"utilDateOnCustimized": "2016-07-12T06:33:21+0000"				
-			};
+					"utilDateOnCustimized": "2016-07-12T06:33:21+0000",
+					"utilDateOnFormat": "Jul-2016-05"
+			};			
+			$scope.sendDateJson(requestJson);
+		}
+		
+		$scope.sendDateJson = function(requestJson){
+			console.log("sendDateJson...");
+			
+			$scope.requestJson = requestJson;
+			
 			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
 			
 			var apiUrl = API_UTIL.getAPIUrlBase() + "/dateFormat.json";

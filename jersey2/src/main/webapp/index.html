@@ -7,13 +7,12 @@
 <style>
 div.bigColumn {
 	display: inline-block;
-	width: 320px;
+	width: 500px;
 	background-color: Lavender;
 }
 
 div.smallColumn {
 	display: inline-block;
-	background-color: aqua;
 	width: 200px;
 }
 </style>
@@ -36,23 +35,30 @@ div.smallColumn {
 	<br />
 	<div ng-app="myApp" ng-controller="myCtrl" >
 		<div class="bigColumn">
-			<textarea style="width: 300px; height: 500px;"
+			<textarea style="width: 480px; height: 500px;"
 				readonly="readonly" ng-model="requestJsonDisp"></textarea>
 		</div>
 
 		<div class="smallColumn">
 			<span style="color:red">{{errorMessage}}</span>
-			<div style="height: 400px; display: inline-block;">
-				<button type="button" ng-click="getDateJson()">get date JSON sample</button>
-				<button type="button" ng-click="sendDateJson()">post date JSON sample</button>
-					
-					
-			</div>
+			
+			<button type="button" ng-click="getDateJson()">get date </button>
+			<br/><br/>
+			<button type="button" ng-click="sendCorrectDateJson()">post correct date </button>
+			<br/><br/>
+			<button type="button" ng-click="sendWorngUtilDateOnFormat()">post wrong date 1</button>
+			<br/><br/>
+			<button type="button" ng-click="sendWorngDateOnCustimized()">post wrong date 2</button>
+			
+			
+			<br/><br/><br/><br/><br/><br/>		
+			<br/><br/><br/><br/><br/><br/>					
+			
 
 		</div>
 
 		<div class="bigColumn">
-			<textarea id="responseJson" style="width: 300px; height: 500px;"
+			<textarea id="responseJson" style="width: 480px; height: 500px;"
 				readonly="readonly" ng-model="responsJsonDisp"></textarea>
 		</div>
 
