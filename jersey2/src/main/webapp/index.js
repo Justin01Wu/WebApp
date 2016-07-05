@@ -1,0 +1,77 @@
+
+(function() {
+	// use anonymous function to avoid JS global variable conflict
+	
+    'use strict';
+
+	var app = angular.module('myApp', []);
+	app.controller('myCtrl', function($scope, $http) {
+		
+		$scope.sendDateJson = function(){
+			console.log("sendDateJson...");
+			$scope.requestJson = {
+					"dateOnCalendar":"2016-06-05T17:32:30Z",
+					"sqlDate" : "2014-11-05",
+					"sqlInUtilDate": "2016-04-05",					
+					"timestamp": "2016-07-05T14:32:30Z",
+					"utilDate" : 1467525543246,
+					"utilDateOnCustimized": "2016-07-12T06:33:21+0000"				
+			};
+			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
+			
+			var apiUrl = API_UTIL.getAPIUrlBase() + "/dateFormat.json";
+
+			console.log(apiUrl);
+			
+			$http({
+				method : 'POST',
+				url : apiUrl,
+				data : $scope.requestJson,
+				headers : {
+					'Content-Type' : 'application/json'
+				}
+
+			}).then(function(response) {
+				// success
+				$scope.responsJsonDisp = JSON.stringify(response.data, null,4);				
+			}, function(response) { 
+				console.log("post fails");				
+				$scope.errorMessage = "post fail with status: " + response.status;
+				return false;
+			});
+			
+		}; // end of sendDateJson
+		
+		
+		$scope.getDateJson = function(){
+			console.log("getDateJson...");
+
+			$scope.requestJsonDisp="";
+			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
+			
+			var apiUrl = API_UTIL.getAPIUrlBase() + "/dateFormat.json";
+
+			console.log(apiUrl);
+			
+			$http({
+				method : 'GET',
+				url : apiUrl,
+			}).then(function(response) {
+				// success
+				$scope.responsJsonDisp = JSON.stringify(response.data, null,4);				
+			}, function(response) { 
+				console.log("get fails");				
+				$scope.errorMessage = "get fail with status: " + response.status;
+				return false;
+			});
+			
+		}; // end of getDateJson
+		
+		
+		
+	});
+
+    
+
+    
+}());  // directly run anonymous function 

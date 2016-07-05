@@ -1,10 +1,14 @@
 package wu.justin.bean;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 
+import wu.justin.rest2.ISO8601DateConverter.ISO8601DateDeserializer;
 import wu.justin.rest2.ISO8601DateConverter.ISO8601DateSerializer;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 
@@ -12,7 +16,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * please see http://wiki.fasterxml.com/JacksonFAQDateHandling 
  * for details
  * */
-
+@JsonPropertyOrder(alphabetic=true)
 public class DateConvert {
 	
 	private java.util.Date utilDate;      // it suppose to be 1467725549246, to but we set format in JacksonObjectMapperProvider, so it is Jul/2016/05T09:33:21-0400
@@ -22,7 +26,9 @@ public class DateConvert {
 	private java.util.Date utilDateOnCustimized;  // this one will be converted into 2016-07-05T13:33:21+0000  , because it has customized converter
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MMM-yyyy-dd", timezone="EST")  // Eastern Standard Time UTC-5
-	private java.util.Date utilDateOnFormat;  // this one will be converted into Jul-2016-05  , because it has format definition 
+	private java.util.Date utilDateOnFormat;  // this one will be converted into Jul-2016-05  , because it has format definition
+	
+	private Calendar dateOnCalendar;
 	
 	public DateConvert(){
 		utilDate = new java.util.Date();
@@ -31,6 +37,7 @@ public class DateConvert {
 		sqlInUtilDate = sqlDate;
 		utilDateOnCustimized = new java.util.Date();
 		utilDateOnFormat = new java.util.Date();
+		dateOnCalendar = Calendar.getInstance();
 		
 		
 	}
@@ -65,6 +72,7 @@ public class DateConvert {
 		return utilDateOnCustimized;
 	}
 
+	@JsonDeserialize(using = ISO8601DateDeserializer.class)
 	public void setUtilDateOnCustimized(java.util.Date utilDateOnCustimized) {
 		this.utilDateOnCustimized = utilDateOnCustimized;
 	}
@@ -75,6 +83,14 @@ public class DateConvert {
 
 	public void setUtilDateOnFormat(java.util.Date utilDateOnFormat) {
 		this.utilDateOnFormat = utilDateOnFormat;
+	}
+
+	public Calendar getDateOnCalendar() {
+		return dateOnCalendar;
+	}
+
+	public void setDateOnCalendar(Calendar dateOnCalendar) {
+		this.dateOnCalendar = dateOnCalendar;
 	} 
 	
 

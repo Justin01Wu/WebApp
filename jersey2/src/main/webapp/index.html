@@ -1,22 +1,65 @@
 <html>
+<head>
+	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+	<script src="apiUtils.js"></script>
+	<script src="index.js"></script>
 
-<script src="index.js"></script>
-<script src="jquery-1.10.2.min.js"></script>
+<style>
+div.bigColumn {
+	display: inline-block;
+	width: 320px;
+	background-color: Lavender;
+}
+
+div.smallColumn {
+	display: inline-block;
+	background-color: aqua;
+	width: 200px;
+}
+</style>
+</head>
 
 <body>
 	<h2>This is a demo for Jersey version 2 RESTful</h2>
 
-	<a href="api/public/ping" >json sample</a>
-	<br/>
-	
-	<a href="api/public/time" >get server time</a>	
-	<br/>
-	
-	<a href="api/public/user" >get current user</a>	
-	<br/>
+	<a href="api/public/ping">json sample</a>
+	<br />
 
-	<a href="api/public/dateFormat" >date type default convert</a>	
-	<br/>
-	
+	<a href="api/public/time">get server time</a>
+	<br />
+
+	<a href="api/public/user">get current user</a>
+	<br />
+
+
+	<br />
+	<br />
+	<div ng-app="myApp" ng-controller="myCtrl" >
+		<div class="bigColumn">
+			<textarea style="width: 300px; height: 500px;"
+				readonly="readonly" ng-model="requestJsonDisp"></textarea>
+		</div>
+
+		<div class="smallColumn">
+			<span style="color:red">{{errorMessage}}</span>
+			<div style="height: 400px; display: inline-block;">
+				<button type="button" ng-click="getDateJson()">get date JSON sample</button>
+				<button type="button" ng-click="sendDateJson()">post date JSON sample</button>
+					
+					
+			</div>
+
+		</div>
+
+		<div class="bigColumn">
+			<textarea id="responseJson" style="width: 300px; height: 500px;"
+				readonly="readonly" ng-model="responsJsonDisp"></textarea>
+		</div>
+
+	</div>
+
+
+
+
 </body>
 </html>
