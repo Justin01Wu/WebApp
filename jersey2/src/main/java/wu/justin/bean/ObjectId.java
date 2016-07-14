@@ -2,8 +2,33 @@ package wu.justin.bean;
 
 public class ObjectId {
 	
-	public String toString(){
+	private int id;
+	private String name;
+	
+	
+	public ObjectId(){
+		this.id = 1256;
+		this.name = "object Id name";
+	}
+	
+	public String toJsonString(){
 		return "Justin test Object Id 123456";
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

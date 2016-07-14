@@ -116,7 +116,6 @@ public class PublicApi {
 	public User2 getUser2() {
 		
 		User2 user2 =  new User2();
-		user2.setId(new ObjectId());
 	    return user2;
 	}
 

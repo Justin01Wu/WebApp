@@ -26,7 +26,7 @@ public class ObjectIdSerializerModule extends SimpleModule {
         public void serialize(ObjectId value, JsonGenerator jgen
                 , SerializerProvider provider)
                 throws IOException, JsonProcessingException {
-            jgen.writeString(value.toString());
+            jgen.writeString(value.toJsonString());
         }
     }
 }

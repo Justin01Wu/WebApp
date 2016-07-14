@@ -4,6 +4,13 @@ public class User2 {
 	private ObjectId id;
     private String username;
     private String password;
+    
+    public User2(){
+    	this.id = new ObjectId();
+    	this.username="justin";
+    	this.password="password";
+    }
+    
 	public ObjectId getId() {
 		return id;
 	}
