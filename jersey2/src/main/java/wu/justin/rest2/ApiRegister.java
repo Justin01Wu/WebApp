@@ -6,7 +6,7 @@ public class ApiRegister extends ResourceConfig {
 	
 	public ApiRegister() {
 		register(PublicApi.class);
-		//register(JacksonObjectMapperProvider.class);
+		register(JacksonObjectMapperProvider.class);
 	}
 
 }

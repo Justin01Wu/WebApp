@@ -97,6 +97,31 @@
 			
 		}; // end of getDateJson
 		
+		$scope.getUser2Json = function(){
+			console.log("getting objectId.json...");
+
+			$scope.errorMessage ="";
+			$scope.responsJsonDisp ="";
+			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
+			
+			var apiUrl = API_UTIL.getAPIUrlBase() + "/objectId.json";
+
+			console.log(apiUrl);
+			
+			$http({
+				method : 'GET',
+				url : apiUrl,
+			}).then(function(response) {
+				// success
+				$scope.responsJsonDisp = JSON.stringify(response.data, null,4);				
+			}, function(response) { 
+				console.log("get fails");				
+				$scope.errorMessage = "get fail with status: " + response.status;
+				return false;
+			});
+			
+		}; // end of getUser2Json		
+		
 		
 		
 	});

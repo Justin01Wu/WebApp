@@ -2,11 +2,15 @@ package wu.justin.rest2;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 /**
  * 
@@ -28,9 +32,17 @@ public class JacksonObjectMapperProvider implements ContextResolver<ObjectMapper
     }
 
     private static ObjectMapper createDefaultMapper() {
-        ObjectMapper mapper = new ObjectMapper(); // This will change default date conversion, TODO: please find a correct way
-        DateFormat df = new SimpleDateFormat("MMM/yyyy/dd'T'HH:mm:ssZ");
-        mapper.setDateFormat(df); // 1.8 and above
+    	
+        //ObjectMapper mapper = new ObjectMapper();         
+        JacksonJsonProvider jackson_json_provider = new JacksonJaxbJsonProvider();
+        ObjectMapper mapper = jackson_json_provider.locateMapper(Date.class, MediaType.APPLICATION_JSON_TYPE);
+        
+        //DateFormat df = new SimpleDateFormat("MMM/yyyy/dd'T'HH:mm:ssZ");
+        //mapper.setDateFormat(df);    // 1.8 and above  
+        
+        // This will change default date conversion, TODO: please find a correct way
+        
+        mapper.registerModule(new ObjectIdSerializerModule());
 
         return mapper;
     }

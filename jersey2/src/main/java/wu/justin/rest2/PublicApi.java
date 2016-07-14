@@ -13,7 +13,9 @@ import javax.ws.rs.core.MediaType;
 
 import wu.justin.bean.Address;
 import wu.justin.bean.DateConvert;
+import wu.justin.bean.ObjectId;
 import wu.justin.bean.User;
+import wu.justin.bean.User2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -108,4 +110,16 @@ public class PublicApi {
 	    return dateConvert;
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/objectId.json")
+	public User2 getUser2() {
+		
+		User2 user2 =  new User2();
+		user2.setId(new ObjectId());
+	    return user2;
+	}
+
+
 }
+
