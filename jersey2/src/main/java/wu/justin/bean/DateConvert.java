@@ -22,7 +22,7 @@ public class DateConvert {
 	private java.util.Date utilDate;      // it suppose to be 1467725549246, to but we set format in JacksonObjectMapperProvider, so it is Jul/2016/05T09:33:21-0400
 	private java.sql.Date sqlDate;        // this one will be converted into 2016-07-05 , Jackson handle it in special way, Jackson suggest not use it
 	private Timestamp timestamp;           // it suppose to be 1467725549246, to but we set format in JacksonObjectMapperProvider, so it is Jul/2016/05T09:33:21-0400
-	private java.util.Date sqlInUtilDate;  // this one will be converted into 2016-07-05  , because it true type is java.sql.Date
+	private java.util.Date sqlInUtilDate;  // this one will be converted into 2016-07-05  , because its true type is java.sql.Date
 	private java.util.Date utilDateOnCustomized;  // this one will be converted into 2016-07-05T13:33:21+0000  , because it has customized converter
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MMM-yyyy-dd", timezone="EST")  // Eastern Standard Time UTC-5
