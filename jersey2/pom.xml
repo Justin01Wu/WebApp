@@ -35,7 +35,7 @@
 		<dependency>
   			<groupId>org.glassfish.jersey.media</groupId>
   			<artifactId>jersey-media-json-jackson</artifactId>
-  			<scope>runtime</scope>
+  			<scope>compile</scope>
   			<version>2.17</version>
 		</dependency>
 		
@@ -90,7 +90,72 @@
 			      </goals>
 			    </execution>
 			  </executions>
-			</plugin>			
+			</plugin>
+			
+			<!--  exclude integration testing from normal unit test -->
+			<!--  comes from  http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/ -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12.1</version>
+				<configuration>
+					<excludes>
+						<exclude>**/TestUserApi*</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+
+		<!--  run integration testing -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.12.4</version>
+				<configuration>
+					<includes>
+						<include>**/TestUserApi*</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		<!--  add embedded Tomcat for testing -->
+		<!--  comes from  http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/ -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<path>/jersey2</path>
+					<port>8080</port>            
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-tomcat</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<fork>true</fork>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-tomcat</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>shutdown</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
       		 			
 		</plugins>
 

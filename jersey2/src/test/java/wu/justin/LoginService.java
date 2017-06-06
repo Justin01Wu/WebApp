@@ -29,6 +29,7 @@ public class LoginService {
 		// will automatically save Http SessionId into httpCookieStore
 
 		if (response.getStatusLine().getStatusCode() != 200) {
+			System.out.println("http status = " + response.getStatusLine().getStatusCode() );
 			throw new RuntimeException("status should be 200"); 
 		};
 
