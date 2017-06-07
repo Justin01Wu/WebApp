@@ -11,14 +11,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import wu.justin.bean.Address;
-import wu.justin.bean.DateConvert;
-import wu.justin.bean.ObjectId;
-import wu.justin.bean.User;
-import wu.justin.bean.User2;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+
+import wu.justin.bean.Address;
+import wu.justin.bean.DateConvert;
+import wu.justin.bean.User;
+import wu.justin.bean.User2;
 
 @Path("/public")
 public class PublicApi {
@@ -45,6 +44,12 @@ public class PublicApi {
 	public User getCurrentUser() {
 		
 		System.out.println("getCurrentUser...");
+		
+		String value = MySetting.DbIp.getValue();
+		if(value == null){
+			System.out.println("can't find db ip...");
+			throw new RuntimeException("can't find db ip...");
+		}
 		
 		User user = createUser();
 		return user;
