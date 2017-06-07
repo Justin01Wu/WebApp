@@ -46,7 +46,7 @@ public class PublicApi {
 		System.out.println("getCurrentUser...");
 		
 		String value = MySetting.DbIp.getValue();
-		if(value == null){
+		if(value == null || value.isEmpty()){
 			System.out.println("can't find db ip...");
 			throw new RuntimeException("can't find db ip...");
 		}
