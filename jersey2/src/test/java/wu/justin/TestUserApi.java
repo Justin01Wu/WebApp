@@ -15,10 +15,12 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 
+@Category(IntegrationTest.class)
 public class TestUserApi {
 	private CookieStore httpCookieStore;
 	public static String URL_ROOT = "http://localhost:8080/jersey2";
@@ -31,6 +33,7 @@ public class TestUserApi {
 	@Test
 	public void testUserApi() throws HttpException, IOException{
 		
+		System.out.println("                ==>testUserApi started....");
 		
 		String url = URL_ROOT +"/api/public/user";
 

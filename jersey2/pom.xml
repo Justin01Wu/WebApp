@@ -99,9 +99,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.12.1</version>
 				<configuration>
-					<excludes>
-						<exclude>**/TestUserApi*</exclude>
-					</excludes>
+					<excludedGroups>wu.justin.IntegrationTest</excludedGroups>
 				</configuration>
 			</plugin>
 
@@ -110,11 +108,19 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.12.4</version>
+				<version>2.20</version>
+
 				<configuration>
+					
 					<includes>
-						<include>**/TestUserApi*</include>
+						<include>**/*.java</include>
+						<!-- By default, the failsafe plugin excludes various files. 
+						You have to override that. 
+						-->
 					</includes>
+					
+					<groups>wu.justin.IntegrationTest</groups>
+					
 				</configuration>
 				<executions>
 					<execution>
