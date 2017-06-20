@@ -140,8 +140,9 @@
 				<version>2.0</version>
 				<configuration>
 					<!--<path>/jersey2</path> -->
-					<!-- Default value is: /${project.artifactId}.  so , usually we don't need to set -->
-					<port>8080</port>            
+					<!-- Default value is: /${project.artifactId}.  so , usually we don't need to set -->										
+					<!-- <port>18080</port>  -->         
+					<!--  by default, plugin will use 8080, but you can use a parameter to set it: mvn clean install -Dmaven.tomcat.port=17080  -->         
 				</configuration>
 				<executions>
 					<execution>
