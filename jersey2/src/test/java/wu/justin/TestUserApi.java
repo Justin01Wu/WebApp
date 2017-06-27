@@ -23,7 +23,7 @@ import com.jayway.jsonpath.JsonPath;
 @Category(IntegrationTest.class)
 public class TestUserApi {
 	private CookieStore httpCookieStore;
-	public static String URL_ROOT = "http://localhost:8080/jersey2";
+	public static String URL_ROOT = ApiTestUtil.getUrlRoot();
 	
 	@Before
 	public void setup()  {
