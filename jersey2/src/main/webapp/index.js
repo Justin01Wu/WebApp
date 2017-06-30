@@ -120,7 +120,35 @@
 				return false;
 			});
 			
-		}; // end of getUser2Json		
+		}; // end of getUser2Json
+		
+		$scope.testSSO = function(){
+			console.log("test SSO: external API...");
+
+			$scope.errorMessage ="";
+			$scope.responsJsonDisp ="";
+			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
+			
+			var apiUrl =  "http://localhost:8080/vcaps3/api/v2/users/current.json";
+
+			console.log(apiUrl);
+			
+			$http({
+				method : 'GET',
+				url : apiUrl,
+			}).then(function(response) {
+				// success
+				$scope.responsJsonDisp = JSON.stringify(response.data, null,4);				
+			}, function(response) { 
+				console.log("get fails");				
+				$scope.errorMessage = "get fail with status: " + response.status;
+				return false;
+			});
+			
+		}; // end of testSSO		
+
+		
+		
 		
 		
 		
