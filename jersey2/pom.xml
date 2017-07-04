@@ -13,6 +13,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<skip.integration.tests>true</skip.integration.tests>
+		<!--  by default we disable integration test -->
+		<!--  please use this parameter to enable it: mvn clean install -Dskip.integration.tests=false -->
 	</properties>
 	
 	<profiles>
