@@ -1,7 +1,5 @@
 package wu.justin.rest2;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.ws.rs.core.MediaType;

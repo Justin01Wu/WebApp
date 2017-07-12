@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.http.HttpException;
-import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -22,12 +22,20 @@ import com.jayway.jsonpath.JsonPath;
 
 @Category(IntegrationTest.class)
 public class TestUserApi {
+	
+	
 	private CookieStore httpCookieStore;
 	public static String URL_ROOT = ApiTestUtil.getUrlRoot();
 	
+	private Object document;
+	private String responseBody;
+	
 	@Before
-	public void setup()  {
+	public void setup() throws HttpException, IOException  {
 		httpCookieStore = new BasicCookieStore();
+		UserInfo userInfo = new UserInfo();
+		LoginService.loginAsUser(httpCookieStore, userInfo);
+
 	}	
 	
 	@Test
@@ -37,23 +45,14 @@ public class TestUserApi {
 		
 		String url = URL_ROOT +"/api/public/user";
 
-		UserInfo userInfo = new UserInfo();
-		LoginService.loginAsUser(httpCookieStore, userInfo);
 		
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
 		
 		final HttpGet request = new HttpGet(url);
 		 
-		HttpResponse response = client.execute(request);
-	    assertEquals(response.getStatusLine().getStatusCode(), 200);
-
-		System.out.println(response.getStatusLine().getStatusCode());
+		responseBody = ApiTestUtil.getResponseBodyByGetRequest(client, request, HttpStatus.SC_OK);
+		document = Configuration.defaultConfiguration().jsonProvider().parse(responseBody);		
 		
-		String body = LoginService.getReturn(response);
-		
-		System.out.println(body);
-		
-		Object document = Configuration.defaultConfiguration().jsonProvider().parse(body);
 		
 		String userName = JsonPath.read(document, "$.name");		
 		assertEquals(userName, "Justin Wu");
