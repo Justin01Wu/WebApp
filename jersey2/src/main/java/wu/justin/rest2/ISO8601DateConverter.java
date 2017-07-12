@@ -19,7 +19,10 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 public class ISO8601DateConverter {
 public static class ISO8601DateSerializer extends JsonSerializer<Date> {
 		
-		public static final String DateFormatStr = "yyyy-MM-dd'T'HH:mm:ssZ";
+		public static final String DateFormatStr = "yyyy-MM-dd'T'HH:mm:ssX";  
+		// the last X is only supported by JDK 7 and above, it is not traditional Z, which is incorrect ISO8601 format
+		// for details, please see  https://stackoverflow.com/questions/2201925/converting-iso-8601-compliant-string-to-java-util-date
+		
 
 		public void serialize(Date date, JsonGenerator gen,	SerializerProvider provider) throws IOException,
 				JsonProcessingException {
