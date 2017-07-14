@@ -13,7 +13,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 public class LoginService {
 
-	public static String URL_ROOT = "http://localhost:8080/jersey2";
+	public static String URL_ROOT = ApiTestUtil.getUrlRoot();
 
 	public static void loginAsUser(CookieStore httpCookieStore, UserInfo userInfo)
 			throws HttpException, IOException {
