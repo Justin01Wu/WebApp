@@ -211,11 +211,13 @@ public final class ApiTestUtil {
 
 			String url = request.getURI().toString();
 
-			Header type = response.getFirstHeader("Content-Type");
-			String typeStr = type.getValue();
-			
 			String responseBody = getReturn(response);
+			
 			if (responseBody.length() > 20) {
+				
+				Header type = response.getFirstHeader("Content-Type");
+				String typeStr = type.getValue();
+				
 				String newFormat = null;
 				if(typeStr.startsWith("text/html")){  // Content-Type: text/html;charset=utf-8
 					newFormat = getFormatedHtmlOrNull(responseBody);
