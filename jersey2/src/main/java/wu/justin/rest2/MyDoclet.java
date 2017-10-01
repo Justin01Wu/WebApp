@@ -2,9 +2,14 @@ package wu.justin.rest2;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 
 import com.sun.javadoc.AnnotationDesc;
@@ -14,7 +19,7 @@ import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
 
 /**
-this is a doclet 
+this is a doclet to generate restful Api docs
 
 */
 public class MyDoclet {
@@ -35,7 +40,7 @@ public class MyDoclet {
     	
     	boolean isRESTfulAPI = false;
     	for(AnnotationDesc desc: annotations){
-    		System.out.println("annotation= "+desc);
+    		//System.out.println("annotation= "+desc);
     		AnnotationTypeDoc aDoc = desc.annotationType();
     		String myType = aDoc.toString();
     		if("javax.ws.rs.Path".equals(myType)){
@@ -49,11 +54,14 @@ public class MyDoclet {
     	if(!isRESTfulAPI){
     		return;
     	}
+    	
+    	System.out.println("");
+    	System.out.println("=============  start of " + aClass.qualifiedTypeName() + "======================================================   ");
     	System.out.println("  qualifiedName = "  + aClass.qualifiedName());
-    	System.out.println("  name = " + aClass.name());
+    	//System.out.println("  name = " + aClass.name());
     	System.out.println("  commentText = " + aClass.commentText());
-    	System.out.println("  rawCommentText = " + aClass.getRawCommentText());
-    	System.out.println("  dimension = " + aClass.dimension());
+    	//System.out.println("  rawCommentText = " + aClass.getRawCommentText());
+    	//System.out.println("  dimension = " + aClass.dimension());
     	System.out.println("  qualifiedTypeName = "+aClass.qualifiedTypeName());
     	System.out.println("  simpleTypeName = " + aClass.simpleTypeName());
 		
@@ -69,8 +77,7 @@ public class MyDoclet {
     	Path[] myPaths = clazz.getAnnotationsByType(javax.ws.rs.Path.class);
     	String root = myPaths[0].value();
     	
-    	System.out.println("  url root = " + root);
-    	
+    	System.out.println("  url root = " + root);   	
     	
     	
     	Method[] allMethods = clazz.getDeclaredMethods();
@@ -88,6 +95,7 @@ public class MyDoclet {
 	
 	private static void handleOneMethod(Method method, String root, Class<?> clazz, ClassDoc aClass){
 		
+		
 		MethodDoc[] methodDocs = aClass.methods();
 		MethodDoc myMethodDoc = null;
 		for(MethodDoc methodDoc : methodDocs){
@@ -97,24 +105,68 @@ public class MyDoclet {
 			}			
 			//System.out.println(methodDoc.name());
 		}
+		
+		
 		Path[] myPaths = method.getAnnotationsByType(javax.ws.rs.Path.class);
 		String methodPath  = myPaths[0].value();
 		String fullPath = root + methodPath; 
 		String SimpleName =  clazz.getSimpleName()+ "."+ method.getName();
-		System.out.println("  url for method " +SimpleName + " is " + fullPath);
+		
+		System.out.println("         -----------------  start of " + SimpleName + "------------------------ ");
+		
+		System.out.println("         url for method " +SimpleName + " is " + fullPath);
 		if(myMethodDoc != null){
-			if(myMethodDoc.getRawCommentText() != null && !myMethodDoc.getRawCommentText().isEmpty()){
-				System.out.println(" comment: " + myMethodDoc.getRawCommentText());	
+			if(myMethodDoc.commentText() != null && !myMethodDoc.commentText().isEmpty()){
+				System.out.println("         comment: " + myMethodDoc.commentText());	
 			}
 		}
-
+		
+		
+		String httpMethod = findHttpMethod(method);
+		System.out.println("         it is HTTP "+ httpMethod +" method " );
+		Parameter[]  parameters = method.getParameters();
+		for(int i=0;i<parameters.length ;i++){
+			handleOneParameter(parameters[i], myMethodDoc,i);
+		}
     	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
     	System.out.println("");
 
-				
-
-		//method.get
 	}
+	
+	private static void handleOneParameter(Parameter parameter, MethodDoc myMethodDoc, int i){
+		com.sun.javadoc.Parameter[] parameterDocs = myMethodDoc.parameters();
+		
+		Class<?> clazz =  parameter.getType();
+		
+		com.sun.javadoc.Parameter myParameterDoc = parameterDocs[i];
+		
+		System.out.println("             parameter is " + myParameterDoc.name() + " type is " + clazz.getSimpleName());
+	}
+	
+	private static String findHttpMethod(Method method){
+		GET[] myGETs = method.getAnnotationsByType(GET.class);
+		if(myGETs.length >0){
+			return "GET";
+		}else{
+			POST[] myPOSTs = method.getAnnotationsByType(POST.class);
+			if(myPOSTs.length >0){
+				
+				return "POST";
+			}else{
+				PUT[] myPUTs = method.getAnnotationsByType(PUT.class);
+				if(myPUTs.length >0){
+					return "PUT";
+				}else{
+					DELETE[] myDELETEs = method.getAnnotationsByType(DELETE.class);
+					if(myDELETEs.length >0){
+						return "DELETE";
+					}
+				}
+			}
+		}
+		return "UNKNOWN";
+	}
+	
 	
 	private static void printClassPath(){
 		
@@ -131,7 +183,7 @@ public class MyDoclet {
 	
 	public static void main(String[] args) {
 		
-		// call my elf as doclet:
+		// call my self as doclet:
 
 		// String sourcePath = "C:/samples/WebApp/WebApp/jersey2/src/main/java/";
 		String sourcePath = "C:/projects/WebApp/WebApp/jersey2/src/main/java/";

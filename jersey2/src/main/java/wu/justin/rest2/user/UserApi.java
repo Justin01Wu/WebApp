@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -28,7 +29,7 @@ public class UserApi {
 	/** demo how to convert java object tree to json */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/user")	
+	@Path("/user/current.json")	
 	public User getCurrentUser() {
 		
 		System.out.println("getCurrentUser...");
@@ -43,12 +44,24 @@ public class UserApi {
 		return user;
 	}
 	
+	/** demo how to use PathParam  */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/user/{userId}")	
+	public User getUserById(@PathParam("userId") Integer userId) {
+		
+		System.out.println("getUserById...");
+		
+		User user = createUser();
+		return user;
+	}
+	
 	/** demo how to convert java object tree to json 
 	 * @throws IOException */
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/user")
+	@Path("/user/current.json")
 	public User setCurrentUser(User userDTO) throws IOException {
 		
 		System.out.println("setCurrentUser...");
