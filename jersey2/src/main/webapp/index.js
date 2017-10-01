@@ -48,7 +48,7 @@
 			$scope.errorMessage ="";
 			$scope.responsJsonDisp ="";
 			
-			var apiUrl = API_UTIL.getAPIUrlBase() + "/dateFormat.json";
+			var apiUrl = API_UTIL.getAPIUrlBase() + "/public/dateFormat.json";
 
 			console.log(apiUrl);
 			
@@ -79,7 +79,7 @@
 			$scope.responsJsonDisp ="";
 			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
 			
-			var apiUrl = API_UTIL.getAPIUrlBase() + "/dateFormat.json";
+			var apiUrl = API_UTIL.getAPIUrlBase() + "/public/dateFormat.json";
 
 			console.log(apiUrl);
 			
@@ -104,7 +104,7 @@
 			$scope.responsJsonDisp ="";
 			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
 			
-			var apiUrl = API_UTIL.getAPIUrlBase() + "/objectId.json";
+			var apiUrl = API_UTIL.getAPIUrlBase() + "/public/objectId.json";
 
 			console.log(apiUrl);
 			

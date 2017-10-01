@@ -52,7 +52,7 @@ if (!window.console) {
 			var apiBaseUrl = self.getContextPath() + "/data/mock";
 			return apiBaseUrl;	
 		}else{			
-			var apiBaseUrl = self.getContextPath() + "/api/public";
+			var apiBaseUrl = self.getContextPath() + "/api";
 			return apiBaseUrl;
 		}
 		

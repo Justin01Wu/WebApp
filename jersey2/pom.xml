@@ -13,33 +13,35 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<skip.integration.tests>true</skip.integration.tests>
-		<!--  by default we disable integration test -->
-		<!--  please use this parameter to enable it: mvn clean install -Dskip.integration.tests=false -->
+		<!-- by default we disable integration test -->
+		<!-- please use this parameter to enable it: mvn clean install -Dskip.integration.tests=false -->
 	</properties>
-	
+
 	<profiles>
 		<profile>
-			<id>hasIntegrationTest</id>			
+			<id>hasIntegrationTest</id>
 			<activation>
 				<property>
 					<name>skip.integration.tests</name>
 					<value>false</value>
-				</property>				
+				</property>
 			</activation>
 			<build>
 				<plugins>
-					<!--  add embedded Tomcat for testing -->
-					<!--  comes from  http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/ -->
+					<!-- add embedded Tomcat for testing -->
+					<!-- comes from http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/ -->
 					<plugin>
 						<groupId>org.apache.tomcat.maven</groupId>
 						<artifactId>tomcat7-maven-plugin</artifactId>
 						<version>2.2</version>
 						<configuration>
 							<!--<path>/jersey2</path> -->
-							<!-- Default value is: /${project.artifactId}.  so , usually we don't need to set -->										
-							<!-- <port>18080</port>  -->         
-							<!--  by default, plugin will use 8080, but you can use a parameter to set it: mvn clean install -Dmaven.tomcat.port=17080  -->   
-							
+							<!-- Default value is: /${project.artifactId}. so , usually we don't 
+								need to set -->
+							<!-- <port>18080</port> -->
+							<!-- by default, plugin will use 8080, but you can use a parameter 
+								to set it: mvn clean install -Dmaven.tomcat.port=17080 -->
+
 						</configuration>
 						<executions>
 							<execution>
@@ -62,82 +64,80 @@
 						</executions>
 					</plugin>
 				</plugins>
-			</build>			
-    
+			</build>
+
 		</profile>
-		
-		
+
+
 	</profiles>
-	
+
 
 	<dependencies>
 		<!-- JERSEY -->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
-			
-			<!-- use this if your  Servlet API >= 3.0-->
-			<!--  
-			<artifactId>jersey-container-servlet</artifactId>
-			 -->
-			  
+
+			<!-- use this if your Servlet API >= 3.0 -->
+			<!-- <artifactId>jersey-container-servlet</artifactId> -->
+
 			<!-- if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core" -->
-			 
+
 			<artifactId>jersey-container-servlet-core</artifactId>
-						
+
 			<version>2.17</version>
 		</dependency>
-		
-		<!--  this is required for java json mapping -->
+
+		<!-- this is required for java json mapping -->
 		<dependency>
-  			<groupId>org.glassfish.jersey.media</groupId>
-  			<artifactId>jersey-media-json-jackson</artifactId>
-  			<scope>compile</scope>
-  			<version>2.17</version>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+			<scope>compile</scope>
+			<version>2.17</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
-		</dependency>	
-    
-        	<dependency>
-    		<groupId>com.jayway.jsonpath</groupId>
-    		<artifactId>json-path</artifactId>
-    		<version>2.2.0</version>
-    		<scope>test</scope>
 		</dependency>
-		
-		<dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.3</version>
-            <scope>test</scope>
-        </dependency>		
 
 		<dependency>
-    		<groupId>net.sf.jtidy</groupId>
-    		<artifactId>jtidy</artifactId>
-    		<version>r938</version>
-    		<scope>test</scope>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>2.2.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jtidy</groupId>
+			<artifactId>jtidy</artifactId>
+			<version>r938</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.sun</groupId>
 			<artifactId>tools</artifactId>
 			<scope>system</scope>
-			<version>1.0</version>			 
-			<systemPath>C:/Program Files/Java/jdk1.8.0_144/lib/tools.jar</systemPath>			
-		</dependency>	
+			<version>1.0</version>
+			<systemPath>C:/Program Files/Java/jdk1.8.0_144/lib/tools.jar</systemPath>
+		</dependency>
 
 	</dependencies>
-	
+
 	<build>
 		<finalName>jersey2</finalName>
-		
+
 		<plugins>
- 			<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
@@ -147,22 +147,22 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-jar-plugin</artifactId>
-			  <version>2.4</version>
-			  <executions>
-			    <execution>
-			      <goals>
-			        <goal>test-jar</goal>
-			      </goals>
-			    </execution>
-			  </executions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
-			
-			<!--  exclude integration testing from normal unit test -->
-			<!--  comes from  http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/ -->
+
+			<!-- exclude integration testing from normal unit test -->
+			<!-- comes from http://cupofjava.de/blog/2013/02/05/integration-tests-with-maven-and-tomcat/ -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -173,23 +173,22 @@
 			</plugin>
 
 
-		<!--  run integration testing -->
+			<!-- run integration testing -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.20</version>
 
 				<configuration>
-					
+
 					<includes>
 						<include>**/*.java</include>
-						<!-- By default, the failsafe plugin excludes various files. 
-						You have to override that. 
-						-->
+						<!-- By default, the failsafe plugin excludes various files. You have 
+							to override that. -->
 					</includes>
 					<skipITs>${skip.integration.tests}</skipITs>
 					<groups>wu.justin.IntegrationTest</groups>
-					
+
 				</configuration>
 				<executions>
 					<execution>
@@ -200,49 +199,49 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<packagingExcludes>
 						WEB-INF/classes/api23.properties,
-					</packagingExcludes>					
+					</packagingExcludes>
 				</configuration>
 			</plugin>
-			
-		<plugin>
-	        <groupId>org.apache.maven.plugins</groupId>
-	        <artifactId>maven-javadoc-plugin</artifactId>
-	        <version>3.0.0-M1</version>
-	        <configuration>
-	          <doclet>wu.justin.rest2.MyDoclet</doclet>
-	 
-	          <docletPath>${project.build.directory}/classes</docletPath>
-	          
-	            <encoding>UTF-8</encoding>
-                <verbose>true</verbose>
-                <show>public</show>
-                <subpackages>wu.justin.rest2</subpackages>
 
-	          	<useStandardDocletOptions>false</useStandardDocletOptions>	          
-	          
-	        </configuration>
-			<executions>
-                <execution>
-                    <id>attach-javadoc</id>
-                    <phase>prepare-package</phase>
-                    <goals>
-                        <goal>jar</goal>
-                    </goals>
-                </execution>
-            </executions>
-	      </plugin>				
-			
-      		 			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.0-M1</version>
+				<configuration>
+					<doclet>wu.justin.rest2.MyDoclet</doclet>
+
+					<docletPath>${project.build.directory}/classes</docletPath>
+
+					<encoding>UTF-8</encoding>
+					<verbose>true</verbose>
+					<show>public</show>
+					<subpackages>wu.justin.rest2</subpackages>
+
+					<useStandardDocletOptions>false</useStandardDocletOptions>
+
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadoc</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
 		</plugins>
 
 
 	</build>
-	
+
 </project>
