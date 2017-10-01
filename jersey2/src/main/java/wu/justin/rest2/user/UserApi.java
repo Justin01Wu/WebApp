@@ -24,6 +24,7 @@ import wu.justin.rest2.MySetting;
  */
 @Path("/users")
 public class UserApi {
+	
 	/** demo how to convert java object tree to json */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

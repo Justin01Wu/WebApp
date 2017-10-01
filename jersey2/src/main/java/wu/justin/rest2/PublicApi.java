@@ -20,7 +20,7 @@ import wu.justin.bean.User;
 import wu.justin.bean.User2;
 
 /**
- * This is APIs for public access, any body can access them
+ * This is APIs for public access, anybody can access them
  * @author justin.wu
  *
  */

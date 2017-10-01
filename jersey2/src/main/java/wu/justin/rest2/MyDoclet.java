@@ -1,11 +1,16 @@
 package wu.justin.rest2;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
+
+import javax.ws.rs.Path;
 
 import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.AnnotationTypeDoc;
 import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
 
 /**
@@ -51,23 +56,82 @@ public class MyDoclet {
     	System.out.println("  dimension = " + aClass.dimension());
     	System.out.println("  qualifiedTypeName = "+aClass.qualifiedTypeName());
     	System.out.println("  simpleTypeName = " + aClass.simpleTypeName());
-    	System.out.println("=============  end ======================================================   ");
-    	System.out.println("");
 		
+    	Class<?> clazz ;
+    	try {
+    		clazz = Thread.currentThread().getContextClassLoader().loadClass(aClass.qualifiedTypeName());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+    	
+    	Path[] myPaths = clazz.getAnnotationsByType(javax.ws.rs.Path.class);
+    	String root = myPaths[0].value();
+    	
+    	System.out.println("  url root = " + root);
+    	
+    	
+    	
+    	Method[] allMethods = clazz.getDeclaredMethods();
+    	for (Method method : allMethods) {
+    	    if (Modifier.isPublic(method.getModifiers())) {
+    	        handleOneMethod(method,root, clazz, aClass);
+    	    }
+    	}
+    	
+    	System.out.println("=============  end of " + aClass.qualifiedTypeName() + "======================================================   ");
+    	System.out.println("");
+
+    	
+	}
+	
+	private static void handleOneMethod(Method method, String root, Class<?> clazz, ClassDoc aClass){
+		
+		MethodDoc[] methodDocs = aClass.methods();
+		MethodDoc myMethodDoc = null;
+		for(MethodDoc methodDoc : methodDocs){
+			if(methodDoc.name().equals(method.getName())){
+				myMethodDoc = methodDoc;
+				break;
+			}			
+			//System.out.println(methodDoc.name());
+		}
+		Path[] myPaths = method.getAnnotationsByType(javax.ws.rs.Path.class);
+		String methodPath  = myPaths[0].value();
+		String fullPath = root + methodPath; 
+		String SimpleName =  clazz.getSimpleName()+ "."+ method.getName();
+		System.out.println("  url for method " +SimpleName + " is " + fullPath);
+		if(myMethodDoc != null){
+			if(myMethodDoc.getRawCommentText() != null && !myMethodDoc.getRawCommentText().isEmpty()){
+				System.out.println(" comment: " + myMethodDoc.getRawCommentText());	
+			}
+		}
+
+    	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
+    	System.out.println("");
+
+				
+
+		//method.get
 	}
 	
 	private static void printClassPath(){
+		
 		ClassLoader cl = ClassLoader.getSystemClassLoader();
 
 		URL[] urls = ((URLClassLoader) cl).getURLs();
 
+		System.out.println("   ==>>   current classpath for doclet:");
 		for (URL url : urls) {
-			System.out.println(url.getFile());
+			System.out.println( "               " + url.getFile());
 		}
 		
 	}
 	
 	public static void main(String[] args) {
+		
+		// call my elf as doclet:
 
 		// String sourcePath = "C:/samples/WebApp/WebApp/jersey2/src/main/java/";
 		String sourcePath = "C:/projects/WebApp/WebApp/jersey2/src/main/java/";
