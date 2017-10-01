@@ -19,12 +19,21 @@ import wu.justin.bean.DateConvert;
 import wu.justin.bean.User;
 import wu.justin.bean.User2;
 
+/**
+ * This is APIs for public access, any body can access them
+ * @author justin.wu
+ *
+ */
 @Path("/public")
 public class PublicApi {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/ping")
+	/**
+	 * find if server is available 
+	 * @return {}
+	 */
 	public String ping() {		
 	    return "{}";
 	}	
@@ -32,6 +41,10 @@ public class PublicApi {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/time")
+	/**
+	 * get server time on long format
+	 * @return server time on long format
+	 */
 	public String time() {
 		long time = System.currentTimeMillis();
 	    return "{\"time\":"+ time + "}";
@@ -40,7 +53,7 @@ public class PublicApi {
 	/** demo how to convert java object tree to json */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/user")
+	@Path("/user")	
 	public User getCurrentUser() {
 		
 		System.out.println("getCurrentUser...");
