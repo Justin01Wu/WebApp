@@ -124,6 +124,12 @@ public class MyDoclet {
 		
 		
 		String httpMethod = findHttpMethod(method);
+		
+		Class<?> returnType = method.getReturnType();
+		if(returnType != null){
+			System.out.println("         it's return is "+ returnType.getSimpleName());
+		}
+		
 		System.out.println("         it is HTTP "+ httpMethod +" method " );
 		Parameter[]  parameters = method.getParameters();
 		for(int i=0;i<parameters.length ;i++){
