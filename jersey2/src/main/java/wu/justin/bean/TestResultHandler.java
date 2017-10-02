@@ -30,7 +30,7 @@ public class TestResultHandler {
 		File[] files = resultFolder.listFiles();
 		
 		for(File file :files){
-			
+			//System.out.println("TestResult: " + file.getAbsolutePath());
 			try {
 				TestResult result = handleOneFile(file);
 				allTestResults.put(file.getAbsolutePath(), result);
@@ -57,8 +57,7 @@ public class TestResultHandler {
 			cost = cost.substring(5).trim();
 			String start = br.readLine();  // start: Mon Oct 02 14:25:07 EDT 2017
 			start= start.substring(6).trim();
-			String end = br.readLine();  // end: Mon Oct 02 14:25:07 EDT 2017
-			
+			String end = br.readLine();  // end: Mon Oct 02 14:25:07 EDT 2017			
 			end= end.substring(4).trim();
 			
 			TestResult result =  new TestResult(method, status, url, cost, start, end);
@@ -100,6 +99,9 @@ public class TestResultHandler {
 		
 		for(String filePath : allTestResults.keySet()){
 			TestResult oneResult = allTestResults.get(filePath);
+			
+			//System.out.println( oneResult);
+			
 			if(!httpMethod.equals(oneResult.getMethod())){
 				return null;
 			}
@@ -112,14 +114,19 @@ public class TestResultHandler {
 	}
 	
 	
-	private static boolean matchUrl(String apiUrl, TestResult oneResult, String Prefix){
+	private static boolean matchUrl(String apiUrl, TestResult oneResult, String prefix){
 		//String Prefix = "http://localhost:8080/jersey2/api";		
 		//String apiUrl = "/users/user/{userId}";
 		
 		// String testUrl = "http://localhost:8080/jersey2/api/users/user/12"; 
 		
+		System.out.println( "Prefix=" + prefix);
 		
-		String url = oneResult.getUrl().substring(Prefix.length());  //  /users/user/12
+		System.out.println( "oneResult = " + oneResult);
+		System.out.println( "apiUrl = " + apiUrl);
+		
+		
+		String url = oneResult.getUrl().substring(prefix.length());  //  /users/user/12
 		String [] urlSegs = url.split("/");
 		String [] apiUrlSegs = apiUrl.split("/");
 		if(urlSegs.length != apiUrlSegs.length){

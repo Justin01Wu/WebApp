@@ -252,7 +252,7 @@
 				<executions>
 					<execution>
 						<id>attach-javadoc</id>
-						<phase>prepare-package</phase>
+						<phase>post-integration-test</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>

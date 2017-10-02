@@ -41,6 +41,7 @@ public class MyDoclet {
 		
 		String location = System.getProperty("integration.test.result");
 		if (location == null) {
+			System.out.println("didn't find integration.test.result, use default value");
 			location = "C:/samples/WebApp/WebApp/jersey2/target/test-output";
 		} 
 
@@ -58,7 +59,8 @@ public class MyDoclet {
 
 		String port = System.getProperty("maven.tomcat.port");
 		if (port == null) {
-			port = "8080";
+			System.out.println("didn't find maven.tomcat.port, use default value 8080");
+			port = "12001";
 		} else {
 			try {
 				Integer.valueOf(port);
@@ -120,8 +122,7 @@ public class MyDoclet {
     	
     	Method[] allMethods = clazz.getDeclaredMethods();
     	for (Method method : allMethods) {
-    	    if (Modifier.isPublic(method.getModifiers())) {
-    	    	
+    	    if (Modifier.isPublic(method.getModifiers())) {    	    	
     	        handleOneMethod(method,root, clazz, aClass);
     	    }
     	}

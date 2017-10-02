@@ -57,4 +57,10 @@ public class TestResult {
 	public void setEnd(String end) {
 		this.end = end;
 	}
+	
+	@Override
+	public String toString() {
+		return "TestResult [method=" + method + ", status=" + status + ", url=" + url + ", cost=" + cost + ", start="
+				+ start + ", end=" + end + "]";
+	}
 }

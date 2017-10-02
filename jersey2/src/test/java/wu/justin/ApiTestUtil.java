@@ -164,10 +164,12 @@ public final class ApiTestUtil {
 
 		try (PrintStream out = getPrintStream("output", caseName);) {
 			long cost = end.getTime() - start.getTime();
-			out.println("Method: " + requestType + "\tstatus: " + statusCode);
+			out.println("Method: " + requestType );
+			out.println("status: " + statusCode);
 			out.println("Url: " + url);
-			out.println(
-					String.format("cost: %dms, start: %s   ---    end: %s   ", cost, start.toString(), end.toString()));
+			out.println("cost: "+cost+"ms");
+			out.println("start: " + start.toString()); 
+			out.println("end: " + end.toString());
 
 			out.println(responseBody);
 		}
