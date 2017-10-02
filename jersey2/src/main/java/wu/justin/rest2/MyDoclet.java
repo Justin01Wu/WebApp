@@ -1,5 +1,7 @@
 package wu.justin.rest2;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
@@ -19,17 +21,31 @@ import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
 
+import wu.justin.bean.TestResultHandler;
+
 /**
   this is a doclet to generate restful Api docs
   it will collect integration result for sample
 */
 public class MyDoclet {
 	
-	private static String Prefix = getUrlRoot();
+	private static String Prefix;
+	
+	private static TestResultHandler handler;
 	
 	public static boolean start(RootDoc root){
 		
+		Prefix = getUrlRoot();
+		
 		printClassPath();
+		
+		String location = System.getProperty("integration.test.result");
+		if (location == null) {
+			location = "C:/samples/WebApp/WebApp/jersey2/target/test-output";
+		} 
+
+		handler = new TestResultHandler(Prefix);
+		handler.loadTestResults(location);
         
         for( ClassDoc aClass : root.classes() ){
         	handleOneClass(aClass);
@@ -162,8 +178,16 @@ public class MyDoclet {
 			handleOneParameter(parameters[i], myMethodDoc,i);
 		}
 		
-		if(matchUrl(fullPath)){
-			System.out.println("         found sample result       =======----++  ");
+		String filePath = handler.findResultFile(fullPath, httpMethod);
+		if(filePath!= null){
+			File file = new File(filePath);
+			String s= null; ;
+			try {
+				s = TestResultHandler.getJsonFile(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("         found sample result       =======----++  \r\n" + s);
 		};
     	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
     	System.out.println("");
@@ -210,33 +234,8 @@ public class MyDoclet {
 		return "UNKNOWN";
 	}
 	
-	private static boolean matchUrl(String apiUrl){
-		//String Prefix = "http://localhost:8080/jersey2/api";		
-		//String apiUrl = "/users/user/{userId}";
-		
-		String fullUrl = "http://localhost:8080/jersey2/api/users/user/12"; 
-		// TODO get those url from Integration test result 
-		
-		
-		String url = fullUrl.substring(Prefix.length());  //  /users/user/12
-		String [] urlSegs = url.split("/");
-		String [] apiUrlSegs = apiUrl.split("/");
-		if(urlSegs.length != apiUrlSegs.length){
-			return false;
-		}
-		
-		for(int i=0;i< apiUrlSegs.length; i++){
-			if(apiUrlSegs[i].startsWith("{")){
-				// TODO handle PathParam
-			}else{
-				if(!apiUrlSegs[i].equals(urlSegs[i])){
-					return false;
-				}
-			}
-		}
-		return true;			
-	}	
-	
+
+
 	
 	private static void printClassPath(){
 		
@@ -255,6 +254,10 @@ public class MyDoclet {
 		
 		// call my self as doclet:
 
+		System.setProperty("integration.test.result","C:/samples/WebApp/WebApp/jersey2/target/test-output");
+		System.setProperty("maven.tomcat.port","12001");
+		
+		
 		String sourcePath = "C:/samples/WebApp/WebApp/jersey2/src/main/java/";
 		//String sourcePath = "C:/projects/WebApp/WebApp/jersey2/src/main/java/";
 		String packageName1 = "wu.justin.rest2";
