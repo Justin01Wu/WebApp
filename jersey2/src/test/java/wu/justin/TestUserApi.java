@@ -39,11 +39,38 @@ public class TestUserApi {
 	}	
 	
 	@Test
-	public void testUserApi() throws HttpException, IOException{
+	public void testGetCurrentUserApi() throws HttpException, IOException{
 		
 		System.out.println("                ==>testUserApi started....");
 		
 		String url = URL_ROOT +"/api/users/user/current.json";
+
+		
+		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
+		
+		final HttpGet request = new HttpGet(url);
+		 
+		responseBody = ApiTestUtil.getResponseBodyByGetRequest(client, request, HttpStatus.SC_OK);
+		document = Configuration.defaultConfiguration().jsonProvider().parse(responseBody);		
+		
+		
+		String userName = JsonPath.read(document, "$.name");		
+		assertEquals(userName, "Justin Wu");
+		System.out.println("userName= " + userName);
+		
+		Integer userId = JsonPath.read(document, "$.id");		
+		assertEquals(userId, new Integer(56239));
+
+		
+		
+	}
+	
+	@Test
+	public void testGetUserByIdApi() throws HttpException, IOException{
+		
+		System.out.println("                ==>testUserApi started....");
+		
+		String url = URL_ROOT +"/api/users/user/12";
 
 		
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();

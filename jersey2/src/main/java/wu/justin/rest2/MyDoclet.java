@@ -182,13 +182,14 @@ public class MyDoclet {
 		String filePath = handler.findResultFile(fullPath, httpMethod);
 		if(filePath!= null){
 			File file = new File(filePath);
-			String s= null; ;
+			System.out.println("found test result on: " + file.getAbsolutePath());
+			String jsonStr = null; ;
 			try {
-				s = TestResultHandler.getJsonFile(file);
+				jsonStr = TestResultHandler.getJsonFile(file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("         found sample result       =======----++  \r\n" + s);
+			System.out.println(jsonStr);
 		};
     	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
     	System.out.println("");

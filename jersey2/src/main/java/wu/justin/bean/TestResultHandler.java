@@ -86,7 +86,7 @@ public class TestResultHandler {
 			StringBuilder sb = new StringBuilder();
 			String oneLine = br.readLine();
 			while (oneLine != null){
-				sb.append(oneLine);
+				sb.append(oneLine).append("\r\n");
 				oneLine = br.readLine();
 			}
 			
@@ -135,7 +135,13 @@ public class TestResultHandler {
 		
 		for(int i=0;i< apiUrlSegs.length; i++){
 			if(apiUrlSegs[i].startsWith("{")){
-				// TODO handle PathParam
+				
+				try{
+					Integer.parseInt(urlSegs[i]);					
+				} catch (NumberFormatException e) {
+					return false;
+				}
+				// it has a defect, TODO handle it with PathParam
 			}else{
 				if(!apiUrlSegs[i].equals(urlSegs[i])){
 					return false;
