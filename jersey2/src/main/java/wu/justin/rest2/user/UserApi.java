@@ -2,21 +2,25 @@ package wu.justin.rest2.user;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 
 import wu.justin.bean.Address;
 import wu.justin.bean.User;
 import wu.justin.rest2.MySetting;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 
 /**
  * This is APIs for user related API
@@ -48,7 +52,22 @@ public class UserApi {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user/{userId}")	
-	public User getUserById(@PathParam("userId") Integer userId) {
+	public User getUserById(@Context HttpServletRequest httpRequest, @PathParam("userId") Integer userId) {
+		
+		System.out.println("getUserById...");
+		
+		User user = createUser();
+		return user;
+	}
+	
+	/** demo how to use PathParam  */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/user/range.json")	
+	public User getUserByRange(		
+			@QueryParam("from") int from,
+			@QueryParam("to") int to,
+			@QueryParam("orderBy") List<String> orderBy)  {
 		
 		System.out.println("getUserById...");
 		

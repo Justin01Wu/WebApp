@@ -11,6 +11,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 
 import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.AnnotationTypeDoc;
@@ -140,7 +141,13 @@ public class MyDoclet {
 		
 		com.sun.javadoc.Parameter myParameterDoc = parameterDocs[i];
 		
-		System.out.println("             parameter is " + myParameterDoc.name() + " type is " + clazz.getSimpleName());
+		String parameterDesc = "parameter[" + i + "] is " + myParameterDoc.name() + ", type is " + clazz.getSimpleName();		
+		
+		QueryParam myQueryParam = parameter.getAnnotation(QueryParam.class);
+		if(myQueryParam != null){
+			parameterDesc = parameterDesc + ", it is query parameter which name is " + myQueryParam.value();
+		}
+		System.out.println("             " + parameterDesc);
 	}
 	
 	private static String findHttpMethod(Method method){
