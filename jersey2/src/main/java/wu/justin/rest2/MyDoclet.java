@@ -198,8 +198,8 @@ public class MyDoclet {
 		
 		// call my self as doclet:
 
-		// String sourcePath = "C:/samples/WebApp/WebApp/jersey2/src/main/java/";
-		String sourcePath = "C:/projects/WebApp/WebApp/jersey2/src/main/java/";
+		String sourcePath = "C:/samples/WebApp/WebApp/jersey2/src/main/java/";
+		//String sourcePath = "C:/projects/WebApp/WebApp/jersey2/src/main/java/";
 		String packageName1 = "wu.justin.rest2";
 		String packageName2 = "wu.justin.rest2.user";
 		String[] myArgs = { "-doclet", "wu.justin.rest2.MyDoclet",

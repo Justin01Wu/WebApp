@@ -43,7 +43,7 @@ public class TestUserApi {
 		
 		System.out.println("                ==>testUserApi started....");
 		
-		String url = URL_ROOT +"/api/public/user";
+		String url = URL_ROOT +"/api/users/user/current.json";
 
 		
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();

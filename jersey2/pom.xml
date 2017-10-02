@@ -137,7 +137,7 @@
 			<artifactId>tools</artifactId>
 			<scope>system</scope>
 			<version>1.0</version>
-			<systemPath>C:/Program Files/Java/jdk1.8.0_144/lib/tools.jar</systemPath>
+			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
 		</dependency>
 
 	</dependencies>
