@@ -82,7 +82,6 @@ public final class ApiTestUtil {
 		}
 
 		final String URL_ROOT = "http://localhost:" + port + "/jersey2";
-
 		return URL_ROOT;
 
 	}

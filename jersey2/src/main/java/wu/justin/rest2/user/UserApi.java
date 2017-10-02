@@ -48,6 +48,15 @@ public class UserApi {
 		return user;
 	}
 	
+	public User iAmNotApi(@Context HttpServletRequest httpRequest, @PathParam("userId") Integer userId) {
+		
+		System.out.println("getUserById...");
+		
+		User user = createUser();
+		return user;
+	}
+	
+	
 	/** demo how to use PathParam  */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

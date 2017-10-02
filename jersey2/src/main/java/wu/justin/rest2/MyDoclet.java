@@ -20,10 +20,12 @@ import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
 
 /**
-this is a doclet to generate restful Api docs
-
+  this is a doclet to generate restful Api docs
+  it will collect integration result for sample
 */
 public class MyDoclet {
+	
+	private static String Prefix = getUrlRoot();
 	
 	public static boolean start(RootDoc root){
 		
@@ -34,6 +36,25 @@ public class MyDoclet {
         }
         return true;
     
+	}
+	
+	public static String getUrlRoot() {
+
+		String port = System.getProperty("maven.tomcat.port");
+		if (port == null) {
+			port = "8080";
+		} else {
+			try {
+				Integer.valueOf(port);
+			} catch (NumberFormatException e) {
+				System.err.println("wrong maven.tomcat.port parameter: " + port);
+				port = "8080";
+			}
+		}
+
+		final String URL_ROOT = "http://localhost:" + port + "/jersey2/api";
+		return URL_ROOT;
+
 	}
 	
 	private static void handleOneClass(ClassDoc aClass){
@@ -84,6 +105,7 @@ public class MyDoclet {
     	Method[] allMethods = clazz.getDeclaredMethods();
     	for (Method method : allMethods) {
     	    if (Modifier.isPublic(method.getModifiers())) {
+    	    	
     	        handleOneMethod(method,root, clazz, aClass);
     	    }
     	}
@@ -97,6 +119,12 @@ public class MyDoclet {
 	private static void handleOneMethod(Method method, String root, Class<?> clazz, ClassDoc aClass){
 		
 		
+		Path myPath = method.getDeclaredAnnotation(javax.ws.rs.Path.class);
+		if(myPath == null){
+			// it is not API method
+			return;
+		}
+
 		MethodDoc[] methodDocs = aClass.methods();
 		MethodDoc myMethodDoc = null;
 		for(MethodDoc methodDoc : methodDocs){
@@ -107,9 +135,7 @@ public class MyDoclet {
 			//System.out.println(methodDoc.name());
 		}
 		
-		
-		Path[] myPaths = method.getAnnotationsByType(javax.ws.rs.Path.class);
-		String methodPath  = myPaths[0].value();
+		String methodPath  = myPath.value();
 		String fullPath = root + methodPath; 
 		String SimpleName =  clazz.getSimpleName()+ "."+ method.getName();
 		
@@ -135,6 +161,10 @@ public class MyDoclet {
 		for(int i=0;i<parameters.length ;i++){
 			handleOneParameter(parameters[i], myMethodDoc,i);
 		}
+		
+		if(matchUrl(fullPath)){
+			System.out.println("         found sample result       =======----++  ");
+		};
     	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
     	System.out.println("");
 
@@ -179,6 +209,33 @@ public class MyDoclet {
 		}
 		return "UNKNOWN";
 	}
+	
+	private static boolean matchUrl(String apiUrl){
+		//String Prefix = "http://localhost:8080/jersey2/api";		
+		//String apiUrl = "/users/user/{userId}";
+		
+		String fullUrl = "http://localhost:8080/jersey2/api/users/user/12"; 
+		// TODO get those url from Integration test result 
+		
+		
+		String url = fullUrl.substring(Prefix.length());  //  /users/user/12
+		String [] urlSegs = url.split("/");
+		String [] apiUrlSegs = apiUrl.split("/");
+		if(urlSegs.length != apiUrlSegs.length){
+			return false;
+		}
+		
+		for(int i=0;i< apiUrlSegs.length; i++){
+			if(apiUrlSegs[i].startsWith("{")){
+				// TODO handle PathParam
+			}else{
+				if(!apiUrlSegs[i].equals(urlSegs[i])){
+					return false;
+				}
+			}
+		}
+		return true;			
+	}	
 	
 	
 	private static void printClassPath(){
