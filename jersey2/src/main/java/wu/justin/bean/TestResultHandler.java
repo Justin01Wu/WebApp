@@ -18,10 +18,10 @@ public class TestResultHandler {
 	}
 	public void loadTestResults(String location) {
 		
-		
 		File resultFolder = new File(location);
 		if(!resultFolder.exists()){
 			System.out.println("didn't find " + location);
+			return;
 		}
 		if(!resultFolder.isDirectory()){
 			throw new RuntimeException("integration.test.result is not a folder: " + location);
@@ -42,6 +42,7 @@ public class TestResultHandler {
 		}		
 	}
 	
+	// please align with ApiTestUtil.saveOutput if you change it
 	private static TestResult handleOneFile(File file) throws IOException{
 
 		FileReader reader = new FileReader(file);					
@@ -52,7 +53,9 @@ public class TestResultHandler {
 			String status = br.readLine();  // status: 200
 			status = status.substring(7).trim();
 			String url = br.readLine();  // Url: http://localhost:12001/jersey2/api/users/user/current.json
-			url = url.substring(4).trim();
+			
+			String url2 = url.split("/", 5)[4];  // remove host port and application context, will get api/users/user/current.json
+			url = "/" + url2;
 			String cost = br.readLine();  // cost: 225ms
 			cost = cost.substring(5).trim();
 			String start = br.readLine();  // start: Mon Oct 02 14:25:07 EDT 2017
@@ -115,20 +118,19 @@ public class TestResultHandler {
 	
 	
 	private static boolean matchUrl(String apiUrl, TestResult oneResult, String prefix){
-		//String Prefix = "http://localhost:8080/jersey2/api";		
+		//String Prefix = "/api";		
 		//String apiUrl = "/users/user/{userId}";
+		// String testUrl = "/api/users/user/12";
 		
-		// String testUrl = "http://localhost:8080/jersey2/api/users/user/12"; 
+		//System.out.println( "oneResult = " + oneResult);
+		//System.out.println( "apiUrl = " + apiUrl);
 		
-		System.out.println( "Prefix=" + prefix);
-		
-		System.out.println( "oneResult = " + oneResult);
-		System.out.println( "apiUrl = " + apiUrl);
-		
-		
-		String url = oneResult.getUrl().substring(prefix.length());  //  /users/user/12
+		String url = oneResult.getUrl();  //  /api/users/user/12
 		String [] urlSegs = url.split("/");
-		String [] apiUrlSegs = apiUrl.split("/");
+		
+		String apiUrl2= prefix+ apiUrl;
+		
+		String [] apiUrlSegs = apiUrl2.split("/");
 		if(urlSegs.length != apiUrlSegs.length){
 			return false;
 		}

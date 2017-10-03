@@ -247,7 +247,16 @@
                     	</docletArtifact>
                     	
                 	</docletArtifacts>
-
+          	
+                	<!-- doesn't work
+                	<additionalparam>-Dmaven.tomcat.port=12001</additionalparam>
+ 					
+                	<additionalJOptions>
+        				<additionalJOption>-J-Xmx1g </additionalJOption>
+        				<additionalJOption>-Dmaven.tomcat.port=12001 </additionalJOption>
+        				
+    				</additionalJOptions>
+    				-->
 				</configuration>
 				<executions>
 					<execution>

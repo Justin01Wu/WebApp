@@ -130,6 +130,7 @@ public final class ApiTestUtil {
 		return responseBody;
 	}
 
+	// please align with TestResultHandler.handleOneFile if you change it
 	private static String saveOutput(HttpRequestBase request, HttpResponse response, Date start, Date end)
 			throws HttpException, IOException {
 

@@ -35,8 +35,18 @@ public class MyDoclet {
 	
 	public static boolean start(RootDoc root){
 		
-		Prefix = getUrlRoot();
+		Prefix = getUrlRoot();  // it has a bug, caller can't pass prefix in, so hard code it now
+		Prefix ="/api";  // TODO remove hard code
 		
+		String[][] options =root.options();
+		for(String[] list : options){
+			for(String one: list){
+				System.out.print(one);
+				System.out.print(", ");
+			}
+			System.out.println("");
+		}
+
 		printClassPath();
 		
 		String location = System.getProperty("integration.test.result");
@@ -262,10 +272,9 @@ public class MyDoclet {
 		
 		String sourcePath = "C:/samples/WebApp/WebApp/jersey2/src/main/java/";
 		//String sourcePath = "C:/projects/WebApp/WebApp/jersey2/src/main/java/";
-		String packageName1 = "wu.justin.rest2";
-		String packageName2 = "wu.justin.rest2.user";
+		String subpackages  = "wu.justin.rest2";
 		String[] myArgs = { "-doclet", "wu.justin.rest2.MyDoclet",
-				"-sourcepath", sourcePath, packageName1, packageName2 };
+				"-sourcepath", sourcePath, "-subpackages", subpackages };
 
 		com.sun.tools.javadoc.Main.execute(myArgs);
 	}
