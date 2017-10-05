@@ -1,22 +1,13 @@
 package wu.justin.rest2;
 
-import java.io.IOException;
-import java.util.Date;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-
-import wu.justin.bean.Address;
 import wu.justin.bean.DateConvert;
-import wu.justin.bean.User;
 import wu.justin.bean.User2;
 
 /**

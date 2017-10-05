@@ -139,6 +139,18 @@
 			<version>1.0</version>
 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
 		</dependency>
+		
+        <!-- 
+             Freemarker template engine 
+             '2.3.26-incubating' is the latest stable release at this time.
+             The "incubating" suffix is required by the Apache Software Foundation(ASF) until the project becomes
+             a fully accepted (graduated) Apache project. The Freemarker only moved "recently" under the ASF umbrella and is subject to ASF internal processes.
+        -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.26-incubating</version>
+        </dependency>
 
 	</dependencies>
 
@@ -244,6 +256,12 @@
                         	<groupId>javax.servlet</groupId>
                         	<artifactId>servlet-api</artifactId>
                         	<version>2.5</version>
+                    	</docletArtifact>
+
+                    	<docletArtifact>
+            				<groupId>org.freemarker</groupId>
+            				<artifactId>freemarker</artifactId>
+            				<version>2.3.26-incubating</version>
                     	</docletArtifact>
                     	
                 	</docletArtifacts>

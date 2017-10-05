@@ -1,12 +1,15 @@
 package wu.justin.rest2;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,6 +24,8 @@ import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
 
+import freemarker.template.TemplateException;
+import wu.justin.bean.ApiEntry;
 import wu.justin.bean.TestResultHandler;
 
 /**
@@ -32,6 +37,8 @@ public class MyDoclet {
 	private static String Prefix;
 	
 	private static TestResultHandler handler;
+	
+	private static List<ApiEntry> allApis = new ArrayList<ApiEntry>();
 	
 	public static boolean start(RootDoc root){
 		
@@ -60,7 +67,15 @@ public class MyDoclet {
         
         for( ClassDoc aClass : root.classes() ){
         	handleOneClass(aClass);
-        }
+        }        
+        
+        File output = new File("C:/samples/WebApp/WebApp/jersey2/target/ApiDoc.html");
+        try {
+            FileOutputStream out = new FileOutputStream(output);
+			ApiHtmlCreator.create(allApis,out);
+		} catch (IOException | TemplateException e) {
+			e.printStackTrace();
+		}
         return true;
     
 	}
@@ -203,7 +218,9 @@ public class MyDoclet {
 		};
     	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
     	System.out.println("");
-
+    	
+    	ApiEntry oneEnrty = new ApiEntry(httpMethod, fullPath, clazz.getName(), method.getName());
+    	allApis.add(oneEnrty);
 	}
 	
 	private static void handleOneParameter(Parameter parameter, MethodDoc myMethodDoc, int i){
