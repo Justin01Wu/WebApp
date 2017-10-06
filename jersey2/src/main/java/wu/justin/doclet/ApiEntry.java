@@ -1,11 +1,15 @@
 package wu.justin.doclet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ApiEntry {
 
 	private String httpMethod;
 	private String url;
 	private String className;
 	private String methodName;
+	private List<TestResult> results = new ArrayList<>(); 
 
 	public ApiEntry(String httpMethod, String url, String className, String methodName) {
 		super();
@@ -38,6 +42,18 @@ public class ApiEntry {
 	}
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
+	}
+
+	public List<TestResult> getResults() {
+		return results;
+	}
+
+	public void setResults(List<TestResult> results) {
+		this.results = results;
+	}
+	
+	public void addResult(TestResult result) {
+		results.add(result);
 	}
 	
 }

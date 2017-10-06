@@ -1,7 +1,15 @@
 package wu.justin.doclet;
 
 public class TestResult {
-	
+
+	private String method;
+	private String status;
+	private String url;
+	private String cost;
+	private String start;
+	private String end;
+	private String json;
+	private String filePath;
 	
 	public TestResult(String method, String status, String url, String cost, String start, String end) {
 		super();
@@ -11,15 +19,8 @@ public class TestResult {
 		this.cost = cost;
 		this.start = start;
 		this.end = end;
+		
 	}
-	
-	private String method;
-	private String status;
-	private String url;
-	private String cost;
-	private String start;
-	private String end;
-	
 	
 	public String getMethod() {
 		return method;
@@ -62,5 +63,21 @@ public class TestResult {
 	public String toString() {
 		return "TestResult [method=" + method + ", status=" + status + ", url=" + url + ", cost=" + cost + ", start="
 				+ start + ", end=" + end + "]";
+	}
+
+	public String getJson() {
+		return json;
+	}
+
+	public void setJson(String json) {
+		this.json = json;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 }

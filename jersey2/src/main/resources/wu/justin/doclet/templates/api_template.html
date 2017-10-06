@@ -17,7 +17,37 @@
 	<b>${oneClass.fullName}</b>
 	<ul>
 		<#list oneClass.apis as oneApi>
-		<li><b>${oneApi.httpMethod}:</b> ${oneApi.url}</li>
+		<li>
+		<div>
+			<b>${oneApi.httpMethod}:</b> 
+			${oneApi.url}
+		</div>
+		<div>
+			<b>MethodName:</b>${oneApi.className}.${oneApi.methodName}<br/>			
+			<table>
+                  <thead>
+                    <tr>
+                      <th>HTTP Staus Code</th>
+                      <th>Example</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  
+                  <#list oneApi.results as response>
+                    <tr>
+                      <td>${response.status}</td>
+                      <td>
+                        <div class="snippet">
+                          <pre><code class="json">${response.json}</code></pre>
+                        </div>                        
+                      </td>
+                  	</tr>
+                  </#list>
+               </tbody>
+            </table>
+		</div>
+		
+		</li>
 		</#list>
 	</ul>
 

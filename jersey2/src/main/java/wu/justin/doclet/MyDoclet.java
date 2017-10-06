@@ -216,8 +216,11 @@ public class MyDoclet {
 			handleOneParameter(parameters[i], myMethodDoc,i);
 		}
 		
-		String filePath = handler.findResultFile(fullPath, httpMethod);
-		if(filePath!= null){
+		ApiEntry oneEnrty = new ApiEntry(httpMethod, fullPath, apiClass.getFullName(), method.getName());
+		
+		TestResult oneResult  = handler.findResultFile(fullPath, httpMethod);
+		if(oneResult!= null){
+			String filePath = oneResult.getFilePath();
 			File file = new File(filePath);
 			System.out.println("found test result on: " + file.getAbsolutePath());
 			String jsonStr = null; ;
@@ -226,12 +229,14 @@ public class MyDoclet {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			oneResult.setJson(jsonStr);
 			System.out.println(jsonStr);
+			oneEnrty.addResult(oneResult);
 		};
     	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
     	System.out.println("");
     	
-    	ApiEntry oneEnrty = new ApiEntry(httpMethod, fullPath, apiClass.getFullName(), method.getName());
+    	
     	
     	apiClass.addApis(oneEnrty);    	
 	}

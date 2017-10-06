@@ -63,7 +63,14 @@ public class TestResultHandler {
 			String end = br.readLine();  // end: Mon Oct 02 14:25:07 EDT 2017			
 			end= end.substring(4).trim();
 			
+			StringBuilder sb = new StringBuilder();
+			String oneLine = br.readLine();
+			while (oneLine != null){
+				sb.append(oneLine).append("\r\n");
+				oneLine = br.readLine();
+			}			
 			TestResult result =  new TestResult(method, status, url, cost, start, end);
+			result.setFilePath(file.getAbsolutePath()); 
 			return result;
 		}
 		
@@ -98,7 +105,7 @@ public class TestResultHandler {
 		
 	}
 	
-	public String findResultFile(String apiUrl, String httpMethod){
+	public TestResult findResultFile(String apiUrl, String httpMethod){
 		
 		for(String filePath : allTestResults.keySet()){
 			TestResult oneResult = allTestResults.get(filePath);
@@ -109,7 +116,7 @@ public class TestResultHandler {
 				return null;
 			}
 			if(matchUrl(apiUrl, oneResult, prefix)){
-				return filePath;
+				return oneResult;
 			}
 		}
 		return null;
