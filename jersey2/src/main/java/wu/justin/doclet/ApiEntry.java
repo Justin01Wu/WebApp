@@ -1,7 +1,12 @@
 package wu.justin.doclet;
 
 public class ApiEntry {
-	
+
+	private String httpMethod;
+	private String url;
+	private String className;
+	private String methodName;
+
 	public ApiEntry(String httpMethod, String url, String className, String methodName) {
 		super();
 		this.httpMethod = httpMethod;
@@ -9,10 +14,6 @@ public class ApiEntry {
 		this.className = className;
 		this.methodName = methodName;
 	}
-	private String httpMethod;
-	private String url;
-	private String className;
-	private String methodName;
 	
 	public String getHttpMethod() {
 		return httpMethod;

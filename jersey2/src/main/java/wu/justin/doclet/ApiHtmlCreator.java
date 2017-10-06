@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -23,7 +22,7 @@ import freemarker.template.Version;
 
 public class ApiHtmlCreator {
 	
-	public static void create(List<ApiEntry> allApis, OutputStream out) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException{
+	public static void create(List<ApiEntry> allApis, List<ApiClassEntry> allApiClass, OutputStream out) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException{
 		// 1. Configure FreeMarker
         //
         // You should do this ONLY ONCE, when your application starts,
@@ -50,10 +49,11 @@ public class ApiHtmlCreator {
         input.put("title", "RESTful Api list");
 
         input.put("allApis", allApis);
+        input.put("allApiClass", allApiClass);
 
         // 2.2. Get the template
 
-        Template template = cfg.getTemplate("api_template.ftl");
+        Template template = cfg.getTemplate("api_template.html");
 
         // 2.3. Generate the output
 
@@ -70,15 +70,6 @@ public class ApiHtmlCreator {
         }
 
     }
-	
-	
-	public static void main(String[] args) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException{
-		List<ApiEntry> allApis = new ArrayList<ApiEntry>();
-        
-        allApis.add(new ApiEntry("GET", "api/users/user/current.json", "a.c", "getUser"));
-        allApis.add(new ApiEntry("GET", "api/users/user/{userId}", "a.c", "getCurent"));
 
-		create(allApis, System.out);
-	}
 
 }

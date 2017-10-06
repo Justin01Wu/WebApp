@@ -38,6 +38,9 @@ public class MyDoclet {
 	
 	private static List<ApiEntry> allApis = new ArrayList<ApiEntry>();
 	
+	private static List<ApiClassEntry> allApiClass = new ArrayList<ApiClassEntry>();
+	
+	
 	public static boolean start(RootDoc root){
 		
 		Prefix = getUrlRoot();  // it has a bug, caller can't pass prefix in, so hard code it now
@@ -67,10 +70,16 @@ public class MyDoclet {
         	handleOneClass(aClass);
         }        
         
+        for(ApiClassEntry oneClass: allApiClass){
+        	if(oneClass.getApis() != null){
+        		allApis.addAll(oneClass.getApis());	
+        	}        	
+        }
+        
         File output = new File("C:/samples/WebApp/WebApp/jersey2/target/ApiDoc.html");
         try {
             FileOutputStream out = new FileOutputStream(output);
-			ApiHtmlCreator.create(allApis,out);
+			ApiHtmlCreator.create(allApis, allApiClass, out);
 		} catch (IOException | TemplateException e) {
 			e.printStackTrace();
 		}
@@ -137,26 +146,29 @@ public class MyDoclet {
 			return;
 		}
     	
+    	ApiClassEntry oneClass = new ApiClassEntry(clazz);
+    	
     	Path[] myPaths = clazz.getAnnotationsByType(javax.ws.rs.Path.class);
     	String root = myPaths[0].value();
     	
     	System.out.println("  url root = " + root);   	
     	
+    	oneClass.setUrl(root);    	
     	
     	Method[] allMethods = clazz.getDeclaredMethods();
     	for (Method method : allMethods) {
     	    if (Modifier.isPublic(method.getModifiers())) {    	    	
-    	        handleOneMethod(method,root, clazz, aClass);
+    	        handleOneMethod(method,root, oneClass, aClass);
     	    }
     	}
-    	
+    	allApiClass.add(oneClass);
     	System.out.println("=============  end of " + aClass.qualifiedTypeName() + "======================================================   ");
     	System.out.println("");
 
     	
 	}
 	
-	private static void handleOneMethod(Method method, String root, Class<?> clazz, ClassDoc aClass){
+	private static void handleOneMethod(Method method, String root, ApiClassEntry apiClass, ClassDoc aClass){
 		
 		
 		Path myPath = method.getDeclaredAnnotation(javax.ws.rs.Path.class);
@@ -177,7 +189,7 @@ public class MyDoclet {
 		
 		String methodPath  = myPath.value();
 		String fullPath = root + methodPath; 
-		String SimpleName =  clazz.getSimpleName()+ "."+ method.getName();
+		String SimpleName =  apiClass.getName()+ "."+ method.getName();
 		
 		System.out.println("         -----------------  start of " + SimpleName + "------------------------ ");
 		
@@ -217,8 +229,9 @@ public class MyDoclet {
     	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
     	System.out.println("");
     	
-    	ApiEntry oneEnrty = new ApiEntry(httpMethod, fullPath, clazz.getName(), method.getName());
-    	allApis.add(oneEnrty);
+    	ApiEntry oneEnrty = new ApiEntry(httpMethod, fullPath, apiClass.getFullName(), method.getName());
+    	
+    	apiClass.addApis(oneEnrty);    	
 	}
 	
 	private static void handleOneParameter(Parameter parameter, MethodDoc myMethodDoc, int i){

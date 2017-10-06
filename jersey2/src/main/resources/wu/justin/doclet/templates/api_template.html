@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>${title}</title>
+</head>
+<body>
+	<h1>${title}</h1>
+
+	<ul>
+		<#list allApis as one>
+		<li>${one_index + 1} <b>${one.httpMethod}</b> ${one.url}
+		</#list>
+	</ul>
+
+
+
+	<#list allApiClass as oneClass> 
+	<b>${oneClass.fullName}</b>
+	<ul>
+		<#list oneClass.apis as oneApi>
+		<li><b>${oneApi.httpMethod}:</b> ${oneApi.url}</li>
+		</#list>
+	</ul>
+
+	</#list>
+
+
+</body>
+</html>
