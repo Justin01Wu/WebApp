@@ -1,4 +1,4 @@
-package wu.justin.rest2;
+package wu.justin.doclet;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,8 +25,6 @@ import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
 
 import freemarker.template.TemplateException;
-import wu.justin.bean.ApiEntry;
-import wu.justin.bean.TestResultHandler;
 
 /**
   this is a doclet to generate restful Api docs
@@ -290,7 +288,7 @@ public class MyDoclet {
 		String sourcePath = "C:/samples/WebApp/WebApp/jersey2/src/main/java/";
 		//String sourcePath = "C:/projects/WebApp/WebApp/jersey2/src/main/java/";
 		String subpackages  = "wu.justin.rest2";
-		String[] myArgs = { "-doclet", "wu.justin.rest2.MyDoclet",
+		String[] myArgs = { "-doclet", "wu.justin.doclet.MyDoclet",
 				"-sourcepath", sourcePath, "-subpackages", subpackages };
 
 		com.sun.tools.javadoc.Main.execute(myArgs);

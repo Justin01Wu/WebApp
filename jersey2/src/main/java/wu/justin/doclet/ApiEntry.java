@@ -1,4 +1,4 @@
-package wu.justin.bean;
+package wu.justin.doclet;
 
 public class ApiEntry {
 	

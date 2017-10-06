@@ -1,4 +1,4 @@
-package wu.justin.rest2;
+package wu.justin.doclet;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -20,7 +20,6 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateNotFoundException;
 import freemarker.template.Version;
-import wu.justin.bean.ApiEntry;
 
 public class ApiHtmlCreator {
 	
