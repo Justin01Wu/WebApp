@@ -76,7 +76,9 @@ public class MyDoclet {
         	}        	
         }
         
-        File output = new File("C:/samples/WebApp/WebApp/jersey2/target/ApiDoc.html");
+        String outputPath = "C:/samples/WebApp/WebApp/jersey2/target/ApiDoc.html";
+        System.out.println("generating file: " + outputPath);
+        File output = new File(outputPath);
         try {
             FileOutputStream out = new FileOutputStream(output);
 			ApiHtmlCreator.create(allApis, allApiClass, out);
