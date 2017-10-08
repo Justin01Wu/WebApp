@@ -32,6 +32,9 @@ import freemarker.template.TemplateException;
 */
 public class MyDoclet {
 	
+	private static final String projectDir = "C:/projects/WebApp/WebApp/jersey2";
+	//private static final String projectDir = "C:/samples/WebApp/WebApp/jersey2";
+	
 	private static String Prefix;
 	
 	private static TestResultHandler handler;
@@ -60,7 +63,7 @@ public class MyDoclet {
 		String location = System.getProperty("integration.test.result");
 		if (location == null) {
 			System.out.println("didn't find integration.test.result, use default value");
-			location = "C:/samples/WebApp/WebApp/jersey2/target/test-output";
+			location = projectDir + "/target/test-output";
 		} 
 
 		handler = new TestResultHandler(Prefix);
@@ -76,7 +79,7 @@ public class MyDoclet {
         	}        	
         }
         
-        String outputPath = "C:/samples/WebApp/WebApp/jersey2/target/ApiDoc.html";
+        String outputPath = projectDir + "/target/ApiDoc.html";
         System.out.println("generating file: " + outputPath);
         File output = new File(outputPath);
         try {
@@ -300,13 +303,11 @@ public class MyDoclet {
 	public static void main(String[] args) {
 		
 		// call my self as doclet:
-
-		System.setProperty("integration.test.result","C:/samples/WebApp/WebApp/jersey2/target/test-output");
-		System.setProperty("maven.tomcat.port","12001");
 		
+		System.setProperty("integration.test.result", projectDir + "/target/test-output");
+		System.setProperty("maven.tomcat.port","8080");		
 		
-		String sourcePath = "C:/samples/WebApp/WebApp/jersey2/src/main/java/";
-		//String sourcePath = "C:/projects/WebApp/WebApp/jersey2/src/main/java/";
+		String sourcePath = projectDir + "/src/main/java/";
 		String subpackages  = "wu.justin.rest2";
 		String[] myArgs = { "-doclet", "wu.justin.doclet.MyDoclet",
 				"-sourcepath", sourcePath, "-subpackages", subpackages };

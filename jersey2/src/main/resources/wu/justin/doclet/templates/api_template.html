@@ -6,8 +6,8 @@
 	<h1>${title}</h1>
 
 	<ul>
-		<#list allApis as one>
-		<li>${one_index + 1} <b>${one.httpMethod}</b> ${one.url}
+		<#list allApis as api>
+		<li><a href="#${api.className}.#${api.methodName}">${api_index + 1} <b>${api.httpMethod}</b> ${api.url}</a>
 		</#list>
 	</ul>
 
@@ -16,14 +16,14 @@
 	<#list allApiClass as oneClass> 
 	<b>${oneClass.fullName}</b>
 	<ul>
-		<#list oneClass.apis as oneApi>
+		<#list oneClass.apis as api>
 		<li>
-		<div>
-			<b>${oneApi.httpMethod}:</b> 
-			${oneApi.url}
+		<div id="${api.className}.#${api.methodName}">
+			<b>${api.httpMethod}:</b> 
+			${api.url}
 		</div>
 		<div>
-			<b>MethodName:</b>${oneApi.className}.${oneApi.methodName}<br/>			
+			<b>MethodName:</b>${api.className}.${api.methodName}<br/>			
 			<table>
                   <thead>
                     <tr>
@@ -33,7 +33,7 @@
                   </thead>
                   <tbody>
                   
-                  <#list oneApi.results as response>
+                  <#list api.results as response>
                     <tr>
                       <td>${response.status}</td>
                       <td>
