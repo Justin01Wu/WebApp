@@ -10,6 +10,9 @@ public class ApiEntry {
 	private String className;
 	private String methodName;
 	private List<TestResult> results = new ArrayList<>(); 
+	
+	private List<ParameterEntry> parameters = new ArrayList<>();
+	
 
 	public ApiEntry(String httpMethod, String url, String className, String methodName) {
 		super();
@@ -54,6 +57,18 @@ public class ApiEntry {
 	
 	public void addResult(TestResult result) {
 		results.add(result);
+	}
+
+	public List<ParameterEntry> getParameters() {
+		return parameters;
+	}
+
+	public void setParameters(List<ParameterEntry> parameters) {
+		this.parameters = parameters;
+	}
+	
+	public void addParameter(ParameterEntry parameter) {
+		parameters.add(parameter);
 	}
 	
 }

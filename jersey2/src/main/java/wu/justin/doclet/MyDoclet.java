@@ -16,6 +16,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
 import com.sun.javadoc.AnnotationDesc;
@@ -214,12 +215,15 @@ public class MyDoclet {
 		}
 		
 		System.out.println("         it is HTTP "+ httpMethod +" method " );
-		Parameter[]  parameters = method.getParameters();
-		for(int i=0;i<parameters.length ;i++){
-			handleOneParameter(parameters[i], myMethodDoc,i);
-		}
 		
 		ApiEntry oneEnrty = new ApiEntry(httpMethod, fullPath, apiClass.getFullName(), method.getName());
+
+		Parameter[]  parameters = method.getParameters();
+		for(int i=0;i<parameters.length ;i++){
+			com.sun.javadoc.Parameter[] parameterDocs = myMethodDoc.parameters();
+			com.sun.javadoc.Parameter myParameterDoc = parameterDocs[i];
+			handleOneParameter(parameters[i], oneEnrty, myParameterDoc);
+		}
 		
 		TestResult oneResult  = handler.findResultFile(fullPath, httpMethod);
 		if(oneResult!= null){
@@ -244,20 +248,27 @@ public class MyDoclet {
     	apiClass.addApis(oneEnrty);    	
 	}
 	
-	private static void handleOneParameter(Parameter parameter, MethodDoc myMethodDoc, int i){
-		com.sun.javadoc.Parameter[] parameterDocs = myMethodDoc.parameters();
+	private static void handleOneParameter(Parameter parameter, ApiEntry method, com.sun.javadoc.Parameter myParameterDoc ){
 		
-		Class<?> clazz =  parameter.getType();
+		Class<?> clazz =  parameter.getType();		
 		
-		com.sun.javadoc.Parameter myParameterDoc = parameterDocs[i];
-		
-		String parameterDesc = "parameter[" + i + "] is " + myParameterDoc.name() + ", type is " + clazz.getSimpleName();		
-		
+		String type = "";
+		String name =  myParameterDoc.name();
 		QueryParam myQueryParam = parameter.getAnnotation(QueryParam.class);
 		if(myQueryParam != null){
-			parameterDesc = parameterDesc + ", it is query parameter which name is " + myQueryParam.value();
+			type = "QueryParam";
+			name = myQueryParam.value();
+		}else{
+			PathParam myPathParam = parameter.getAnnotation(PathParam.class);
+			if(myPathParam != null){
+				type = "PathParam";
+				name = myPathParam.value();
+			}
 		}
-		System.out.println("             " + parameterDesc);
+		
+		ParameterEntry parameterEntry = new ParameterEntry(name, clazz.getSimpleName(), type);
+		method.addParameter(parameterEntry);
+		
 	}
 	
 	private static String findHttpMethod(Method method){

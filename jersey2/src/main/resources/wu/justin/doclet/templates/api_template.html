@@ -1,13 +1,26 @@
 <html>
 <head>
 <title>${title}</title>
+<style type="text/css">
+table{
+    border: 1px solid black;
+    table-layout: fixed;
+    width: 100%;
+}
+    
+th, td {
+    border: 1px solid black;
+    overflow: hidden;
+	white-space: nowrap
+}
+</style>
 </head>
 <body>
 	<h1>${title}</h1>
 
 	<ul>
 		<#list allApis as api>
-		<li><a href="#${api.className}.#${api.methodName}">${api_index + 1} <b>${api.httpMethod}</b> ${api.url}</a>
+		<li>${api_index + 1} <b>${api.httpMethod}</b> <a href="#${api.className}.#${api.methodName}">${api.url}</a>
 		</#list>
 	</ul>
 
@@ -23,7 +36,37 @@
 			${api.url}
 		</div>
 		<div>
-			<b>MethodName:</b>${api.className}.${api.methodName}<br/>			
+			<b>MethodName:</b>${api.className}.${api.methodName}<br/>
+			
+			<#if api.parameters?has_content>	
+			
+			<!--  parameters list -->
+			<table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Java Type</th>
+                      <th>Type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  
+                  <#list api.parameters as para>
+                    <tr>
+                      <td>${para.name}</td>
+                      <td>${para.javaType}</td>
+                      <td>${para.type}</td>
+                  	</tr>
+                  </#list>
+               </tbody>
+            </table>
+            </#if>
+			
+			
+					
+			<#if api.results?has_content>	
+			
+			<!--  test result list -->
 			<table>
                   <thead>
                     <tr>
@@ -45,6 +88,7 @@
                   </#list>
                </tbody>
             </table>
+            </#if>
 		</div>
 		
 		</li>
