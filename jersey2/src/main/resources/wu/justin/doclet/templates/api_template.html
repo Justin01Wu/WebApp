@@ -70,7 +70,9 @@ th, td {
 			<table>
                   <thead>
                     <tr>
-                      <th>HTTP Staus Code</th>
+                      <th>Code</th>
+                      <th>COST</th>
+                      <th>URL</th>
                       <th>Example</th>
                     </tr>
                   </thead>
@@ -79,6 +81,8 @@ th, td {
                   <#list api.results as response>
                     <tr>
                       <td>${response.status}</td>
+                      <td>${response.cost}</td>
+                      <td>${response.url}</td>
                       <td>
                         <div class="snippet">
                           <pre><code class="json">${response.json}</code></pre>
