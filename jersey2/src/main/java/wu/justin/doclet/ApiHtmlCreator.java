@@ -1,7 +1,5 @@
 package wu.justin.doclet;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -57,17 +55,9 @@ public class ApiHtmlCreator {
 
         // 2.3. Generate the output
 
-        // Write output to the console
+        // Write output 
         Writer consoleWriter = new OutputStreamWriter(out);
         template.process(input, consoleWriter);
-
-        // For the sake of example, also write output into a file:
-        Writer fileWriter = new FileWriter(new File("output.html"));
-        try {
-            template.process(input, fileWriter);
-        } finally {
-            fileWriter.close();
-        }
 
     }
 
