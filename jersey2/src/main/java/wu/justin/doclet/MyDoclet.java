@@ -320,7 +320,8 @@ public class MyDoclet {
 		
 		String sourcePath = projectDir + "/src/main/java/";
 		String subpackages  = "wu.justin.rest2";
-		String[] myArgs = { "-doclet", "wu.justin.doclet.MyDoclet",
+		String[] myArgs = { "-doclet", "wu.justin.doclet.MyDoclet", 
+				"-overview", projectDir, 
 				"-sourcepath", sourcePath, "-subpackages", subpackages };
 
 		com.sun.tools.javadoc.Main.execute(myArgs);

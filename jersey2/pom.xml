@@ -243,7 +243,7 @@
 					<encoding>UTF-8</encoding>
 					<show>public</show>
 					<subpackages>wu.justin.rest2</subpackages>
-
+					<overview>${basedir}</overview>
 					<useStandardDocletOptions>false</useStandardDocletOptions>
                 	<docletArtifacts>
                 		<!--  has to declare doclet dependency if we need it -->
