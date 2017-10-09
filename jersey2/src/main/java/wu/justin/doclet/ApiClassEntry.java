@@ -5,16 +5,16 @@ import java.util.List;
 
 public class ApiClassEntry {
 	
+	private String fullName;
+	private String name;	
+	private String url;	
+	private String comment;
+	private List<ApiEntry> apis;
+	
 	public ApiClassEntry(Class<?> clazz) {
 		this.name = clazz.getSimpleName();
 		this.fullName = clazz.getName();
 	}
-	
-	private String fullName;
-	private String name;	
-	private String url;	
-	private List<ApiEntry> apis;
-	
 	
 	public String getFullName() {
 		return fullName;
@@ -47,6 +47,14 @@ public class ApiClassEntry {
 		}
 		apis.add(one);
 		
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 }

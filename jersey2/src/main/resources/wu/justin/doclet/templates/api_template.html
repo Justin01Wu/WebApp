@@ -28,6 +28,9 @@ th, td {
 
 	<#list allApiClass as oneClass> 
 	<b>${oneClass.fullName}</b>
+	<#if oneClass.comment?has_content>	
+		<pre>${oneClass.comment}</pre>
+	</#if>
 	<ul>
 		<#list oneClass.apis as api>
 		<li>
@@ -35,6 +38,9 @@ th, td {
 			<b>${api.httpMethod}:</b> 
 			${api.url}
 		</div>
+		<#if api.comment?has_content>	
+			<pre>${api.comment}</pre>
+		</#if>
 		<div>
 			<b>MethodName:</b>${api.className}.${api.methodName}<br/>
 			

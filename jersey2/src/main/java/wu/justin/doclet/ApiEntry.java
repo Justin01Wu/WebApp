@@ -9,6 +9,7 @@ public class ApiEntry {
 	private String url;
 	private String className;
 	private String methodName;
+	private String comment;
 	private List<TestResult> results = new ArrayList<>(); 
 	
 	private List<ParameterEntry> parameters = new ArrayList<>();
@@ -69,6 +70,14 @@ public class ApiEntry {
 	
 	public void addParameter(ParameterEntry parameter) {
 		parameters.add(parameter);
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
 }

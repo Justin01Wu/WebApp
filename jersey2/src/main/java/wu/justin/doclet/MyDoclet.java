@@ -135,29 +135,28 @@ public class MyDoclet {
     	
     	System.out.println("");
     	System.out.println("=============  start of " + aClass.qualifiedTypeName() + "======================================================   ");
-    	System.out.println("  qualifiedName = "  + aClass.qualifiedName());
-    	//System.out.println("  name = " + aClass.name());
-    	System.out.println("  commentText = " + aClass.commentText());
-    	//System.out.println("  rawCommentText = " + aClass.getRawCommentText());
-    	//System.out.println("  dimension = " + aClass.dimension());
-    	System.out.println("  qualifiedTypeName = "+aClass.qualifiedTypeName());
-    	System.out.println("  simpleTypeName = " + aClass.simpleTypeName());
+//    	System.out.println("  qualifiedName = "  + aClass.qualifiedName());
+//    	//System.out.println("  name = " + aClass.name());
+//    	System.out.println("  commentText = " + aClass.commentText());
+//    	//System.out.println("  rawCommentText = " + aClass.getRawCommentText());
+//    	//System.out.println("  dimension = " + aClass.dimension());
+//    	System.out.println("  qualifiedTypeName = "+aClass.qualifiedTypeName());
+//    	System.out.println("  simpleTypeName = " + aClass.simpleTypeName());
 		
     	Class<?> clazz ;
     	try {
     		clazz = Thread.currentThread().getContextClassLoader().loadClass(aClass.qualifiedTypeName());
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
+			throw new RuntimeException("can't find a class", e);
 		}
     	
     	ApiClassEntry oneClass = new ApiClassEntry(clazz);
+    	oneClass.setComment(aClass.commentText());
     	
     	Path[] myPaths = clazz.getAnnotationsByType(javax.ws.rs.Path.class);
     	String root = myPaths[0].value();
     	
-    	System.out.println("  url root = " + root);   	
+    	//System.out.println("  url root = " + root);   	
     	
     	oneClass.setUrl(root);    	
     	
@@ -200,9 +199,12 @@ public class MyDoclet {
 		System.out.println("         -----------------  start of " + SimpleName + "------------------------ ");
 		
 		System.out.println("         url for method " +SimpleName + " is " + fullPath);
+		
+		String comment = null;
 		if(myMethodDoc != null){
 			if(myMethodDoc.commentText() != null && !myMethodDoc.commentText().isEmpty()){
-				System.out.println("         comment: " + myMethodDoc.commentText());	
+				comment = myMethodDoc.commentText();
+				//System.out.println("         comment: " + myMethodDoc.commentText());	
 			}
 		}
 		
@@ -217,7 +219,8 @@ public class MyDoclet {
 		System.out.println("         it is HTTP "+ httpMethod +" method " );
 		
 		ApiEntry oneEnrty = new ApiEntry(httpMethod, fullPath, apiClass.getFullName(), method.getName());
-
+		oneEnrty.setComment(comment);
+		
 		Parameter[]  parameters = method.getParameters();
 		for(int i=0;i<parameters.length ;i++){
 			com.sun.javadoc.Parameter[] parameterDocs = myMethodDoc.parameters();
