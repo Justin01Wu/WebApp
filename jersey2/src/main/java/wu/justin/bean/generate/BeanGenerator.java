@@ -9,16 +9,42 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-import wu.justin.bean.DateConvert;
+import wu.justin.bean.User;
 import wu.justin.rest2.ApiUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BeanGenerator {
 	
-	public static <T> T generate(Class<T> clazz) throws Exception {
-		T t = clazz.newInstance();
+	private Map<String, Class<?>> reigsteredClass = new HashMap<>();
+	
+	public BeanGenerator(){
+		add(java.util.List.class);
+		add(java.lang.Integer.class);
+		add(java.lang.String.class);
+		add(java.sql.Timestamp.class);
+		add(java.util.Date.class);
+		add(java.util.Calendar.class);
+		
+		
+	}
+	
+	private void add(Class<?> clazz){
+		reigsteredClass.put(clazz.getName(), clazz);
+	}
+	
+	public <T> T generate(Class<T> clazz) throws Exception {
+		
+		T t;
+		if(reigsteredClass.keySet().contains(clazz.getName())){
+			t = handleBasicClass(clazz, null);
+		}else{
+			t = clazz.newInstance();
+		}
+		
 		
 		Method[] allMethods = clazz.getDeclaredMethods();
     	for (Method method : allMethods) {
@@ -29,7 +55,7 @@ public class BeanGenerator {
 		return t;
 	}
 	
-	private static void  handleOneMethod(Method method, Object t) throws Exception{
+	private void  handleOneMethod(Method method, Object t) throws Exception{
 		if(!method.getName().startsWith("set")){
 			return;
 		}
@@ -53,13 +79,13 @@ public class BeanGenerator {
 		
 	}
 	
-	private static Object handleOneParameter(Parameter parameter, Type[] types) throws Exception{
+	private Object handleOneParameter(Parameter parameter, Type[] types) throws Exception{
 		Class<?> clazz  = parameter.getType();
 		return handleBasicClass(clazz, types);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static <T> T handleBasicClass(Class<T> clazz, Type[] types) throws Exception{
+	private <T> T handleBasicClass(Class<T> clazz, Type[] types) throws Exception{
 		Date now = new Date();
 		if(clazz.getName().equals("java.sql.Timestamp")){
 			Timestamp  timestamp= new Timestamp(now.getTime());
@@ -117,12 +143,12 @@ public class BeanGenerator {
 
 	}
 	
-	public static <T> String generateJson(Class<T> clazz) throws Exception{
+	public <T> String generateJson(Class<T> clazz) throws Exception{
 		ObjectMapper mapper = new ObjectMapper();
 		T obj = generate(clazz);
 		String jsonInString = mapper.writeValueAsString(obj);
 		
-		System.out.println(jsonInString);
+		//System.out.println(jsonInString);
 		
 		String newFormat = ApiUtil.getFormatedJsonOrNull(jsonInString);
 		
@@ -132,8 +158,10 @@ public class BeanGenerator {
 	
 	public static void main(String[] args) throws Exception{
 		
-		generateJson(DateConvert.class);
-		//generateJson(User.class);
+		//new BeanGenerator().generateJson(DateConvert.class);
+		new BeanGenerator().generateJson(User.class);
+		//new BeanGenerator().generateJson(String.class);
+
 		
 		
 	}

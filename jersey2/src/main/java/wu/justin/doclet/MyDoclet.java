@@ -234,7 +234,7 @@ public class MyDoclet {
 			if( !method.getReturnType().equals(Void.TYPE)){
 				String returnJson = null;
 				try {
-					returnJson = BeanGenerator.generateJson(method.getReturnType());
+					returnJson = new BeanGenerator().generateJson(method.getReturnType());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
