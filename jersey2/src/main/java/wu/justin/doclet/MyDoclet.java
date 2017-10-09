@@ -19,6 +19,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
+import wu.justin.bean.generate.BeanGenerator;
+
 import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.AnnotationTypeDoc;
 import com.sun.javadoc.ClassDoc;
@@ -67,8 +69,7 @@ public class MyDoclet {
 			location = projectDir + "/target/test-output";
 		} 
 
-		handler = new TestResultHandler(Prefix);
-		handler.loadTestResults(location);
+		handler = new TestResultHandler(Prefix, location);
         
         for( ClassDoc aClass : root.classes() ){
         	handleOneClass(aClass);
@@ -229,22 +230,41 @@ public class MyDoclet {
 		}
 		
 		List<TestResult> results  = handler.findResultFiles(fullPath, httpMethod);
-		
-		for(TestResult oneResult: results){
-			String filePath = oneResult.getFilePath();
-			File file = new File(filePath);
-			System.out.println("found test result on: " + file.getAbsolutePath());
-			String jsonStr = null; ;
-			try {
-				jsonStr = TestResultHandler.getJsonFile(file);
-			} catch (IOException e) {
-				e.printStackTrace();
+		if(results.isEmpty()){
+			if( !method.getReturnType().equals(Void.TYPE)){
+				String returnJson = null;
+				try {
+					returnJson = BeanGenerator.generateJson(method.getReturnType());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if(returnJson!= null){
+					 results  = new ArrayList<>();
+					 TestResult oneResult =  new TestResult(httpMethod, "200", fullPath, "unknown", "unknown", "unknown");
+					 oneResult.setJson(returnJson);
+					 oneEnrty.addResult(oneResult);
+				}
 			}
-			oneResult.setJson(jsonStr);
-			System.out.println(jsonStr);
-			oneEnrty.addResult(oneResult);
 
+		}else{
+			for(TestResult oneResult: results){
+				String filePath = oneResult.getFilePath();
+				File file = new File(filePath);
+				System.out.println("found test result on: " + file.getAbsolutePath());
+				String jsonStr = null; ;
+				try {
+					jsonStr = TestResultHandler.getJsonFile(file);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				oneResult.setJson(jsonStr);
+				System.out.println(jsonStr);
+				oneEnrty.addResult(oneResult);
+
+			}
 		}
+		
+
 
     	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
     	System.out.println("");

@@ -117,7 +117,7 @@ public class BeanGenerator {
 
 	}
 	
-	public static <T> void generateJson(Class<T> clazz) throws Exception{
+	public static <T> String generateJson(Class<T> clazz) throws Exception{
 		ObjectMapper mapper = new ObjectMapper();
 		T obj = generate(clazz);
 		String jsonInString = mapper.writeValueAsString(obj);
@@ -127,6 +127,7 @@ public class BeanGenerator {
 		String newFormat = ApiUtil.getFormatedJsonOrNull(jsonInString);
 		
 		System.out.println(newFormat);
+		return newFormat;
 	}
 	
 	public static void main(String[] args) throws Exception{

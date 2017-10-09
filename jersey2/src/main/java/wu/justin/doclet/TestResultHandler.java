@@ -14,11 +14,16 @@ public class TestResultHandler {
 	private Map<String, TestResult> allTestResults = new HashMap<>();
 	
 	private String prefix;
+	private String location;
 	
-	public TestResultHandler(String prefix){
+	
+	public TestResultHandler(String prefix, String location){
 		this.prefix = prefix;
+		this.location = location;
+		loadTestResults();
 	}
-	public void loadTestResults(String location) {
+	
+	private  void loadTestResults() {
 		
 		File resultFolder = new File(location);
 		if(!resultFolder.exists()){
