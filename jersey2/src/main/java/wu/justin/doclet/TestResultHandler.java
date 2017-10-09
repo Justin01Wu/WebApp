@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TestResultHandler {
@@ -105,7 +107,9 @@ public class TestResultHandler {
 		
 	}
 	
-	public TestResult findResultFile(String apiUrl, String httpMethod){
+	public List<TestResult> findResultFiles(String apiUrl, String httpMethod){
+		
+		List<TestResult> results =  new ArrayList<>();
 		
 		for(String filePath : allTestResults.keySet()){
 			TestResult oneResult = allTestResults.get(filePath);
@@ -113,13 +117,14 @@ public class TestResultHandler {
 			//System.out.println( oneResult);
 			
 			if(!httpMethod.equals(oneResult.getMethod())){
-				return null;
+				continue;
 			}
 			if(matchUrl(apiUrl, oneResult, prefix)){
-				return oneResult;
+				results.add(oneResult);				
 			}
 		}
-		return null;
+		
+		return results;
 		
 	}
 	

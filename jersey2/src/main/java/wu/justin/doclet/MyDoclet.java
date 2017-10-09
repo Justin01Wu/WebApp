@@ -225,8 +225,9 @@ public class MyDoclet {
 			handleOneParameter(parameters[i], oneEnrty, myParameterDoc);
 		}
 		
-		TestResult oneResult  = handler.findResultFile(fullPath, httpMethod);
-		if(oneResult!= null){
+		List<TestResult> results  = handler.findResultFiles(fullPath, httpMethod);
+		
+		for(TestResult oneResult: results){
 			String filePath = oneResult.getFilePath();
 			File file = new File(filePath);
 			System.out.println("found test result on: " + file.getAbsolutePath());
@@ -239,7 +240,9 @@ public class MyDoclet {
 			oneResult.setJson(jsonStr);
 			System.out.println(jsonStr);
 			oneEnrty.addResult(oneResult);
-		};
+
+		}
+
     	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
     	System.out.println("");
     	
