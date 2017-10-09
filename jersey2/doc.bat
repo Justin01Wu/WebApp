@@ -1,1 +1,1 @@
-mvn clean post-integration-test -Dskip.integration.tests=false -Dmaven.tomcat.port=8080
+mvn clean post-integration-test -Dskip.integration.tests=false -Dmaven.tomcat.port=12001

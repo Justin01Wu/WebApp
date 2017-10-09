@@ -35,8 +35,6 @@ import freemarker.template.TemplateException;
 */
 public class MyDoclet {
 	
-	private static final String projectDir = "C:/projects/WebApp/WebApp/jersey2";
-	//private static final String projectDir = "C:/samples/WebApp/WebApp/jersey2";
 	
 	private static String Prefix;
 	
@@ -47,29 +45,34 @@ public class MyDoclet {
 	private static List<ApiClassEntry> allApiClass = new ArrayList<ApiClassEntry>();
 	
 	
-	public static boolean start(RootDoc root){
+	public static boolean start(RootDoc root){		
 		
-		Prefix = getUrlRoot();  // it has a bug, caller can't pass prefix in, so hard code it now
-		Prefix ="/api";  // TODO remove hard code
+		System.out.println("");
+		System.out.println("========================= start MyDoclet===========================");
 		
-		String[][] options =root.options();
-		for(String[] list : options){
-			for(String one: list){
-				System.out.print(one);
-				System.out.print(", ");
-			}
-			System.out.println("");
+		printEnv(root);
+		
+		Prefix = System.getProperty("restful.api.prefix");
+		if (Prefix == null) {
+			System.out.println("didn't find restful.api.prefix, use default value 'api'");
+			Prefix = "/api";
 		}
-
-		printClassPath();
 		
-		String location = System.getProperty("integration.test.result");
-		if (location == null) {
-			System.out.println("didn't find integration.test.result, use default value");
-			location = projectDir + "/target/test-output";
-		} 
+		String testResultFolder = System.getProperty("integration.test.result");
+		if (testResultFolder == null) {
+			System.out.println("didn't find integration.test.result");
+			return false;
+		}		
+		System.out.println("testResultFolder= "+ testResultFolder);
 
-		handler = new TestResultHandler(Prefix, location);
+		String outputPath = System.getProperty("restful.doc.output.path");
+		if (outputPath == null) {
+			System.out.println("didn't find restful.doc.output.path");
+			return false;
+		}	
+		System.out.println("generating file: " + outputPath);
+		
+		handler = new TestResultHandler(Prefix, testResultFolder);
         
         for( ClassDoc aClass : root.classes() ){
         	handleOneClass(aClass);
@@ -81,8 +84,7 @@ public class MyDoclet {
         	}        	
         }
         
-        String outputPath = projectDir + "/target/ApiDoc.html";
-        System.out.println("generating file: " + outputPath);
+        
         File output = new File(outputPath);
         try {
             FileOutputStream out = new FileOutputStream(output);
@@ -92,26 +94,6 @@ public class MyDoclet {
 		}
         return true;
     
-	}
-	
-	public static String getUrlRoot() {
-
-		String port = System.getProperty("maven.tomcat.port");
-		if (port == null) {
-			System.out.println("didn't find maven.tomcat.port, use default value 8080");
-			port = "12001";
-		} else {
-			try {
-				Integer.valueOf(port);
-			} catch (NumberFormatException e) {
-				System.err.println("wrong maven.tomcat.port parameter: " + port);
-				port = "8080";
-			}
-		}
-
-		final String URL_ROOT = "http://localhost:" + port + "/jersey2/api";
-		return URL_ROOT;
-
 	}
 	
 	private static void handleOneClass(ClassDoc aClass){
@@ -320,7 +302,16 @@ public class MyDoclet {
 
 
 	
-	private static void printClassPath(){
+	private static void printEnv(RootDoc root){
+		
+		String[][] options = root.options();
+		for(String[] list : options){
+			for(String one: list){
+				System.out.print(one);
+				System.out.print(", ");
+			}
+			System.out.println("");
+		}
 		
 		ClassLoader cl = ClassLoader.getSystemClassLoader();
 
@@ -337,13 +328,17 @@ public class MyDoclet {
 		
 		// call my self as doclet:
 		
-		System.setProperty("integration.test.result", projectDir + "/target/test-output");
-		System.setProperty("maven.tomcat.port","8080");		
+		String projectDir = "C:/projects/WebApp/WebApp/jersey2";
+		//String projectDir = "C:/samples/WebApp/WebApp/jersey2";
 		
-		String sourcePath = projectDir + "/src/main/java/";
-		String subpackages  = "wu.justin.rest2";
-		String[] myArgs = { "-doclet", "wu.justin.doclet.MyDoclet", 
-				"-overview", projectDir, 
+		System.setProperty("integration.test.result", projectDir + "/target/test-output");
+		System.setProperty("restful.doc.output.path", projectDir + "/target/apiDoc.html");		
+		System.setProperty("maven.tomcat.port","12001");		
+		System.setProperty("restful.api.prefix","/api");	
+		
+		String sourcePath = projectDir + "/src/main/java/";  // this can support multiple paths
+		String subpackages  = "wu.justin.rest2";     // also search sub packages
+		String[] myArgs = { "-doclet", MyDoclet.class.getName(), 
 				"-sourcepath", sourcePath, "-subpackages", subpackages };
 
 		com.sun.tools.javadoc.Main.execute(myArgs);

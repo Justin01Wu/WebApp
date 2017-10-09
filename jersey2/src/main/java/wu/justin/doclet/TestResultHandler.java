@@ -14,24 +14,24 @@ public class TestResultHandler {
 	private Map<String, TestResult> allTestResults = new HashMap<>();
 	
 	private String prefix;
-	private String location;
+	private String testResultFolder;
 	
 	
-	public TestResultHandler(String prefix, String location){
+	public TestResultHandler(String prefix, String testResultFolder){
 		this.prefix = prefix;
-		this.location = location;
+		this.testResultFolder = testResultFolder;
 		loadTestResults();
 	}
 	
 	private  void loadTestResults() {
 		
-		File resultFolder = new File(location);
+		File resultFolder = new File(testResultFolder);
 		if(!resultFolder.exists()){
-			System.out.println("didn't find " + location);
+			System.out.println("didn't find " + testResultFolder);
 			return;
 		}
 		if(!resultFolder.isDirectory()){
-			throw new RuntimeException("integration.test.result is not a folder: " + location);
+			throw new RuntimeException("integration.test.result is not a folder: " + testResultFolder);
 		}
 		
 		File[] files = resultFolder.listFiles();
