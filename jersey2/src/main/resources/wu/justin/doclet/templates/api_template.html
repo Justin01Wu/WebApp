@@ -33,16 +33,20 @@ th, td {
 	</#if>
 	<ul>
 		<#list oneClass.apis as api>
-		<li>
-		<div id="${api.className}.#${api.methodName}">
-			<b>${api.httpMethod}:</b> 
-			${api.url}
-		</div>
-		<#if api.comment?has_content>	
-			<pre>${api.comment}</pre>
-		</#if>
-		<div>
-			<b>MethodName:</b>${api.className}.${api.methodName}<br/>
+		<li>${api.url}
+		<table id="${api.className}.#${api.methodName}">
+            <tbody>                  
+                   <tr>
+                     <td>${api.httpMethod}</td>
+                     <td>${api.className}</td>
+                     <td>${api.methodName}</td>
+                 	</tr>                 
+              </tbody>
+        </table>
+		<div>			
+			<#if api.comment?has_content>	
+				<pre>${api.comment}</pre>
+			</#if>
 			
 			<#if api.parameters?has_content>	
 			
