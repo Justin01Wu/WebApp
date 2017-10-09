@@ -1,5 +1,7 @@
 package wu.justin.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User2 {
 	private ObjectId id;
     private String username;
@@ -23,9 +25,12 @@ public class User2 {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
+	@JsonIgnore
 	public void setPassword(String password) {
 		this.password = password;
 	} 

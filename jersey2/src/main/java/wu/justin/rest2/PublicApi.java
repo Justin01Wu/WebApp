@@ -56,6 +56,7 @@ public class PublicApi {
 	    return dateConvert;
 	}
 	/**
+	 * test toJsonString method
 	 * @deprecated, please use /users/user/current.json
 	 */
 	@GET

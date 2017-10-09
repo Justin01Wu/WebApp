@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
 	private String desc;	
 	private Integer id;	
@@ -56,10 +58,12 @@ public class User {
 		this.homeAddress = homeAddress;
 	}
 	
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
 	
+	@JsonIgnore
 	public void setPassword(String password) {
 		this.password = password;
 	}

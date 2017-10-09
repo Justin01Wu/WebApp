@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import wu.justin.bean.User;
+import wu.justin.bean.User2;
 import wu.justin.rest2.ApiUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -157,8 +157,12 @@ public class BeanGenerator {
 	public static void main(String[] args) throws Exception{
 		
 		//new BeanGenerator().generateJson(DateConvert.class);
-		new BeanGenerator().generateJson(User.class);
+		//new BeanGenerator().generateJson(User.class);
 		//new BeanGenerator().generateJson(String.class);
+		
+		new BeanGenerator().generateJson(User2.class);  
+		// looks like it can't handle toJsonString method in ObjectId, why?
+		
 
 		
 		
