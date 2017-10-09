@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import wu.justin.bean.Address;
 import wu.justin.bean.User;
 import wu.justin.rest2.MySetting;
+import wu.justin.rest2.exception.BadRequestError;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -64,7 +65,9 @@ public class UserApi {
 	public User getUserById(@Context HttpServletRequest httpRequest, @PathParam("userId") Integer userId) {
 		
 		System.out.println("getUserById...");
-		
+		if(userId<=0){
+			throw new BadRequestError("userId can't be negative");
+		}
 		User user = createUser();
 		return user;
 	}

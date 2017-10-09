@@ -92,6 +92,26 @@ public class TestUserApi {
 		
 	}
 	
+	@Test
+	public void testGetUserByNegativeIdApi() throws HttpException, IOException{
+		
+		System.out.println("                ==>testUserApi started....");
+		
+		String url = URL_ROOT +"/api/users/user/-12";
+
+		
+		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
+		
+		final HttpGet request = new HttpGet(url);
+		 
+		responseBody = ApiTestUtil.getResponseBodyByGetRequest(client, request, HttpStatus.SC_BAD_REQUEST);
+		
+		assertEquals(responseBody, "userId can't be negative");
+
+		
+		
+	}
+	
 	// it comes from 
 	// https://github.com/jayway/JsonPath
 	@Test
