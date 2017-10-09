@@ -18,24 +18,24 @@ import wu.justin.bean.User2;
 @Path("/public")
 public class PublicApi {
 	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/ping")
 	/**
 	 * find if server is available 
 	 * @return {}
 	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/ping")
 	public String ping() {		
 	    return "{}";
 	}	
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/time")
 	/**
 	 * get server time on long format
 	 * @return server time on long format
 	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/time")
 	public String time() {
 		long time = System.currentTimeMillis();
 	    return "{\"time\":"+ time + "}";
@@ -55,7 +55,9 @@ public class PublicApi {
 	public DateConvert postDateFormat(DateConvert dateConvert) {		
 	    return dateConvert;
 	}
-
+	/**
+	 * @deprecated, please use /users/user/current.json
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/objectId.json")

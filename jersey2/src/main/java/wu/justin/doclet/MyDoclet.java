@@ -152,7 +152,7 @@ public class MyDoclet {
 		}
     	
     	ApiClassEntry oneClass = new ApiClassEntry(clazz);
-    	oneClass.setComment(aClass.commentText());
+    	oneClass.setComment(aClass.getRawCommentText());
     	
     	Path[] myPaths = clazz.getAnnotationsByType(javax.ws.rs.Path.class);
     	String root = myPaths[0].value();
@@ -203,12 +203,8 @@ public class MyDoclet {
 		
 		String comment = null;
 		if(myMethodDoc != null){
-			if(myMethodDoc.commentText() != null && !myMethodDoc.commentText().isEmpty()){
-				comment = myMethodDoc.commentText();
-				//System.out.println("         comment: " + myMethodDoc.commentText());	
-			}
-		}
-		
+			comment = myMethodDoc.getRawCommentText();
+		}		
 		
 		String httpMethod = findHttpMethod(method);
 		

@@ -28,8 +28,6 @@ public class BeanGenerator {
 		add(java.sql.Timestamp.class);
 		add(java.util.Date.class);
 		add(java.util.Calendar.class);
-		
-		
 	}
 	
 	private void add(Class<?> clazz){
