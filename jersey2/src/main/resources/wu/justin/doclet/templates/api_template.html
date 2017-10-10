@@ -20,7 +20,7 @@ th, td {
 
 	<ul>
 		<#list allApis as api>
-		<li>${api_index + 1} <b>${api.httpMethod}</b> <a href="#${api.className}.#${api.methodName}">${api.url}</a>
+		<li>${api_index + 1} <b>${api.httpMethod}</b> <a href="#${api.className}.${api.methodName}">${api.url}</a>
 		</#list>
 	</ul>
 
@@ -33,7 +33,7 @@ th, td {
 	</#if>
 	<ul>
 		<#list oneClass.apis as api>
-		<li><b>${api.httpMethod} </b> ${api.url} &nbsp; &nbsp; &nbsp;<b>From: &nbsp; &nbsp; &nbsp;</b> ${api.className}.${api.methodName}
+		<li id="${api.className}.${api.methodName}"><b>${api.httpMethod} </b> ${api.url} &nbsp; &nbsp; &nbsp;<b>From: &nbsp; &nbsp; &nbsp;</b> ${api.className}.${api.methodName}
 		<#if api.comment?has_content>	
 			<pre>${api.comment}</pre>
 		</#if>
