@@ -19,6 +19,8 @@ import wu.justin.rest2.ApiUtil;
 
 public class BeanGenerator {
 	
+	private static Date NOW = new Date();
+	
 	private Map<String, Class<?>> reigsteredClass = new HashMap<>();
 	
 	public BeanGenerator(){
@@ -83,14 +85,13 @@ public class BeanGenerator {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private <T> T handleBasicClass(Class<T> clazz, Type[] types) throws Exception{
-		Date now = new Date();
+	private <T> T handleBasicClass(Class<T> clazz, Type[] types) throws Exception{		
 		
 		if(Enum.class.isAssignableFrom(clazz)){
 			return clazz.getEnumConstants()[0];
 		}
 		if(clazz.getName().equals("java.sql.Timestamp")){
-			Timestamp  timestamp= new Timestamp(now.getTime());
+			Timestamp  timestamp= new Timestamp(NOW.getTime());
 			return (T)timestamp;
 		}
 		if(clazz.getName().equals("java.lang.String")){
@@ -106,10 +107,10 @@ public class BeanGenerator {
 			return (T)myInt;
 		}
 		if(clazz.getName().equals("java.util.Date")){
-			return (T)now;
+			return (T)NOW;
 		}
 		if(clazz.getName().equals("java.sql.Date")){
-			java.sql.Date sqlDate= new java.sql.Date(now.getTime());
+			java.sql.Date sqlDate= new java.sql.Date(NOW.getTime());
 			return (T)sqlDate;
 		}
 		

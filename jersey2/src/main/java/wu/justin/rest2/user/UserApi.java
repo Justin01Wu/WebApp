@@ -16,6 +16,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import wu.justin.bean.Address;
+import wu.justin.bean.TypeEnum;
 import wu.justin.bean.User;
 import wu.justin.rest2.MySetting;
 import wu.justin.rest2.exception.BadRequestError;
@@ -117,6 +118,7 @@ public class UserApi {
 		user.addEmails("justin01.wu@gmail.com");
 		user.addEmails("wuyg719@gmail.com");
 		user.setBirthDate(new Date());
+		user.setType(TypeEnum.Developer);
 		
 		user.setPassword("abcd1234");
 		
