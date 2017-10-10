@@ -12,10 +12,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import wu.justin.bean.User2;
-import wu.justin.rest2.ApiUtil;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import wu.justin.bean.User;
+import wu.justin.rest2.ApiUtil;
 
 public class BeanGenerator {
 	
@@ -85,6 +85,10 @@ public class BeanGenerator {
 	@SuppressWarnings("unchecked")
 	private <T> T handleBasicClass(Class<T> clazz, Type[] types) throws Exception{
 		Date now = new Date();
+		
+		if(Enum.class.isAssignableFrom(clazz)){
+			return clazz.getEnumConstants()[0];
+		}
 		if(clazz.getName().equals("java.sql.Timestamp")){
 			Timestamp  timestamp= new Timestamp(now.getTime());
 			return (T)timestamp;
@@ -157,10 +161,10 @@ public class BeanGenerator {
 	public static void main(String[] args) throws Exception{
 		
 		//new BeanGenerator().generateJson(DateConvert.class);
-		//new BeanGenerator().generateJson(User.class);
+		new BeanGenerator().generateJson(User.class);
 		//new BeanGenerator().generateJson(String.class);
 		
-		new BeanGenerator().generateJson(User2.class);  
+		//new BeanGenerator().generateJson(User2.class);  
 		// looks like it can't handle toJsonString method in ObjectId, why?
 		
 

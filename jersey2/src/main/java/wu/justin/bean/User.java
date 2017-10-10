@@ -10,6 +10,7 @@ public class User {
 	private String desc;	
 	private Integer id;	
 	private String name;	
+	private TypeEnum type;
 	private String password;	
 	private Date birthDate;
 	private List<String> emails = new ArrayList<String>();
@@ -85,5 +86,11 @@ public class User {
 	}
 	public void setX(int x) {
 		this.x = x;
+	}
+	public TypeEnum getType() {
+		return type;
+	}
+	public void setType(TypeEnum type) {
+		this.type = type;
 	}
 }
