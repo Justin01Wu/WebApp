@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import wu.justin.bean.User;
+import wu.justin.bean.ManyDataType;
 import wu.justin.rest2.ApiUtil;
 
 public class BeanGenerator {
@@ -98,14 +99,21 @@ public class BeanGenerator {
 			String string = new String( "a string");
 			return (T)string;
 		}
-		if(clazz.getName().equals("java.lang.Integer")){
+		if(clazz.getName().equals("java.lang.Integer") || clazz.getName().equals("int")){
 			Integer myInt = 12345;
 			return (T)myInt;
 		}
-		if(clazz.getName().equals("int")){
-			Integer myInt = 12345;
-			return (T)myInt;
+
+		if(clazz.getName().equals("double") || clazz.getName().equals("java.lang.Double")){
+			Double myDouble = 12345.6789d;
+			return (T)myDouble;
 		}
+		
+		if(clazz.getName().equals("java.lang.Boolean") || clazz.getName().equals("boolean")){
+			Boolean myBoolean = true;;
+			return (T)myBoolean;
+		}		
+		
 		if(clazz.getName().equals("java.util.Date")){
 			return (T)NOW;
 		}
@@ -130,6 +138,19 @@ public class BeanGenerator {
 			T t =(T)list;
 			list.add(one);
 			return t;
+		}
+		
+		if(clazz.getName().equals("java.util.Set")){
+			ParameterizedType pType = (ParameterizedType) types[0];
+			Class<?> pClazz = (Class<?>) pType.getActualTypeArguments()[0];
+			System.out.println(pClazz); //prints out java.lang.Integer
+			Object one = handleBasicClass(pClazz, null);
+			
+			java.util.Set<Object> set = new HashSet<>();
+			T t =(T)set;
+			set.add(one);
+			return t;
+			
 		}
 		
 		
@@ -162,13 +183,14 @@ public class BeanGenerator {
 	public static void main(String[] args) throws Exception{
 		
 		//new BeanGenerator().generateJson(DateConvert.class);
-		new BeanGenerator().generateJson(User.class);
+		//new BeanGenerator().generateJson(User.class);
 		//new BeanGenerator().generateJson(String.class);
 		
 		//new BeanGenerator().generateJson(User2.class);  
 		// looks like it can't handle toJsonString method in ObjectId, why?
 		
-
+		new BeanGenerator().generateJson(ManyDataType.class);
+		
 		
 		
 	}
