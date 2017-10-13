@@ -15,6 +15,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import wu.justin.bean.CustomizedBean;
 import wu.justin.bean.ManyDataType;
 import wu.justin.rest2.ApiUtil;
 
@@ -22,7 +23,7 @@ public class BeanGenerator {
 	
 	private static Date NOW = new Date();
 	
-	private Map<String, Class<?>> reigsteredClass = new HashMap<>();
+	private Map<Class<?>, BeanCreator> reigsteredClass = new HashMap<>();
 	
 	public BeanGenerator(){
 		add(java.util.List.class);
@@ -34,18 +35,22 @@ public class BeanGenerator {
 	}
 	
 	private void add(Class<?> clazz){
-		reigsteredClass.put(clazz.getName(), clazz);
+		reigsteredClass.put(clazz, null);
+	}
+	
+	public void addExteralCreator(Class<?> clazz, BeanCreator creator){
+		reigsteredClass.put(clazz, creator);
 	}
 	
 	public <T> T generate(Class<T> clazz) throws Exception {
 		
 		T t;
-		if(reigsteredClass.keySet().contains(clazz.getName())){
+		if(reigsteredClass.keySet().contains(clazz)){
 			t = handleBasicClass(clazz, null);
-		}else{
-			t = clazz.newInstance();
+			return t;
 		}
 		
+		t = clazz.newInstance();	
 		
 		Method[] allMethods = clazz.getDeclaredMethods();
     	for (Method method : allMethods) {
@@ -87,6 +92,12 @@ public class BeanGenerator {
 	
 	@SuppressWarnings("unchecked")
 	private <T> T handleBasicClass(Class<T> clazz, Type[] types) throws Exception{		
+		
+		BeanCreator customizedCreator = reigsteredClass.get(clazz);
+		if(customizedCreator != null){
+			Object o = customizedCreator.createBean();
+			return (T)o;
+		}
 		
 		if(Enum.class.isAssignableFrom(clazz)){
 			return clazz.getEnumConstants()[0];
@@ -167,33 +178,20 @@ public class BeanGenerator {
 
 	}
 	
+	// TODO should move this method out of this class.
 	public <T> String generateJson(Class<T> clazz) throws Exception{
-		ObjectMapper mapper = new ObjectMapper();
+		
 		T obj = generate(clazz);
+		
+		ObjectMapper mapper = new ObjectMapper();
 		String jsonInString = mapper.writeValueAsString(obj);
 		
 		//System.out.println(jsonInString);
 		
 		String newFormat = ApiUtil.getFormatedJsonOrNull(jsonInString);
 		
-		System.out.println(newFormat);
+		//System.out.println(newFormat);
 		return newFormat;
 	}
-	
-	public static void main(String[] args) throws Exception{
-		
-		//new BeanGenerator().generateJson(DateConvert.class);
-		//new BeanGenerator().generateJson(User.class);
-		//new BeanGenerator().generateJson(String.class);
-		
-		//new BeanGenerator().generateJson(User2.class);  
-		// looks like it can't handle toJsonString method in ObjectId, why?
-		
-		new BeanGenerator().generateJson(ManyDataType.class);
-		
-		
-		
-	}
-	
 	
 }
