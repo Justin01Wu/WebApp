@@ -70,6 +70,18 @@ public class BeanGeneratorTest {
 		
 
 	}
+
+	@Test
+	public void testCustomizedString() throws Exception {
+		BeanGenerator generator = new BeanGenerator();
+		generator.addExteralCreator(String.class, new CustomizedStringCreator());
+		String result = generator.generateJson(String.class);
+		System.out.println(result);
+		assertTrue(result.contains("===this is customized String==="));
+
+	}
+
+	
 	
 
 }
