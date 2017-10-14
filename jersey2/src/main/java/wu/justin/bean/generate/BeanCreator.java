@@ -1,7 +1,8 @@
 package wu.justin.bean.generate;
 
-public interface BeanCreator {
+public interface BeanCreator<T> {
 	
-	public <T> T createBean();
+	public T createBean();
+	public Class<T> getClazz();
 
 }

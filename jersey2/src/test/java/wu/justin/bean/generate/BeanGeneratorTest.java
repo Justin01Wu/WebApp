@@ -16,7 +16,7 @@ public class BeanGeneratorTest {
 	@Test
 	public void testCustomizedCreator() throws Exception {
 		BeanGenerator generator = new BeanGenerator();
-		generator.addExteralCreator(CustomizedBean.class, new CustomizedBeanCreator());
+		generator.addExteralCreator(new CustomizedBeanCreator());
 		CustomizedBean result = generator.generate(CustomizedBean.class);
 		System.out.println(result);
 		assertEquals(result.getId(), new Integer(-2323));
@@ -81,7 +81,7 @@ public class BeanGeneratorTest {
 	@Test
 	public void testCustomizedString() throws Exception {
 		BeanGenerator generator = new BeanGenerator();
-		generator.addExteralCreator(String.class, new CustomizedStringCreator());
+		generator.addExteralCreator( new CustomizedStringCreator());
 		String result = generator.generate(String.class);
 		System.out.println(result);
 		assertEquals(result, "===this is customized String===");

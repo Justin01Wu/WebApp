@@ -1,15 +1,16 @@
 package wu.justin.bean.generate;
 
-public class CustomizedStringCreator implements BeanCreator{
+
+public class CustomizedStringCreator implements BeanCreator <String>{
 	
 	@Override
-	public <T> T createBean() {
+	public String createBean() {
 		String bean = new String("===this is customized String===");
-		
-		@SuppressWarnings("unchecked")
-		T t = (T)bean;
-		
-		return t;
+		return bean;
 	}
 
+	@Override
+	public Class<String> getClazz() {
+		return String.class;
+	}
 }

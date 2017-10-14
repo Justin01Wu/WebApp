@@ -13,11 +13,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import wu.justin.bean.CustomizedBean;
-import wu.justin.bean.ManyDataType;
 import wu.justin.rest2.ApiUtil;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BeanGenerator {
 	
@@ -38,8 +36,8 @@ public class BeanGenerator {
 		reigsteredClass.put(clazz, null);
 	}
 	
-	public void addExteralCreator(Class<?> clazz, BeanCreator creator){
-		reigsteredClass.put(clazz, creator);
+	public void addExteralCreator(BeanCreator<?> creator){
+		reigsteredClass.put(creator.getClazz(), creator);
 	}
 	
 	public <T> T generate(Class<T> clazz) throws Exception {
