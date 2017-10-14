@@ -21,7 +21,7 @@ public class BeanGenerator {
 	
 	private static Date NOW = new Date();
 	
-	private Map<Class<?>, BeanCreator> reigsteredClass = new HashMap<>();
+	private Map<Class<?>, BeanCreator<?>> reigsteredClass = new HashMap<>();
 	
 	public BeanGenerator(){
 		add(java.util.List.class);
@@ -91,7 +91,7 @@ public class BeanGenerator {
 	@SuppressWarnings("unchecked")
 	private <T> T handleBasicClass(Class<T> clazz, Type[] types) throws Exception{		
 		
-		BeanCreator customizedCreator = reigsteredClass.get(clazz);
+		BeanCreator<?> customizedCreator = reigsteredClass.get(clazz);
 		if(customizedCreator != null){
 			Object o = customizedCreator.createBean();
 			return (T)o;
