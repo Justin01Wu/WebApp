@@ -165,14 +165,6 @@ public class BeanGenerator {
 		
 		return generate(clazz);
 
-        
-//		// others
-//		try{
-//			return clazz.newInstance();
-//		}catch(Exception e){
-//			System.out.println("can't get object from "+clazz.getName());
-//			return null;
-//		}
 
 	}
 	
