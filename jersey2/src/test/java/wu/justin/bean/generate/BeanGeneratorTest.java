@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import wu.justin.bean.CustomizedBean;
 import wu.justin.bean.ManyDataType;
+import wu.justin.bean.TypeEnum;
 import wu.justin.bean.User;
 import wu.justin.bean.User2;
 
@@ -16,21 +17,27 @@ public class BeanGeneratorTest {
 	public void testCustomizedCreator() throws Exception {
 		BeanGenerator generator = new BeanGenerator();
 		generator.addExteralCreator(CustomizedBean.class, new CustomizedBeanCreator());
-		String result = generator.generateJson(CustomizedBean.class);
+		CustomizedBean result = generator.generate(CustomizedBean.class);
 		System.out.println(result);
-		assertTrue(result.contains("this bean is created by a customized creator"));
+		assertEquals(result.getId(), new Integer(-2323));
+		assertEquals(result.getName(), "this bean is created by a customized creator");
 
 	}
 	
 	@Test
 	public void testManyDataType() throws Exception {
-		String result = new BeanGenerator().generateJson(ManyDataType.class);
+		ManyDataType result = new BeanGenerator().generate(ManyDataType.class);
 		System.out.println(result);
-		assertTrue(result.contains("oneEnum"));
-		assertTrue(result.contains("addressList"));
-		assertTrue(result.contains("oneBoolean2"));
-		assertTrue(result.contains("stringList"));
-		assertTrue(result.contains("integerSet"));
+		assertEquals(result.getOneEnum(), TypeEnum.Admin);
+		assertEquals(result.getOneBoolean2(), Boolean.TRUE);
+		assertTrue(result.getStringList().size() ==1);
+		assertEquals(result.getStringList().get(0), "a string");
+		
+		assertTrue(result.getIntegerSet().size() ==1);
+		assertEquals(result.getIntegerSet().iterator().next(), new Integer(12345));
+		
+		assertTrue(result.getAddressList().size() ==1);
+		assertEquals(result.getAddressList().get(0).getAddress(), "a string");
 		
 		
 	}
@@ -46,27 +53,27 @@ public class BeanGeneratorTest {
 
 	@Test
 	public void testString() throws Exception {
-		String result = new BeanGenerator().generateJson(String.class);
+		String result = new BeanGenerator().generate(String.class);
 		System.out.println(result);
-		assertEquals(result, "\"a string\"");
+		assertEquals(result, "a string");
 
 	}
 	
 	@Test
 	public void testDateConvert() throws Exception {
-		String result = new BeanGenerator().generateJson(String.class);
+		String result = new BeanGenerator().generate(String.class);
 		System.out.println(result);
-		assertEquals(result, "\"a string\"");
+		assertEquals(result, "a string");
 
 	}
 	
 	@Test
 	public void testUser() throws Exception {
-		String result = new BeanGenerator().generateJson(User.class);
-		System.out.println(result);
+		User user = new BeanGenerator().generate(User.class);
+		System.out.println(user);
 		
-		assertTrue(result.contains("homeAddress"));
-		assertTrue(result.contains("Admin"));
+		assertEquals(user.getId(), new Integer(12345));
+		assertEquals(user.getType(), TypeEnum.Admin);
 		
 
 	}
@@ -75,9 +82,9 @@ public class BeanGeneratorTest {
 	public void testCustomizedString() throws Exception {
 		BeanGenerator generator = new BeanGenerator();
 		generator.addExteralCreator(String.class, new CustomizedStringCreator());
-		String result = generator.generateJson(String.class);
+		String result = generator.generate(String.class);
 		System.out.println(result);
-		assertTrue(result.contains("===this is customized String==="));
+		assertEquals(result, "===this is customized String===");
 
 	}
 
