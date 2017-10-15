@@ -1,11 +1,13 @@
 package wu.justin.bean.generate;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import wu.justin.bean.BeanWithMap;
 import wu.justin.bean.CustomizedBean;
 import wu.justin.bean.ManyDataType;
 import wu.justin.bean.NestedBean;
@@ -99,6 +101,22 @@ public class BeanGeneratorTest {
 		assertEquals(result.getName(), "a string");
 
 	}
+	
+	
+	@Test
+	public void testBeanWithMap() throws Exception {
+		BeanGenerator generator = new BeanGenerator();
+		BeanWithMap result = generator.generate(BeanWithMap.class);
+		System.out.println(result);
+		assertNotNull(result.getUserMap());  
+		
+		User user = result.getUserMap().get(12345);
+		assertEquals(user.getId(), new Integer(12345));
+		assertEquals(user.getType(), TypeEnum.Admin);
+
+	}
+	
+	
 	
 	
 

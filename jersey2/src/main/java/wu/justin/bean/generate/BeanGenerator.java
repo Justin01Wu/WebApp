@@ -153,8 +153,8 @@ public class BeanGenerator {
 			
 			ParameterizedType pType = (ParameterizedType) types[0];
 			Class<?> pClazz = (Class<?>) pType.getActualTypeArguments()[0];
-			System.out.println(pClazz); //prints out java.lang.Integer
-			Object one = handleBasicClass(pClazz, null);
+			//System.out.println(pClazz); //prints out java.lang.Integer
+			Object one = generate(pClazz);
 			
 			java.util.List<Object> list = new ArrayList<>();
 			T t =(T)list;
@@ -165,12 +165,31 @@ public class BeanGenerator {
 		if(clazz.getName().equals("java.util.Set")){
 			ParameterizedType pType = (ParameterizedType) types[0];
 			Class<?> pClazz = (Class<?>) pType.getActualTypeArguments()[0];
-			System.out.println(pClazz); //prints out java.lang.Integer
-			Object one = handleBasicClass(pClazz, null);
+			//System.out.println(pClazz); //prints out java.lang.Integer
+			Object one = generate(pClazz);
 			
 			java.util.Set<Object> set = new HashSet<>();
 			T t =(T)set;
 			set.add(one);
+			return t;
+			
+		}
+		
+		if(clazz.getName().equals("java.util.Map")){
+			
+			ParameterizedType pType = (ParameterizedType) types[0];
+			
+			Class<?> keyClazz = (Class<?>) pType.getActualTypeArguments()[0];
+			//System.out.println(keyClazz); //prints out java.lang.Integer
+			Object key = generate(keyClazz);
+			
+			Class<?> valueClazz = (Class<?>) pType.getActualTypeArguments()[1];
+			//System.out.println(valueClazz); //prints out java.lang.Integer
+			Object value = generate(valueClazz);
+			
+			java.util.Map<Object,Object> map = new HashMap<>();
+			T t =(T)map;
+			map.put(key,value);
 			return t;
 			
 		}
