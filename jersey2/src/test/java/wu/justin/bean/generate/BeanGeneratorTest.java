@@ -2,11 +2,13 @@ package wu.justin.bean.generate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
 import wu.justin.bean.CustomizedBean;
 import wu.justin.bean.ManyDataType;
+import wu.justin.bean.NestedBean;
 import wu.justin.bean.TypeEnum;
 import wu.justin.bean.User;
 import wu.justin.bean.User2;
@@ -87,6 +89,18 @@ public class BeanGeneratorTest {
 		assertEquals(result, "===this is customized String===");
 
 	}
+	
+	@Test
+	public void testNestedBean() throws Exception {
+		BeanGenerator generator = new BeanGenerator();
+		NestedBean result = generator.generate(NestedBean.class);
+		System.out.println(result);
+		assertNull(result.getParent());  //nested bean, so it will be null 
+		assertEquals(result.getName(), "a string");
+
+	}
+	
+	
 
 	
 	

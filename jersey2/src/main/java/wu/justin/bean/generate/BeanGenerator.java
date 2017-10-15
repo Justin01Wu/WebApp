@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Stack;
 
 import wu.justin.rest2.ApiUtil;
 
@@ -22,6 +23,8 @@ public class BeanGenerator {
 	private static Date NOW = new Date();
 	
 	private Map<Class<?>, BeanCreator<?>> reigsteredClass = new HashMap<>();
+	
+	private Stack<Class<?>> classStack = new Stack();;
 	
 	public BeanGenerator(){
 		add(java.util.List.class);
@@ -40,46 +43,56 @@ public class BeanGenerator {
 		reigsteredClass.put(creator.getClazz(), creator);
 	}
 	
+	
 	public <T> T generate(Class<T> clazz) throws Exception {
 		
-		T t;
+		if(classStack.contains(clazz)){
+			// stop nested bean infinite loop 
+			return null;
+		}
+		classStack.push(clazz);  // add myself to let children detect nested bean infinite loop 
+		
+		T container;
 		if(reigsteredClass.keySet().contains(clazz)){
-			t = handleBasicClass(clazz, null);
-			return t;
+			container = handleBasicClass(clazz, null);
+			return container;
 		}
 		
-		t = clazz.newInstance();	
+		container = clazz.newInstance();	
 		
 		Method[] allMethods = clazz.getDeclaredMethods();
     	for (Method method : allMethods) {
-    	    if (Modifier.isPublic(method.getModifiers())) {    	    	
-    	        handleOneMethod(method, t);
+    	    if (Modifier.isPublic(method.getModifiers())) {   
+    	    	
+    			if(!method.getName().startsWith("set")){
+    				continue;
+    			}
+    			if( !method.getReturnType().equals(Void.TYPE)){
+    				continue;
+    			}
+
+    			if(method.getParameters() == null){
+    				continue;
+    			}
+    			if(method.getParameters().length  != 1){
+    				continue;
+    			}
+    	        handleOneMethod(method, container);
     	    }
     	}
-		return t;
+    	classStack.pop();  // remove myself to other class can handle the same class 
+		return container;
 	}
 	
-	private void  handleOneMethod(Method method, Object t) throws Exception{
-		if(!method.getName().startsWith("set")){
-			return;
-		}
-		if( !method.getReturnType().equals(Void.TYPE)){
-			return;
-		}
+	private void  handleOneMethod(Method method, Object container) throws Exception{
 
-		if(method.getParameters() == null){
-			return;
-		}
-		if(method.getParameters().length  != 1){
-			return;
-		}
 		
 		Parameter parameter = method.getParameters()[0];
 		
 		Type[] types = method.getGenericParameterTypes();
 		Object argOne = handleOneParameter(parameter, types);
 		
-		method.invoke(t, argOne);
+		method.invoke(container, argOne);
 		
 	}
 	
