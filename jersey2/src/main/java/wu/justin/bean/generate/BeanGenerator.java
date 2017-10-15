@@ -24,19 +24,18 @@ public class BeanGenerator {
 	
 	private Map<Class<?>, BeanCreator<?>> reigsteredClass = new HashMap<>();
 	
-	private Stack<Class<?>> classStack = new Stack();;
+	private Stack<Class<?>> classStack = new Stack<>();
 	
 	public BeanGenerator(){
-		add(java.util.List.class);
-		add(java.lang.Integer.class);
-		add(java.lang.String.class);
-		add(java.sql.Timestamp.class);
-		add(java.util.Date.class);
-		add(java.util.Calendar.class);
-	}
-	
-	private void add(Class<?> clazz){
-		reigsteredClass.put(clazz, null);
+		
+		reigsteredClass.put(java.util.List.class, null);
+		reigsteredClass.put(java.util.Set.class, null);
+		reigsteredClass.put(java.util.Map.class, null);
+		reigsteredClass.put(java.lang.Integer.class, null);
+		reigsteredClass.put(java.lang.String.class, null);
+		reigsteredClass.put(java.sql.Timestamp.class,null);
+		reigsteredClass.put(java.util.Date.class, null);
+		reigsteredClass.put(java.util.Calendar.class,null);
 	}
 	
 	public void addExteralCreator(BeanCreator<?> creator){
