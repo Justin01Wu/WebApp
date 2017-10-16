@@ -122,6 +122,10 @@ public class BeanGeneratorTest {
 		BeanWithArray result = generator.generate(BeanWithArray.class);
 		System.out.println(result);
 		assertNotNull(result);  
+		assertEquals(result.getStringArray()[0],"a string");
+		assertEquals(result.getIntegerArray()[0], new Integer(12345));
+		assertEquals(result.getIntArray()[0], 12345);
+		assertEquals(result.getUsers()[0].getId(), new Integer(12345));
 		
 
 	}

@@ -59,22 +59,7 @@ public class BeanGenerator {
 			container = handleBasicClass(clazz, null);
 			return container;
 		}
-		
-		if(clazz.isArray()){
-			System.out.println(clazz.getName() + "is an array of " + clazz.getComponentType());
-			
-			
-			// https://stackoverflow.com/questions/4901128/obtaining-the-array-class-of-a-component-type
-			// TODO need to handle primitives and multiple-dimensional arrays,
-			Class<?> componentType = clazz.getComponentType();
-			Class<?> childClazz = Class.forName("[L" + componentType.getName() + ";");			
-			
-			Object object = Array.newInstance(childClazz, 0);
-			//@SuppressWarnings("unchecked")	
-			container = (T)object;
-			return container;
-			
-		}
+
 		try{
 			container = clazz.newInstance();
 		}catch(Exception e){
@@ -113,7 +98,7 @@ public class BeanGenerator {
 		
 		Type[] types = method.getGenericParameterTypes();
 		Object argOne = handleOneParameter(parameter, types);
-		
+		//Object[] args = new Object[] { argOne };
 		try{
 			method.invoke(container, argOne);
 		}catch( Exception e){
@@ -222,6 +207,35 @@ public class BeanGenerator {
 			T t =(T)map;
 			map.put(key,value);
 			return t;
+			
+		}
+		
+		if(clazz.isArray()){
+			
+			Class<?> componentType = clazz.getComponentType();
+			Object aObject = Array.newInstance(componentType, 1); //1 is length	        
+			
+			Object one = null;;
+			if(componentType.isPrimitive()){
+				one = handleBasicClass(componentType, null);
+			}else{
+				one = generate(componentType);	
+			}
+			
+	        Array.set(aObject, 0, one); // set your value here in first cell
+	        
+	        return (T)aObject;
+			// https://stackoverflow.com/questions/4901128/obtaining-the-array-class-of-a-component-type
+			// TODO need to handle primitives and multiple-dimensional arrays,
+//			Class<?> componentType = clazz.getComponentType();
+//			Class<?> childClazz = Class.forName("[L" + componentType.getName() + ";");			
+//			
+//			Object object = Array.newInstance(childClazz, 0);
+//			return (T)object;
+			
+			//String[] parameters = new String[1];
+			//return (T)parameters;
+			
 			
 		}
 		
