@@ -116,6 +116,17 @@ public class BeanGeneratorTest {
 
 	}
 	
+	@Test
+	public void testBeanWithArray() throws Exception {
+		BeanGenerator generator = new BeanGenerator();
+		BeanWithArray result = generator.generate(BeanWithArray.class);
+		System.out.println(result);
+		assertNotNull(result);  
+		
+
+	}
+
+	
 	
 	
 	

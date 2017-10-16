@@ -1,10 +1,12 @@
 package wu.justin.bean.generate;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,9 +16,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Stack;
 
-import wu.justin.rest2.ApiUtil;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import wu.justin.rest2.ApiUtil;
 
 public class BeanGenerator {
 	
@@ -43,6 +45,7 @@ public class BeanGenerator {
 	}
 	
 	
+	
 	public <T> T generate(Class<T> clazz) throws Exception {
 		
 		if(classStack.contains(clazz)){
@@ -57,7 +60,27 @@ public class BeanGenerator {
 			return container;
 		}
 		
-		container = clazz.newInstance();	
+		if(clazz.isArray()){
+			System.out.println(clazz.getName() + "is an array of " + clazz.getComponentType());
+			
+			
+			// https://stackoverflow.com/questions/4901128/obtaining-the-array-class-of-a-component-type
+			// TODO need to handle primitives and multiple-dimensional arrays,
+			Class<?> componentType = clazz.getComponentType();
+			Class<?> childClazz = Class.forName("[L" + componentType.getName() + ";");			
+			
+			Object object = Array.newInstance(childClazz, 0);
+			//@SuppressWarnings("unchecked")	
+			container = (T)object;
+			return container;
+			
+		}
+		try{
+			container = clazz.newInstance();
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 		
 		Method[] allMethods = clazz.getDeclaredMethods();
     	for (Method method : allMethods) {
@@ -91,7 +114,11 @@ public class BeanGenerator {
 		Type[] types = method.getGenericParameterTypes();
 		Object argOne = handleOneParameter(parameter, types);
 		
-		method.invoke(container, argOne);
+		try{
+			method.invoke(container, argOne);
+		}catch( Exception e){
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -128,6 +155,11 @@ public class BeanGenerator {
 		if(clazz.getName().equals("double") || clazz.getName().equals("java.lang.Double")){
 			Double myDouble = 12345.6789d;
 			return (T)myDouble;
+		}
+		
+		if( clazz.getName().equals("java.math.BigDecimal")){
+			BigDecimal myBigDecimal = new BigDecimal(12345.6789d);
+			return (T)myBigDecimal;
 		}
 		
 		if(clazz.getName().equals("java.lang.Boolean") || clazz.getName().equals("boolean")){
