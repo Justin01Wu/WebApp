@@ -67,7 +67,7 @@ public class BeanGenerator {
 			return null;
 		}
 		
-		Method[] allMethods = clazz.getDeclaredMethods();
+		Method[] allMethods = clazz.getMethods();
     	for (Method method : allMethods) {
     	    if (Modifier.isPublic(method.getModifiers())) {   
     	    	
