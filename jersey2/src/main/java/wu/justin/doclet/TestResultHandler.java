@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TestResultHandler {
 	
@@ -112,9 +114,37 @@ public class TestResultHandler {
 		
 	}
 	
-	public List<TestResult> findResultFiles(String apiUrl, String httpMethod){
+	public List<TestResult> findResultFiles(String apiUrl, String httpMethod, ApiEntry oneEnrty){
 		
 		List<TestResult> results =  new ArrayList<>();
+		
+		String apiRegMatchUrl = prefix + apiUrl;
+		if(oneEnrty.getParameters() != null){
+			// handle PathParameter
+			for(ParameterEntry parameter : oneEnrty.getParameters()){
+				if(parameter.getType().equals("PathParam")){
+					if(!apiRegMatchUrl.contains(parameter.getName())){
+						return results;
+					}
+					String pathName ="{"+ parameter.getName() + "}";
+					if(parameter.getJavaType().equals("Integer")){
+						apiRegMatchUrl= apiRegMatchUrl.replace(pathName, "^\\d+$");	
+					}
+					
+				}
+			}			
+			
+		}
+		
+		Pattern p = Pattern.compile(apiRegMatchUrl);  
+		//String Prefix = "/api";		
+		//String apiUrl = "/users/user/{userId}";
+		// String testUrl = "/api/users/user/12";
+		
+		//TODO handle PathParam position
+
+		
+		
 		
 		for(String filePath : allTestResults.keySet()){
 			TestResult oneResult = allTestResults.get(filePath);
@@ -124,8 +154,19 @@ public class TestResultHandler {
 			if(!httpMethod.equals(oneResult.getMethod())){
 				continue;
 			}
+			
+			  
+
+
 			if(matchUrl(apiUrl, oneResult, prefix)){
 				results.add(oneResult);				
+			
+				Matcher m = p.matcher(oneResult.getUrl());
+				if(m.matches()){
+					System.out.println("matched");
+				}else{
+					System.out.println("unmatched");
+				}
 			}
 		}
 		

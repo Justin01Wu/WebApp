@@ -197,17 +197,17 @@ public class MyDoclet {
 		
 		System.out.println("         it is HTTP "+ httpMethod +" method " );
 		
-		ApiEntry oneEnrty = new ApiEntry(httpMethod, fullPath, apiClass.getFullName(), method.getName());
-		oneEnrty.setComment(comment);
+		ApiEntry oneEntry = new ApiEntry(httpMethod, fullPath, apiClass.getFullName(), method.getName());
+		oneEntry.setComment(comment);
 		
 		Parameter[]  parameters = method.getParameters();
 		for(int i=0;i<parameters.length ;i++){
 			com.sun.javadoc.Parameter[] parameterDocs = myMethodDoc.parameters();
 			com.sun.javadoc.Parameter myParameterDoc = parameterDocs[i];
-			handleOneParameter(parameters[i], oneEnrty, myParameterDoc);
+			handleOneParameter(parameters[i], oneEntry, myParameterDoc);
 		}
 		
-		List<TestResult> results  = handler.findResultFiles(fullPath, httpMethod);
+		List<TestResult> results  = handler.findResultFiles(fullPath, httpMethod, oneEntry);
 		if(results.isEmpty()){
 			if( !method.getReturnType().equals(Void.TYPE)){
 				String returnJson = null;
@@ -220,7 +220,7 @@ public class MyDoclet {
 					 results  = new ArrayList<>();
 					 TestResult oneResult =  new TestResult(httpMethod, "200", fullPath, "unknown", "unknown", "unknown");
 					 oneResult.setJson(returnJson);
-					 oneEnrty.addResult(oneResult);
+					 oneEntry.addResult(oneResult);
 				}
 			}
 
@@ -237,7 +237,7 @@ public class MyDoclet {
 				}
 				oneResult.setJson(jsonStr);
 				System.out.println(jsonStr);
-				oneEnrty.addResult(oneResult);
+				oneEntry.addResult(oneResult);
 
 			}
 		}
@@ -249,7 +249,7 @@ public class MyDoclet {
     	
     	
     	
-    	apiClass.addApis(oneEnrty);    	
+    	apiClass.addApis(oneEntry);    	
 	}
 	
 	private static void handleOneParameter(Parameter parameter, ApiEntry method, com.sun.javadoc.Parameter myParameterDoc ){
@@ -328,8 +328,8 @@ public class MyDoclet {
 		
 		// call my self as doclet:
 		
-		String projectDir = "C:/projects/WebApp/WebApp/jersey2";
-		//String projectDir = "C:/samples/WebApp/WebApp/jersey2";
+		//String projectDir = "C:/projects/WebApp/WebApp/jersey2";
+		String projectDir = "C:/samples/WebApp/WebApp/jersey2";
 		
 		System.setProperty("integration.test.result", projectDir + "/target/test-output");
 		System.setProperty("restful.doc.output.path", projectDir + "/target/apiDoc.html");		
