@@ -119,6 +119,7 @@ public class TestResultHandler {
 		List<TestResult> results =  new ArrayList<>();
 		
 		String apiRegMatchUrl = prefix + apiUrl;
+		apiRegMatchUrl=  apiRegMatchUrl.replace("/", "\\/");
 		if(oneEnrty.getParameters() != null){
 			// handle PathParameter
 			for(ParameterEntry parameter : oneEnrty.getParameters()){
@@ -128,7 +129,7 @@ public class TestResultHandler {
 					}
 					String pathName ="{"+ parameter.getName() + "}";
 					if(parameter.getJavaType().equals("Integer")){
-						apiRegMatchUrl= apiRegMatchUrl.replace(pathName, "^\\d+$");	
+						apiRegMatchUrl= apiRegMatchUrl.replace(pathName, "[-]?\\d+");	
 					}
 					
 				}
@@ -174,6 +175,17 @@ public class TestResultHandler {
 		
 	}
 	
+	public static boolean matchUrl2(Pattern p, String testResultUrl){
+		Matcher m = p.matcher(testResultUrl);		
+		if(m.matches()){
+			System.out.println("matched");
+			return true;
+		}else{
+			System.out.println("unmatched");
+			return false;
+		}
+		
+	}
 	
 	private static boolean matchUrl(String apiUrl, TestResult oneResult, String prefix){
 		//String Prefix = "/api";		
