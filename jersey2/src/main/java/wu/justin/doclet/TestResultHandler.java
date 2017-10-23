@@ -13,6 +13,10 @@ import java.util.regex.Pattern;
 
 public class TestResultHandler {
 	
+	private static final String RegExSpecialChars = "<([{\\^-=$!|]})?*+.>";  // all regualr Express special characters which need escape
+	private static final String RegExSpecialCharsRE = RegExSpecialChars.replaceAll( ".", "\\\\$0");  // replace all characters with \
+	private static final Pattern reCharsREP = Pattern.compile( "[" + RegExSpecialCharsRE + "]");
+	
 	private Map<String, TestResult> allTestResults = new HashMap<>();
 	
 	private String prefix;
@@ -23,6 +27,12 @@ public class TestResultHandler {
 		this.prefix = prefix;
 		this.testResultFolder = testResultFolder;
 		loadTestResults();
+	}
+	
+	
+	private static String quoteRegExSpecialChars( String s)	{
+	    Matcher m = reCharsREP.matcher( s);
+	    return m.replaceAll( "\\\\$0");
 	}
 	
 	private  void loadTestResults() {
@@ -114,38 +124,9 @@ public class TestResultHandler {
 		
 	}
 	
-	public List<TestResult> findResultFiles(String apiUrl, String httpMethod, ApiEntry oneEnrty){
+	public List<TestResult> findResultFiles(String apiUrl, String httpMethod, ApiEntry apiEntry){
 		
 		List<TestResult> results =  new ArrayList<>();
-		
-		String apiRegMatchUrl = prefix + apiUrl;
-		apiRegMatchUrl=  apiRegMatchUrl.replace("/", "\\/");
-		if(oneEnrty.getParameters() != null){
-			// handle PathParameter
-			for(ParameterEntry parameter : oneEnrty.getParameters()){
-				if(parameter.getType().equals("PathParam")){
-					if(!apiRegMatchUrl.contains(parameter.getName())){
-						return results;
-					}
-					String pathName ="{"+ parameter.getName() + "}";
-					if(parameter.getJavaType().equals("Integer")){
-						apiRegMatchUrl= apiRegMatchUrl.replace(pathName, "[-]?\\d+");	
-					}
-					
-				}
-			}			
-			
-		}
-		
-		Pattern p = Pattern.compile(apiRegMatchUrl);  
-		//String Prefix = "/api";		
-		//String apiUrl = "/users/user/{userId}";
-		// String testUrl = "/api/users/user/12";
-		
-		//TODO handle PathParam position
-
-		
-		
 		
 		for(String filePath : allTestResults.keySet()){
 			TestResult oneResult = allTestResults.get(filePath);
@@ -155,39 +136,17 @@ public class TestResultHandler {
 			if(!httpMethod.equals(oneResult.getMethod())){
 				continue;
 			}
-			
-			  
 
-
-			if(matchUrl(apiUrl, oneResult, prefix)){
-				results.add(oneResult);				
-			
-				Matcher m = p.matcher(oneResult.getUrl());
-				if(m.matches()){
-					System.out.println("matched");
-				}else{
-					System.out.println("unmatched");
-				}
+			if(matchUrl(apiUrl, apiEntry, oneResult, prefix)){
+				results.add(oneResult);
 			}
-		}
-		
-		return results;
-		
+		}		
+		return results;		
 	}
 	
-	public static boolean matchUrl2(Pattern p, String testResultUrl){
-		Matcher m = p.matcher(testResultUrl);		
-		if(m.matches()){
-			System.out.println("matched");
-			return true;
-		}else{
-			System.out.println("unmatched");
-			return false;
-		}
-		
-	}
-	
-	private static boolean matchUrl(String apiUrl, TestResult oneResult, String prefix){
+	// assume one url seg only has at maximum one path parameter: {userId}{programId} is not allowed
+	// assume urlpath never have a string wuyg719
+	private static boolean matchUrl(String apiUrl, ApiEntry apiEntry, TestResult oneResult, String prefix){
 		//String Prefix = "/api";		
 		//String apiUrl = "/users/user/{userId}";
 		// String testUrl = "/api/users/user/12";
@@ -207,13 +166,9 @@ public class TestResultHandler {
 		
 		for(int i=0;i< apiUrlSegs.length; i++){
 			if(apiUrlSegs[i].startsWith("{")){
-				
-				try{
-					Integer.parseInt(urlSegs[i]);					
-				} catch (NumberFormatException e) {
+				if(!handlePathParameterSeg(apiEntry, apiUrlSegs[i], urlSegs[i])){
 					return false;
 				}
-				// it has a defect, TODO handle it with PathParam
 			}else{
 				if(!apiUrlSegs[i].equals(urlSegs[i])){
 					return false;
@@ -221,6 +176,58 @@ public class TestResultHandler {
 			}
 		}
 		return true;			
+	}
+	
+	//   abc{name}.json  should match abc234sdfllsduew\|][r.43232jsf.json
+	//   abc{int}.json should match abc-2328.json
+	protected static boolean handlePathParameterSeg(ApiEntry apiEntry, String apiUrlSeg, String resultUrlSeg){
+		if(apiEntry.getParameters() == null){
+			return false;
+		}
+		if(apiEntry.getParameters().isEmpty()){
+			return false;
+		}
+		ParameterEntry parameter = findPathParameter(apiEntry, apiUrlSeg);
+		if(parameter == null){
+			return false;
+		}
+		String pathName ="{"+ parameter.getName() + "}";
+		String escapeResultEeg = apiUrlSeg.replace(pathName, "wuyg719");
+		
+		escapeResultEeg = quoteRegExSpecialChars(escapeResultEeg);
+		if(parameter.getJavaType().equals("Integer")){
+			escapeResultEeg = escapeResultEeg.replace("wuyg719", "[-]?\\d+");  // match any digtal 	
+		}else if(parameter.getJavaType().equals("String")){
+			escapeResultEeg = escapeResultEeg.replace("wuyg719", "\\S+"); // match any non space character 
+		}else{
+			// TODO handle other type
+			return false;
+		}
+		
+		Pattern pattern = Pattern.compile( escapeResultEeg );
+		
+		Matcher m = pattern.matcher(resultUrlSeg);
+		if(m.matches()){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+	
+	protected static ParameterEntry findPathParameter(ApiEntry apiEntry, String apiUrlSeg){
+		for(ParameterEntry parameter : apiEntry.getParameters()){
+			if(parameter.getType().equals("PathParam")){
+				
+				String pathName ="{"+ parameter.getName() + "}";
+				if(apiUrlSeg.contains(pathName)){
+					return parameter; 
+				}
+				
+			}
+		}	
+		return null;
+
 	}
 
 }
