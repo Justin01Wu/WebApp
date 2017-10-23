@@ -40,7 +40,7 @@ public class BeanGenerator {
 		reigsteredClass.put(java.util.Calendar.class,null);
 	}
 	
-	public void addExteralCreator(BeanCreator<?> creator){
+	public void addExternalCreator(BeanCreator<?> creator){
 		reigsteredClass.put(creator.getClazz(), creator);
 	}
 	
