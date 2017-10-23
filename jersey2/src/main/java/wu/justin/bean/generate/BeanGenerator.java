@@ -98,7 +98,9 @@ public class BeanGenerator {
 		
 		Type[] types = method.getGenericParameterTypes();
 		Object argOne = handleOneParameter(parameter, types);
-		//Object[] args = new Object[] { argOne };
+		if(argOne == null){
+			return;
+		}
 		try{
 			method.invoke(container, argOne);
 		}catch( Exception e){
@@ -132,6 +134,12 @@ public class BeanGenerator {
 			String string = new String( "a string");
 			return (T)string;
 		}
+		
+		if(clazz.getName().equals("char")){
+			Character myChar = 'A';
+			return (T)myChar;
+		}
+
 		if(clazz.getName().equals("java.lang.Integer") || clazz.getName().equals("int")){
 			Integer myInt = 12345;
 			return (T)myInt;
