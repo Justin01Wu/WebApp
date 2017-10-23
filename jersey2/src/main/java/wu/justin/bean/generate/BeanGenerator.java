@@ -135,7 +135,7 @@ public class BeanGenerator {
 			return (T)string;
 		}
 		
-		if(clazz.getName().equals("char")){
+		if(clazz.getName().equals("java.lang.Character") || clazz.getName().equals("char")){
 			Character myChar = 'A';
 			return (T)myChar;
 		}
