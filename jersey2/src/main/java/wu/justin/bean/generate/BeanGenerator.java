@@ -33,11 +33,25 @@ public class BeanGenerator {
 		reigsteredClass.put(java.util.List.class, null);
 		reigsteredClass.put(java.util.Set.class, null);
 		reigsteredClass.put(java.util.Map.class, null);
+		
+		reigsteredClass.put(java.lang.Boolean.class, null);
+		
 		reigsteredClass.put(java.lang.Integer.class, null);
+		reigsteredClass.put(java.lang.Short.class, null);		
+		reigsteredClass.put(java.lang.Long.class, null);
+		
+		reigsteredClass.put(java.lang.Double.class, null);
+		reigsteredClass.put(java.lang.Float.class, null);
+		
+		reigsteredClass.put(java.lang.Byte.class, null);
+		
+		reigsteredClass.put(java.lang.Character.class, null);
 		reigsteredClass.put(java.lang.String.class, null);
-		reigsteredClass.put(java.sql.Timestamp.class,null);
+		
+		reigsteredClass.put(java.sql.Timestamp.class, null);
+		reigsteredClass.put(java.sql.Date.class, null);
 		reigsteredClass.put(java.util.Date.class, null);
-		reigsteredClass.put(java.util.Calendar.class,null);
+		reigsteredClass.put(java.util.Calendar.class, null);
 	}
 	
 	public void addExternalCreator(BeanCreator<?> creator){
@@ -130,6 +144,20 @@ public class BeanGenerator {
 			Timestamp  timestamp= new Timestamp(NOW.getTime());
 			return (T)timestamp;
 		}
+		
+		if(clazz.getName().equals("java.util.Date")){
+			return (T)NOW;
+		}
+		if(clazz.getName().equals("java.sql.Date")){
+			java.sql.Date sqlDate= new java.sql.Date(NOW.getTime());
+			return (T)sqlDate;
+		}
+		
+		if(clazz.getName().equals("java.util.Calendar")){
+			Calendar cal = Calendar.getInstance();
+			return (T)cal;
+		}
+		
 		if(clazz.getName().equals("java.lang.String")){
 			String string = new String( "a string");
 			return (T)string;
@@ -144,10 +172,30 @@ public class BeanGenerator {
 			Integer myInt = 12345;
 			return (T)myInt;
 		}
+		
+		if(clazz.getName().equals("java.lang.Long") || clazz.getName().equals("long")){
+			Long myLong = 123456789012l;
+			return (T)myLong;
+		}
+		
+		if(clazz.getName().equals("java.lang.Short") || clazz.getName().equals("short")){
+			Short myObj = 123;
+			return (T)myObj;
+		}
 
 		if(clazz.getName().equals("double") || clazz.getName().equals("java.lang.Double")){
-			Double myDouble = 12345.6789d;
+			Double myDouble = 12345.6789012d;
 			return (T)myDouble;
+		}
+		
+		if(clazz.getName().equals("float") || clazz.getName().equals("java.lang.Float")){
+			Float myObj = 12345.6789f;
+			return (T)myObj;
+		}
+
+		if(clazz.getName().equals("byte") || clazz.getName().equals("java.lang.Byte")){
+			Byte myObj = 1;
+			return (T)myObj;
 		}
 		
 		if( clazz.getName().equals("java.math.BigDecimal")){
@@ -159,19 +207,6 @@ public class BeanGenerator {
 			Boolean myBoolean = true;;
 			return (T)myBoolean;
 		}		
-		
-		if(clazz.getName().equals("java.util.Date")){
-			return (T)NOW;
-		}
-		if(clazz.getName().equals("java.sql.Date")){
-			java.sql.Date sqlDate= new java.sql.Date(NOW.getTime());
-			return (T)sqlDate;
-		}
-		
-		if(clazz.getName().equals("java.util.Calendar")){
-			Calendar cal = Calendar.getInstance();
-			return (T)cal;
-		}
 		
 		if(clazz.getName().equals("java.util.List")){
 			

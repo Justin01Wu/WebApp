@@ -1,8 +1,8 @@
 package wu.justin.bean.generate;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -139,9 +139,15 @@ public class BeanGeneratorTest {
 		assertEquals(result.getId(), new Integer(12345));
 		assertEquals(result.getStringArray()[0],"a string");
 		assertEquals(result.getIntegerArray()[0], new Integer(12345));
-		assertEquals(result.getIntArray()[0], 12345);
+		assertEquals(result.getIntArray()[0], 12345);		
 		assertEquals(result.getUsers()[0].getId(), new Integer(12345));
 		
+		assertEquals(result.getMyLong(), new Long(123456789012l));
+		assertTrue(result.getMyShort() == 123);
+		assertTrue(result.getMyByte() == 1);
+		assertTrue(result.getMyFloat() == 12345.6789f);
+		assertTrue(result.getMyCalendar() != null);
+		assertTrue(result.getMyBoolean());
 
 	}
 
