@@ -102,6 +102,26 @@ public class TestResultHandlerTest {
 		assertTrue(result);
 		
 	}
+	
+	@Test
+	public void testMatchUrl() {
+		String apiUrl = "/{programId}/contract/{contractIds}/contract.json";
+		String resultUrl = "/123/contract/435,343,45/contract.json";
+		
+		ParameterEntry parameterEntry;
+		ApiEntry apiEntry = new ApiEntry("GET", null, null, null );
+				
+		parameterEntry = new ParameterEntry("programId", Integer.class.getSimpleName(), "PathParam");
+		apiEntry.addParameter(parameterEntry);
+		parameterEntry = new ParameterEntry("contractIds", String.class.getSimpleName(), "PathParam");
+		apiEntry.addParameter(parameterEntry);
+		
+		boolean result  = TestResultHandler.matchUrl(apiEntry, apiUrl , resultUrl);
+		assertTrue(result);
+	}
+	
+	
+	
 
 
 }

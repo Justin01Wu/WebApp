@@ -137,7 +137,7 @@ public class TestResultHandler {
 				continue;
 			}
 
-			if(matchUrl(apiUrl, apiEntry, oneResult, prefix)){
+			if(matchUrl(apiEntry, prefix + apiUrl, oneResult.getUrl())){
 				results.add(oneResult);
 			}
 		}		
@@ -146,20 +146,18 @@ public class TestResultHandler {
 	
 	// assume one url seg only has at maximum one path parameter: {userId}{programId} is not allowed
 	// assume urlpath never have a string wuyg719
-	private static boolean matchUrl(String apiUrl, ApiEntry apiEntry, TestResult oneResult, String prefix){
+	protected static boolean matchUrl(ApiEntry apiEntry, String apiUrl, String resultUrl){
 		//String Prefix = "/api";		
-		//String apiUrl = "/users/user/{userId}";
-		// String testUrl = "/api/users/user/12";
+		//String apiUrl = "/api/users/user/{userId}";
+		// String resultUrl = "/api/users/user/12";
 		
 		//System.out.println( "oneResult = " + oneResult);
 		//System.out.println( "apiUrl = " + apiUrl);
 		
-		String url = oneResult.getUrl();  //  /api/users/user/12
+		String url = resultUrl;  //  /api/users/user/12
 		String [] urlSegs = url.split("/");
 		
-		String apiUrl2= prefix+ apiUrl;
-		
-		String [] apiUrlSegs = apiUrl2.split("/");
+		String [] apiUrlSegs = apiUrl.split("/");
 		if(urlSegs.length != apiUrlSegs.length){
 			return false;
 		}
@@ -196,7 +194,7 @@ public class TestResultHandler {
 		
 		escapeResultEeg = quoteRegExSpecialChars(escapeResultEeg);
 		if(parameter.getJavaType().equals("Integer")){
-			escapeResultEeg = escapeResultEeg.replace("wuyg719", "[-]?\\d+");  // match any digtal 	
+			escapeResultEeg = escapeResultEeg.replace("wuyg719", "[-]?\\d+");  // match any digits without '.' or '+' 	
 		}else if(parameter.getJavaType().equals("String")){
 			escapeResultEeg = escapeResultEeg.replace("wuyg719", "\\S+"); // match any non space character 
 		}else{
