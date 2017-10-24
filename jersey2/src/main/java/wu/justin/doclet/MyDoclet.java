@@ -19,8 +19,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
-import wu.justin.bean.generate.BeanGenerator;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.AnnotationTypeDoc;
 import com.sun.javadoc.ClassDoc;
@@ -28,6 +28,8 @@ import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
 
 import freemarker.template.TemplateException;
+import wu.justa.utils.BeanGenerator;
+import wu.justin.rest2.ApiUtil;
 
 /**
   this is a doclet to generate restful Api docs
@@ -156,6 +158,19 @@ public class MyDoclet {
     	
 	}
 	
+	private static String generateJson(Object obj) throws JsonProcessingException{
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonInString = mapper.writeValueAsString(obj);
+		
+		//System.out.println(jsonInString);
+		
+		String newFormat = ApiUtil.getFormatedJsonOrNull(jsonInString);
+		
+		//System.out.println(newFormat);
+		return newFormat;
+
+	}
+	
 	private static void handleOneMethod(Method method, String root, ApiClassEntry apiClass, ClassDoc aClass){
 		
 		
@@ -212,7 +227,8 @@ public class MyDoclet {
 			if( !method.getReturnType().equals(Void.TYPE)){
 				String returnJson = null;
 				try {
-					returnJson = new BeanGenerator().generateJson(method.getReturnType());
+					Object obj = new BeanGenerator().generate(method.getReturnType());
+					returnJson = generateJson(obj);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

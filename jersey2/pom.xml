@@ -131,6 +131,13 @@
 			<version>r938</version>
 			<scope>compile</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>wu.justa</groupId>
+			<artifactId>object-tree-creator</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.sun</groupId>
