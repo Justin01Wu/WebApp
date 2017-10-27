@@ -185,6 +185,8 @@ public class MyDoclet {
 		MethodDoc myMethodDoc = null;
 		for(MethodDoc methodDoc : methodDocs){
 			if(methodDoc.name().equals(method.getName())){
+				// it has a bug, some methods have the same name with different parameter
+				// TODO fix it
 				myMethodDoc = methodDoc;
 				break;
 			}			
@@ -225,7 +227,11 @@ public class MyDoclet {
 		
 		List<TestResult> results  = handler.findResultFiles(fullPath, httpMethod, oneEntry);
 		if(results.isEmpty()){
-			if( !method.getReturnType().equals(Void.TYPE)){
+			if( method.getReturnType().equals(javax.ws.rs.core.Response.class)){
+				System.err.println("can't handle Response on method: " + method.getName());
+			} else if( method.getReturnType().equals(Void.TYPE)){
+				System.out.println(" it is void on method: " + method.getName());
+			}else{
 				String returnJson = null;
 				Type type = method.getGenericReturnType();
 				try {
