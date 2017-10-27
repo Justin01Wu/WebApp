@@ -1,5 +1,8 @@
 package wu.justin.rest2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -68,6 +71,17 @@ public class PublicApi {
 	    return user2;
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/int/list.json")
+	public List<Integer> getIntegerList() {
+		
+		List<Integer> result = new ArrayList<>();
+		result.add(34345);
+		
+	    return result;
+	}
 
+	
 }
 

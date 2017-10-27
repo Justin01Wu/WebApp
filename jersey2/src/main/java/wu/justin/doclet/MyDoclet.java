@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -226,8 +227,9 @@ public class MyDoclet {
 		if(results.isEmpty()){
 			if( !method.getReturnType().equals(Void.TYPE)){
 				String returnJson = null;
+				Type type = method.getGenericReturnType();
 				try {
-					Object obj = new BeanGenerator().generate(method.getReturnType());
+					Object obj = new BeanGenerator().generate(method.getReturnType(), type);
 					returnJson = generateJson(obj);
 				} catch (Exception e) {
 					e.printStackTrace();
