@@ -6,12 +6,20 @@ table{
     border: 1px solid black;
     table-layout: fixed;
     width: 100%;
+    border-collapse: collapse;
 }
     
 th, td {
     border: 1px solid black;
     overflow: hidden;
-	white-space: nowrap
+	white-space: nowrap;
+    vertical-align: top;
+}
+table.response th:nth-child(1){
+    width: 100px;
+}
+table.response th:nth-child(2){
+    width: 100px;
 }
 </style>
 </head>
@@ -68,7 +76,7 @@ th, td {
 			<#if api.results?has_content>	
 			<b>Response</b>
 			<!--  test result list -->
-			<table>
+			<table class="response">
                   <thead>
                     <tr>
                       <th>Code</th>
