@@ -121,6 +121,24 @@ public class TestResultHandlerTest {
 		assertTrue(result);
 	}
 	
+	@Test
+	public void testMatchUrl2() {
+		String apiUrl = "/programs/{programId}/copy.json";
+		String resultUrl = "/programs/22275/copy.json?newName=abc+Oct+27+15%3A09%3A56+EDT+2017";
+		
+		ParameterEntry parameterEntry;
+		ApiEntry apiEntry = new ApiEntry("GET", null, null, null );
+				
+		parameterEntry = new ParameterEntry("programId", Integer.class.getSimpleName(), "PathParam");
+		apiEntry.addParameter(parameterEntry);
+		
+		boolean result  = TestResultHandler.matchUrl(apiEntry, apiUrl , resultUrl);
+		assertTrue(result);
+	}
+
+	
+	
+	
 	
 	
 

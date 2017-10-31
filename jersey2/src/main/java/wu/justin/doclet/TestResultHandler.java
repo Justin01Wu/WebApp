@@ -154,7 +154,7 @@ public class TestResultHandler {
 		//System.out.println( "oneResult = " + oneResult);
 		//System.out.println( "apiUrl = " + apiUrl);
 		
-		String url = resultUrl;  //  /api/users/user/12
+		String url = resultUrl.split("\\?")[0];  //  /api/users/user/12?filterA=true
 		String [] urlSegs = url.split("/");
 		
 		String [] apiUrlSegs = apiUrl.split("/");
