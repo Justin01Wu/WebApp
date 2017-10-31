@@ -231,6 +231,9 @@ public class MyDoclet {
 				System.err.println("can't handle Response on method: " + method.getName());
 			} else if( method.getReturnType().equals(Void.TYPE)){
 				System.out.println(" it is void on method: " + method.getName());
+				TestResult oneResult =  new TestResult(httpMethod, "204", fullPath, "unknown", "unknown", "unknown");
+				oneResult.setJson("");
+				oneEntry.addResult(oneResult);
 			}else{
 				String returnJson = null;
 				Type type = method.getGenericReturnType();
@@ -241,7 +244,7 @@ public class MyDoclet {
 					e.printStackTrace();
 				}
 				if(returnJson!= null){
-					 results  = new ArrayList<>();
+					 //results  = new ArrayList<>();
 					 TestResult oneResult =  new TestResult(httpMethod, "200", fullPath, "unknown", "unknown", "unknown");
 					 oneResult.setJson(returnJson);
 					 oneEntry.addResult(oneResult);
