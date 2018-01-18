@@ -50,7 +50,7 @@ public class TestUserApi {
 		
 		final HttpGet request = new HttpGet(url);
 		 
-		responseBody = ApiTestUtil.getResponseBodyByGetRequest(client, request, HttpStatus.SC_OK);
+		responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_OK);
 		document = Configuration.defaultConfiguration().jsonProvider().parse(responseBody);		
 		
 		
@@ -77,7 +77,7 @@ public class TestUserApi {
 		
 		final HttpGet request = new HttpGet(url);
 		 
-		responseBody = ApiTestUtil.getResponseBodyByGetRequest(client, request, HttpStatus.SC_OK);
+		responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_OK);
 		document = Configuration.defaultConfiguration().jsonProvider().parse(responseBody);		
 		
 		
@@ -104,7 +104,7 @@ public class TestUserApi {
 		
 		final HttpGet request = new HttpGet(url);
 		 
-		responseBody = ApiTestUtil.getResponseBodyByGetRequest(client, request, HttpStatus.SC_BAD_REQUEST);
+		responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_BAD_REQUEST);
 		
 		assertEquals(responseBody, "userId can't be negative");
 

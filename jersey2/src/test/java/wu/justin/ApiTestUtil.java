@@ -86,7 +86,7 @@ public final class ApiTestUtil {
 
 	}
 
-	public static String getResponseBodyByGetRequest(HttpClient client, HttpGet request, Integer... statusCodeExpected)
+	public static String getResponseByRequest(HttpClient client, HttpGet request, Integer... statusCodeExpected)
 			throws HttpException, IOException {
 
 		Date start = new Date();
@@ -94,7 +94,7 @@ public final class ApiTestUtil {
 		Date end = new Date();
 		int statusCode = response.getStatusLine().getStatusCode();
 
-		String responseBody = saveOutput(request, response, start, end);
+		String responseBody = saveOutput2(request, response, start, end);
 
 		List<Integer> statusList = Arrays.asList(statusCodeExpected);
 
@@ -102,8 +102,8 @@ public final class ApiTestUtil {
 		return responseBody;
 
 	}
-
-	public static String getResponseBodyByPutRequest(HttpClient client, HttpPut request, String data,
+	
+	public static String getResponseByRequest(HttpClient client, HttpPut request, String data,
 			int statusCodeExpected) throws HttpException, IOException {
 		request.addHeader("content-type", "application/json");
 		request.addHeader("Accept", "*/*");
@@ -123,15 +123,17 @@ public final class ApiTestUtil {
 
 		int statusCode = response.getStatusLine().getStatusCode();
 
-		String responseBody = saveOutput(request, response, start, end);
+		String responseBody = saveOutput2(request, response, start, end);
 
 		assertEquals(statusCodeExpected, statusCode);
 
 		return responseBody;
 	}
 
+
+
 	// please align with TestResultHandler.handleOneFile if you change it
-	private static String saveOutput(HttpRequestBase request, HttpResponse response, Date start, Date end)
+	private static String saveOutput2(HttpRequestBase request, HttpResponse response, Date start, Date end)
 			throws HttpException, IOException {
 
 		String requestType = request.getMethod();
@@ -161,7 +163,7 @@ public final class ApiTestUtil {
 		}
 		int statusCode = response.getStatusLine().getStatusCode();
 
-		String caseName = getCaseName();
+		String caseName = getCaseName2();
 
 		try (PrintStream out = getPrintStream("output", caseName);) {
 			long cost = end.getTime() - start.getTime();
@@ -178,7 +180,7 @@ public final class ApiTestUtil {
 		return responseBody;
 	}
 
-	public static String getResponseByPostRequest(HttpClient client, HttpPost request, String data,
+	public static String getResponseByRequest(HttpClient client, HttpPost request, String data,
 			int statusCodeExpected) throws HttpException, IOException {
 		request.addHeader("content-type", "application/json");
 		request.addHeader("Accept", "*/*");
@@ -198,15 +200,14 @@ public final class ApiTestUtil {
 
 		int statusCode = response.getStatusLine().getStatusCode();
 
-		String responseBody = saveOutput(request, response, start, end);
+		String responseBody = saveOutput2(request, response, start, end);
 
 		assertEquals(statusCodeExpected, statusCode);
 
 		return responseBody;
 	}
 
-
-	public static String getResponseBodyByDeleteRequest(HttpClient client, HttpDelete request, int statusCodeExpected)
+	public static String getResponseByRequest(HttpClient client, HttpDelete request, int statusCodeExpected)
 			throws IOException, HttpException {
 
 		Date start = new Date();
@@ -215,12 +216,13 @@ public final class ApiTestUtil {
 
 		int statusCode = response.getStatusLine().getStatusCode();
 
-		String responseBody = saveOutput(request, response, start, end);
+		String responseBody = saveOutput2(request, response, start, end);
 
 		assertEquals(statusCodeExpected, statusCode);
 
 		return responseBody;
 	}
+
 
 	public static String readJSONFile(String fileName) throws FileNotFoundException, URISyntaxException {
 
@@ -236,9 +238,9 @@ public final class ApiTestUtil {
 		return content;
 	}
 
-	public static String getCaseName() {
+	private static String getCaseName2() {
 		
-		Pair2<String, String> result = ClassUtil.getTopMethodOnAnnotation(Category.class);
+		Pair2<String, String> result = ClassUtil.getMethodByPrefixOnAnnotation(Category.class, "step");
 		
 		if (result == null) {
 			return "unknownClassAndMethod";
@@ -254,10 +256,11 @@ public final class ApiTestUtil {
 
 	}
 
-	public static void saveInput(String Url, HttpRequestBase request, String content) throws FileNotFoundException {
-		String caseName = getCaseName();
+	public static void saveInput2(String Url, HttpRequestBase request, String content) throws FileNotFoundException {
+		String caseName = getCaseName2();
 		save(Url, request, content, caseName, "input");
 	}
+
 
 	private static PrintStream getPrintStream(String type, String caseName) throws FileNotFoundException {
 
