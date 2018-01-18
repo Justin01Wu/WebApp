@@ -37,9 +37,21 @@ public class TestUserApi {
 		LoginService.loginAsUser(httpCookieStore, userInfo);
 
 	}	
-	
+
 	@Test
-	public void testGetCurrentUserApi() throws HttpException, IOException{
+	public void testAllApi() throws HttpException, IOException{
+		
+		// every method only call one API
+		// everyAPI call method must start with "step"
+		stepGetCurrentUserApi(); 
+		stepGetUserByIdApi();
+		stepGetUserByNegativeIdApi();
+		
+	}
+	
+	
+	private void stepGetCurrentUserApi() throws HttpException, IOException{
+		// every method only call one API 
 		
 		System.out.println("                ==>testUserApi started....");
 		
@@ -65,8 +77,8 @@ public class TestUserApi {
 		
 	}
 	
-	@Test
-	public void testGetUserByIdApi() throws HttpException, IOException{
+	
+	private void stepGetUserByIdApi() throws HttpException, IOException{
 		
 		System.out.println("                ==>testUserApi started....");
 		
@@ -92,8 +104,8 @@ public class TestUserApi {
 		
 	}
 	
-	@Test
-	public void testGetUserByNegativeIdApi() throws HttpException, IOException{
+	
+	private void stepGetUserByNegativeIdApi() throws HttpException, IOException{
 		
 		System.out.println("                ==>testUserApi started....");
 		
