@@ -39,7 +39,7 @@ public class TestUserApi {
 	}	
 
 	@Test
-	public void testAllApi() throws HttpException, IOException{
+	public void testAllUserApi() throws HttpException, IOException{
 		
 		// every method only call one API
 		// everyAPI call method must start with "step"
