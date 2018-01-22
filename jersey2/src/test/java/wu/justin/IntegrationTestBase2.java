@@ -9,27 +9,27 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 
 import com.jayway.jsonpath.Configuration;
 
 public class IntegrationTestBase2 {
 
-	protected static CookieStore httpCookieStore;
+	protected CookieStore httpCookieStore;
 	protected static String urlRoot = ApiTestUtil.getUrlRoot();
 	
-	protected static HttpClient client;
-	protected static Object jsonDoc;
-	protected static String httpBody;
+	protected HttpClient client;
+	protected Object jsonDoc;
+	protected String httpBody;
 	
-	protected static Integer value, expectedValue;
-	protected static String sValue;
-	protected static Boolean bValue , expectedBValue;
-	protected static Double dValue, expectedDValue;
+	protected Integer value, expectedValue;
+	protected String sValue;
+	protected Boolean bValue , expectedBValue;
+	protected Double dValue, expectedDValue;
 
-	@BeforeClass
-	public static void beforeClass() throws Exception {
+	@Before
+	public void before() throws Exception {
 		httpCookieStore = new BasicCookieStore();
 		
 		UserInfo userInfo = new UserInfo();
@@ -37,8 +37,8 @@ public class IntegrationTestBase2 {
 		client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
 	}
 
-	@AfterClass
-	public static void afterClass() throws Exception {
+	@After
+	public void after() throws Exception {
 		LoginService.logout(urlRoot, httpCookieStore);
 	}
 	
