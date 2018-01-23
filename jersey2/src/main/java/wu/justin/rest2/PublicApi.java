@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import wu.justin.bean.DateConvert;
+import wu.justin.bean.DateConvert2;
 import wu.justin.bean.User2;
 
 /**
@@ -81,6 +82,16 @@ public class PublicApi {
 		
 	    return result;
 	}
+	
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/timestamp.json")
+	public DateConvert2 postTimestamp(DateConvert2 dateConvert) {		
+	    return dateConvert;
+	}
+
 
 	
 }
