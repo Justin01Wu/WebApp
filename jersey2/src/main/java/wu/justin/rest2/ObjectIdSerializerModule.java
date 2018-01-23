@@ -11,6 +11,12 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+/**
+ *    http://jmchung.github.io/blog/2014/06/18/how-to-customise-the-jackson-json-objectmapper-in-java-ee-enterprise-application/
+ * @author justin.wu
+ *  convert a type of object into customized format 
+ */
+
 public class ObjectIdSerializerModule extends SimpleModule {
 
 	private static final long serialVersionUID = 1L;

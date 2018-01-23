@@ -11,7 +11,7 @@ public class ObjectId {
 		this.name = "object Id name";
 	}
 	
-	//JACKSON will call this method if it deserialize this object
+	//JACKSON will call this method in ObjectIdSerializerModule
 	public String toJsonString(){
 		return "Justin test Object Id 123456";
 	}

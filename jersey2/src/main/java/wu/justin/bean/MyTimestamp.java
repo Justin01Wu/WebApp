@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DateConvert2 {
+public class MyTimestamp {
 	
 	protected Timestamp runDate;
 	
