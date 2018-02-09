@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
 
 import freemarker.template.TemplateException;
+import freemarker.template.utility.CollectionUtils;
 import wu.justa.utils.BeanGenerator;
 import wu.justin.rest2.ApiUtil;
 
@@ -48,12 +50,12 @@ public class MyDoclet {
 	private static List<ApiClassEntry> allApiClass = new ArrayList<ApiClassEntry>();
 	
 	
-	public static boolean start(RootDoc root){		
+	public static boolean start(RootDoc root) throws Exception{		
 		
 		System.out.println("");
 		System.out.println("========================= start MyDoclet===========================");
 		
-		printEnv(root);
+		handleEnv(root);
 		
 		Prefix = System.getProperty("restful.api.prefix");
 		if (Prefix == null) {
@@ -329,27 +331,71 @@ public class MyDoclet {
 
 
 	
-	private static void printEnv(RootDoc root){
+	private static void handleEnv(RootDoc root) throws Exception{
 		
 		String[][] options = root.options();
-		for(String[] list : options){
+		for(String[] list : options){			
 			for(String one: list){
-				System.out.print(one);
+				System.out.print("  ==>>" + one);
 				System.out.print(", ");
 			}
 			System.out.println("");
-		}
+		}		
 		
 		ClassLoader cl = ClassLoader.getSystemClassLoader();
 
 		URL[] urls = ((URLClassLoader) cl).getURLs();
 
-		System.out.println("   ==>>   current classpath for doclet:");
+		System.out.println("    ==>>   current classpath for doclet:");
+		for (URL url : urls) {
+			System.out.println( "               " + url.getFile());
+		}
+		
+		// in maven plugin, we have to add those extra classpath to classLoader 
+		List<String> extraClassPaths  = readClassPathOptions(options);
+		for(String extraClassPath : extraClassPaths){
+			addClassPath(extraClassPath);	
+		}		
+		
+		urls = ((URLClassLoader) cl).getURLs();
+
+		System.out.println("    ==>>   current classpath for doclet:");
 		for (URL url : urls) {
 			System.out.println( "               " + url.getFile());
 		}
 		
 	}
+	
+	//need to do add path to Classpath with reflection since the URLClassLoader.addURL(URL url) method is protected:
+	// this code comes from :
+	//  https://stackoverflow.com/questions/7884393/can-a-directory-be-added-to-the-class-path-at-runtime
+	private static void addClassPath(String s) throws Exception {
+	    File f = new File(s);
+	    URI u = f.toURI();
+	    URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
+	    Class<URLClassLoader> urlClass = URLClassLoader.class;
+	    Method method = urlClass.getDeclaredMethod("addURL", new Class[]{URL.class});
+	    method.setAccessible(true);
+	    method.invoke(urlClassLoader, new Object[]{u.toURL()});
+	}
+	
+	private static List<String> readClassPathOptions(String[][] options) {
+		
+		List<String> result  = new ArrayList<>();
+        for (int i = 0; i < options.length; i++) {
+            String[] opt = options[i];
+            if (opt[0].equals("-classpath")) {
+            	for(int j=1; j<opt.length; j++){
+            		String[] classPaths = opt[j].split(";");
+            		for(String oneClassPath : classPaths){
+                		System.out.println( "   adding classpath: " + oneClassPath);
+                		result.add(oneClassPath);            			
+            		}
+            	}                
+            }
+        }
+        return result;
+    }
 	
 	public static void main(String[] args) {
 		
