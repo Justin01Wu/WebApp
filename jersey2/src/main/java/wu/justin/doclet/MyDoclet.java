@@ -161,7 +161,7 @@ public class MyDoclet {
     	
 	}
 	
-	private static String generateJson(Object obj) throws JsonProcessingException{
+	public static String generateJson(Object obj) throws JsonProcessingException{
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonInString = mapper.writeValueAsString(obj);
 		
