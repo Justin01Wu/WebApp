@@ -3,8 +3,7 @@ package wu.justin.doclet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApiEntry {
-
+public class ApiEntry implements Comparable<ApiEntry> {
 	private String httpMethod;
 	private String url;
 	private String className;
@@ -80,4 +79,12 @@ public class ApiEntry {
 		this.comment = comment;
 	}
 	
+	@Override
+    public int compareTo(ApiEntry another) {
+        String url2 = ((ApiEntry)another).getUrl();
+        /* For Ascending order*/
+        return this.url.compareTo(url2);
+
+    }
+
 }

@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -19,6 +20,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,7 +32,6 @@ import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
 
 import freemarker.template.TemplateException;
-import freemarker.template.utility.CollectionUtils;
 import wu.justa.utils.BeanGenerator;
 import wu.justin.rest2.ApiUtil;
 
@@ -88,6 +89,8 @@ public class MyDoclet {
         		allApis.addAll(oneClass.getApis());	
         	}        	
         }
+        
+        Collections.sort(allApis);        
         
         
         File output = new File(outputPath);
@@ -177,8 +180,10 @@ public class MyDoclet {
 	private static void handleOneMethod(Method method, String root, ApiClassEntry apiClass, ClassDoc aClass){
 		
 		
+		Produces myProduce = method.getDeclaredAnnotation(javax.ws.rs.Produces.class);
 		Path myPath = method.getDeclaredAnnotation(javax.ws.rs.Path.class);
-		if(myPath == null){
+		
+		if(myProduce == null && myPath == null){
 			// it is not API method
 			return;
 		}
@@ -195,7 +200,7 @@ public class MyDoclet {
 			//System.out.println(methodDoc.name());
 		}
 		
-		String methodPath  = myPath.value();
+		String methodPath  = myPath == null? "" : myPath.value();
 		String fullPath = root + methodPath; 
 		String SimpleName =  apiClass.getName()+ "."+ method.getName();
 		
