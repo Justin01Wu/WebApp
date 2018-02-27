@@ -21,6 +21,10 @@ table.response th:nth-child(1){
 table.response th:nth-child(2){
     width: 100px;
 }
+ul#apiDetails li{
+	margin-top: 30px;
+}
+
 </style>
 </head>
 <body>
@@ -35,11 +39,14 @@ table.response th:nth-child(2){
 
 
 	<#list allApiClass as oneClass> 
+	
+	<br/><br/><br/><br/>
+	
 	<b>${oneClass.fullName}</b>
 	<#if oneClass.comment?has_content>	
 		<pre>${oneClass.comment}</pre>
 	</#if>
-	<ul>
+	<ul id="apiDetails">
 		<#list oneClass.apis as api>
 		<li id="${api.className}.${api.methodName}"><b>${api.httpMethod} </b> ${api.url} &nbsp; &nbsp; &nbsp;<b>From: &nbsp; &nbsp; &nbsp;</b> ${api.className}.${api.methodName}
 		<#if api.comment?has_content>	
