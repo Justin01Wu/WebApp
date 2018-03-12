@@ -81,7 +81,7 @@ public class ApiEntry implements Comparable<ApiEntry> {
 	
 	@Override
     public int compareTo(ApiEntry another) {
-        String url2 = ((ApiEntry)another).getUrl();
+        String url2 = another.getUrl();
         /* For Ascending order*/
         return this.url.compareTo(url2);
 

@@ -15,7 +15,7 @@ public class TestResultHandler {
 	
 	private static final String RegExSpecialChars = "<([{\\^-=$!|]})?*+.>";  // all regualr Express special characters which need escape
 	private static final String RegExSpecialCharsRE = RegExSpecialChars.replaceAll( ".", "\\\\$0");  // replace all characters with \
-	private static final Pattern reCharsREP = Pattern.compile( "[" + RegExSpecialCharsRE + "]");
+	private static final Pattern ReCharsREP = Pattern.compile( "[" + RegExSpecialCharsRE + "]");
 	
 	private Map<String, TestResult> allTestResults = new HashMap<>();
 	
@@ -31,7 +31,7 @@ public class TestResultHandler {
 	
 	
 	private static String quoteRegExSpecialChars( String s)	{
-	    Matcher m = reCharsREP.matcher( s);
+	    Matcher m = ReCharsREP.matcher( s);
 	    return m.replaceAll( "\\\\$0");
 	}
 	

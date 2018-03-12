@@ -5,8 +5,8 @@ import java.util.List;
 
 public class ApiClassEntry {
 	
-	private String fullName;
-	private String name;	
+	private final String fullName;
+	private final String name;	
 	private String url;	
 	private String comment;
 	private List<ApiEntry> apis;
@@ -19,15 +19,15 @@ public class ApiClassEntry {
 	public String getFullName() {
 		return fullName;
 	}
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
+//	public void setFullName(String fullName) {
+//		this.fullName = fullName;
+//	}
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
+//	public void setName(String name) {
+//		this.name = name;
+//	}
 	public String getUrl() {
 		return url;
 	}
