@@ -53,6 +53,25 @@ public class AllServletPath extends HttpServlet {
             out.println("<b>request.getPathInfo: </b>"+request.getPathInfo());
             out.println("<br/><br/>");
             
+            out.println("<b>request.getLocalAddr: </b>"+request.getLocalAddr());
+            out.println("<br/>");
+            out.println("<b>request.getLocalPort: </b>"+request.getLocalPort());
+            out.println("<br/>");
+            out.println("<b>request.getLocalName: </b>"+request.getLocalName());
+            out.println("<br/><br/>");
+
+            out.println("<b>request.getProtocol: </b>"+request.getProtocol());
+            out.println("<br/>");
+            out.println("<b>request.getAuthType: </b>"+request.getAuthType());
+            out.println("<br/>");            
+            out.println("<b>request.getMethod: </b>"+request.getMethod());
+            out.println("<br/>");            
+
+            out.println("<b>request.getServerName: </b>"+request.getServerName());
+            out.println("<br/>");
+            out.println("<b>request.getServerPort: </b>"+request.getServerPort());
+            out.println("<br/><br/>");
+            
             out.println("<b>request.getPathTranslated: </b>"+request.getPathTranslated());
             out.println("<br/>");
             out.println("<b>getServletContext().getRealPath('.'): </b>"+getServletContext().getRealPath("."));
@@ -70,6 +89,10 @@ public class AllServletPath extends HttpServlet {
             
             out.println("<b>request.getRequestURL(): </b>"+request.getRequestURL());
             out.println("<br/>");
+            
+            out.println("<b>request.getRequestURI(): </b>"+request.getRequestURI());
+            out.println("<br/><br/>");
+            
             
         }
         
