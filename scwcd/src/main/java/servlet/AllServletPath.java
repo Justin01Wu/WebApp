@@ -62,6 +62,8 @@ public class AllServletPath extends HttpServlet {
 
             out.println("<b>request.getProtocol: </b>"+request.getProtocol());
             out.println("<br/>");
+            out.println("<b>request.getScheme: </b>"+request.getScheme());
+            out.println("<br/>");
             out.println("<b>request.getAuthType: </b>"+request.getAuthType());
             out.println("<br/>");            
             out.println("<b>request.getMethod: </b>"+request.getMethod());
