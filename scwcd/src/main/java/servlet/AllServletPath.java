@@ -92,7 +92,11 @@ public class AllServletPath extends HttpServlet {
             out.println("<b>request.getRequestURL(): </b>"+request.getRequestURL());
             out.println("<br/>");
             
-            out.println("<b>request.getRequestURI(): </b>"+request.getRequestURI());
+            out.println("<b>request.getRequestURI(): </b>"+request.getRequestURI());            
+            out.println("<br/>");
+            
+            out.println("<b>request.getQueryString(): </b>"+request.getQueryString());
+
             out.println("<br/><br/>");
             
             
