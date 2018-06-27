@@ -8,6 +8,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -96,13 +97,25 @@ public class AllServletPath extends HttpServlet {
             out.println("<br/>");
             
             out.println("<b>request.getQueryString(): </b>"+request.getQueryString());
+            out.println("<br/>");
+            
+            out.println("<b>request.getContentLength(): </b>"+request.getContentLength());
 
             out.println("<br/><br/>");
             
             
+            @SuppressWarnings("unchecked")
+			Enumeration<String> names = request.getHeaderNames();
+            while (names.hasMoreElements()) {
+                String name = names.nextElement();
+                String value = request.getHeader(name);
+                out.println("<b>request.header </b>"+name +": " + value);            
+                out.println("<br/>");                
+            }            
+            
         }
         
-        out.println("<a href='/index.html'>return home page</a>");
+        out.println("<a href='" + request.getContextPath() + "/index.html'>return home page</a>");
         
         out.println("<h3>");
         out.println("</body>");
