@@ -45,7 +45,7 @@
 					
 						<groupId>org.codehaus.cargo</groupId>
 						<artifactId>cargo-maven2-plugin</artifactId>
-						<version>1.6.9</version>
+						<version>1.6.10</version>
                 
 						<configuration>
 							<wait>true</wait>        
@@ -60,7 +60,6 @@
 								<home>${project.basedir}/target/tomcat8x</home>
 								<properties>
 									<cargo.servlet.port>${maven.tomcat.port}</cargo.servlet.port>
-									<cargo.jvmargs>-Xmx2048m -Xms512m</cargo.jvmargs>
 								</properties>
 								<files>
 									<copy>
