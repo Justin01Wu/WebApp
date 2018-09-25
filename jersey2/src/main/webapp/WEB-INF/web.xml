@@ -17,7 +17,45 @@
 
 	<servlet-mapping>
 		<servlet-name>RestApi</servlet-name>
-		<url-pattern>/api/*</url-pattern>
+		<url-pattern>/apiReal/*</url-pattern>
 	</servlet-mapping>
+	
+		<filter>
+		<filter-name>SpnegoProxy</filter-name>
+		<filter-class>wu.justa.proxy.SpnegoProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SpnegoProxy</filter-name>
+		<url-pattern>/api/*</url-pattern>
+	</filter-mapping>
+		
+	<filter>
+		<filter-name>AccessTokenProxy</filter-name>
+		<filter-class>wu.justa.proxy.AccessTokenProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AccessTokenProxy</filter-name>
+		<url-pattern>/tokenApi/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>InnerTokenFilter</filter-name>
+		<filter-class>wu.justa.proxy.InnerTokenFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>InnerTokenFilter</filter-name>
+		<url-pattern>/apiReal/*</url-pattern>
+	</filter-mapping>		
+	
+	<servlet>
+		<servlet-name>CreateAccessToken</servlet-name>
+		<servlet-class>wu.justa.proxy.CreateAccessToken</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CreateAccessToken</servlet-name>
+		<url-pattern>/CreateAccessToken</url-pattern>
+	</servlet-mapping>
+	
 
 </web-app>
