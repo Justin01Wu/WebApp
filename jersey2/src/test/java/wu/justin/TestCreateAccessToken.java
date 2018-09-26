@@ -19,7 +19,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-@Category(IntegrationTest.class)
+@Category(ManualTest.class)
 public class TestCreateAccessToken {
 
 	@Test

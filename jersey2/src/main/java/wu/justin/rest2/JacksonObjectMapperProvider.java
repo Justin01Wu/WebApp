@@ -33,6 +33,7 @@ public class JacksonObjectMapperProvider implements ContextResolver<ObjectMapper
     	
         //ObjectMapper mapper = new ObjectMapper();         
         JacksonJsonProvider jackson_json_provider = new JacksonJaxbJsonProvider();
+
         ObjectMapper mapper = jackson_json_provider.locateMapper(Date.class, MediaType.APPLICATION_JSON_TYPE);
         
         //DateFormat df = new SimpleDateFormat("MMM/yyyy/dd'T'HH:mm:ssZ");

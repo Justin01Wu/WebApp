@@ -153,8 +153,8 @@ public abstract class GeneralHttpProxy implements Filter {
 
 		try {
 
-			HttpResponse proxyResponse = proxyClient.execute(getTargetHost(servletRequest), proxyRequest);
-
+			HttpHost host = getTargetHost(servletRequest);
+			HttpResponse proxyResponse = proxyClient.execute(host , proxyRequest);
 
 		      // Process the response:
 
@@ -218,7 +218,12 @@ public abstract class GeneralHttpProxy implements Filter {
 	}
 	
 	protected HttpHost getTargetHost(HttpServletRequest servletRequest) {
-		return new HttpHost("localhost", 8080, "http"); 
+
+		int port = servletRequest.getLocalPort();  		
+		System.out.println("targetAPIHost: localhost:" +  port);
+		
+		// temporary solution, will use different port and host in the future
+		return new HttpHost("localhost", port, "http");  
 	}
 	
 	protected String getTargetUri(HttpServletRequest servletRequest) {
