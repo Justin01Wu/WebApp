@@ -36,6 +36,7 @@ import org.apache.http.message.BasicHttpRequest;
 import org.apache.http.message.HeaderGroup;
 import org.apache.http.util.EntityUtils;
 
+// it comes from https://github.com/mitre/HTTP-Proxy-Servlet
 public class ProxyFilterOld extends HttpServlet {
 	/* INIT PARAMETER NAME CONSTANTS */
 
