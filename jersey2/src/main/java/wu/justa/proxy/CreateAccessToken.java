@@ -83,7 +83,7 @@ public class CreateAccessToken extends HttpServlet {
 			
 			Map<String, String> restData = new HashMap<>();
 			
-			restData.put("accessToken", accessToken);
+			restData.put("access_token", accessToken);
 			restData.put("expired", String.valueOf(expiredTime));
 			
 			ObjectMapper mapper = new ObjectMapper();
