@@ -189,19 +189,17 @@
 
  
 		<dependency>
-  			<groupId>io.jsonwebtoken</groupId>
-  			<artifactId>jjwt</artifactId>
-  			<version>0.9.1</version>
+    		<groupId>com.auth0</groupId>
+    		<artifactId>java-jwt</artifactId>
+    		<version>3.4.0</version>
 		</dependency>
-	 
-	  	<!--  has to explicitly include it because Jersey didn't include it and JJWT need ti think Jersey already has this jar  -->
-		 <dependency>
-	        <groupId>com.fasterxml.jackson.core</groupId>
-	        <artifactId>jackson-databind</artifactId>
-	        <version>2.8.4</version>
-	        <scope>runtime</scope>
-	    </dependency>
-	 
+		
+		<!--  have to explicitly add this dependency for java-jwt to avoid conflict with jersey-media-json-jackson -->
+		<dependency>
+    		<groupId>com.fasterxml.jackson.core</groupId>
+    		<artifactId>jackson-databind</artifactId>
+    		<version>2.8.4</version>
+		</dependency>	 
 	 	 
 	</dependencies>
 

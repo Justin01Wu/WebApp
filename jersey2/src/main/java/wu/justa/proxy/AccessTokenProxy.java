@@ -1,17 +1,13 @@
 package wu.justa.proxy;
 
 import java.sql.SQLException;
-import java.util.Base64;
-import java.util.Date;
 import java.util.logging.Logger;
 
-import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpRequest;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class AccessTokenProxy extends GeneralHttpProxy {
 	
@@ -39,26 +35,6 @@ public class AccessTokenProxy extends GeneralHttpProxy {
 		// if true, then go to the next filter
 		// if false. then return 401 error
 	}
-
-	
-	private static Claims parseJWT(String jwt) throws Exception{
-        SecretKey key = JWTSetting.SecretKey;  //签名秘钥，和生成的签名的秘钥一模一样
-        Claims claims = Jwts.parser()  //得到DefaultJwtParser
-           .setSigningKey(key)         //设置签名的秘钥
-           .parseClaimsJws(jwt).getBody();//设置需要解析的jwt
-        return claims;
-    }
-
-	public static void printJwt(Claims c){
-        System.out.println("  id: " + c.getId()); //jwt Id
-        System.out.println("  IssuedAt: " + c.getIssuedAt());  //Mon Feb 05 20:50:49 CST 2018
-        System.out.println("  expiredAt: " + c.getExpiration());  //Mon Feb 05 20:50:49 CST 2018
-        System.out.println("  subject: "+ c.getSubject());  //{id:100,name:justin.wu}
-        System.out.println("  issuer: " + c.getIssuer());//null
-        //System.out.println("  uid: " + c.get("uid", String.class));//DSSFAWDWADAS...
-        System.out.println("  justin: " + c.get("justin", String.class));        
-		
-	}
 	
 	private static InnerUser getAuthenticatedUser(HttpServletRequest servletRequest) {
 		String accessToken = servletRequest.getHeader("Authorization");		
@@ -75,25 +51,20 @@ public class AccessTokenProxy extends GeneralHttpProxy {
 			return null;
 		}
 		
-		Claims claim;
+		DecodedJWT decodedJWT = null;
 		try {
-			claim = parseJWT(accessTokens[1]);
-		} catch (Exception e1) {
-			e1.printStackTrace(); 
+			decodedJWT = JwtUtil.verifyToken(accessTokens[1]);	
+		}catch(Exception e) {
+			e.printStackTrace();
 			return null;
 		}
-		printJwt(claim);
 		
-  		Date now= new Date();
-  		long expired = claim.getExpiration().getTime();
-  		if(expired <now.getTime()){
-  			return null;
-  		}
-  		
+		JwtUtil.printToken(decodedJWT);
+		
   		InnerUser user = null;
   		
   		try{
-  			int userId = Integer.valueOf(claim.getSubject());
+  			int userId = Integer.valueOf(decodedJWT.getSubject());
   			
   			user = InnerUserService.load(userId);
   			if(user == null){
