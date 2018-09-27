@@ -1,6 +1,7 @@
 package wu.justin;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,11 +20,15 @@ import org.apache.http.message.BasicNameValuePair;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-@Category(ManualTest.class)
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+
+@Category(IntegrationTest.class)
 public class TestCreateAccessToken {
 
 	@Test
 	public void testGetAccessTokenFlow() throws HttpException, IOException{
+		System.out.println("     === >>> start testGetAccessTokenFlow");
 		String accessToken = stepTestGetAccessToken();
 		stepTestPingApi(accessToken);
 		stepTestPingApiFailure();
@@ -46,7 +51,18 @@ public class TestCreateAccessToken {
 		int statusCode = response.getStatusLine().getStatusCode();
 		assertEquals(statusCode, HttpStatus.SC_OK);
 		
-		String accessToken =  response.getFirstHeader("accessToken").getValue();
+		String body = ApiTestUtil.getReturn(response);
+		
+		Object json = Configuration.defaultConfiguration().jsonProvider().parse(body);
+		
+		String accessToken = JsonPath.read(json, "$.access_token");		
+		assertTrue(accessToken != null);
+		assertTrue(!accessToken.isEmpty());
+
+		String expiredDate = JsonPath.read(json, "$.expired");		
+		Long expired = Long.valueOf(expiredDate);
+		assertTrue(expired > 1538060613243l); // great than case created time
+		
 		System.out.println("accessToken ="+  accessToken);
 		
 		client.close();
@@ -64,8 +80,7 @@ public class TestCreateAccessToken {
 		String url = ApiTestUtil.getUrlRoot() + "/tokenApi/public/ping";
 	
 		HttpGet request = new HttpGet(url);
-		request.addHeader("accessToken", accessToken);
-		request.addHeader("accessTokenUser", "1");
+		request.addHeader("Authorization", "Bearer " + accessToken);
 		CloseableHttpClient client = HttpClients.createDefault();
 		
 		String responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_OK);

@@ -49,7 +49,7 @@ public final class ApiTestUtil {
 	}
 
 
-	protected static String getReturn(HttpResponse response) throws HttpException, IOException {
+	public static String getReturn(HttpResponse response) throws HttpException, IOException {
 		if (response.getEntity() == null) {
 			return "";
 		}
