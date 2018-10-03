@@ -2,6 +2,11 @@
 <head>
 <title>${title}</title>
 <style type="text/css">
+
+.title{
+	font-size: 48px;
+    font-weight: bold;
+}
 table{
     border: 1px solid black;
     table-layout: fixed;
@@ -12,7 +17,6 @@ table{
 th, td {
     border: 1px solid black;
     overflow: hidden;
-	white-space: nowrap;
     vertical-align: top;
 }
 table.response th:nth-child(1){
@@ -25,14 +29,41 @@ ul#apiDetails li{
 	margin-top: 30px;
 }
 
+ul.summary li:nth-child(odd) { 
+	background: #F2F5FF;
+}
+
+ul.summary li.GET strong{
+	padding-right: 29px;
+	background: #61affe;
+}
+ul.summary li.PUT strong{
+	padding-right: 29px;
+	background: #fca130;
+}
+ul.summary li.POST strong{
+	padding-right: 19px;
+	background: #49cc90;
+}
+
 </style>
 </head>
 <body>
-	<h1>${title}</h1>
+	<span class="title">${title}</span>
+	
+	<br/>Cost = "unknown" means the sample comes from mock up data, the data has no meaning
+	<br/>Cost != "unknown" means the sample comes from Integration test result, the data has  meaning
+	<br/> Last updated: ${lastUpdated}
 
-	<ul>
+	<ul class="summary">
 		<#list allApis as api>
-		<li>${api_index + 1} <b>${api.httpMethod}</b> <a href="#${api.className}.${api.methodName}">${api.url}</a>
+			<#if api?counter gt 99>
+	  			<li class="${api.httpMethod}">${api?counter} <strong>${api.httpMethod}</strong> <a href="#${api.className}.${api.methodName}">${api.url}</a>			
+			<#elseif api?counter gt 9>			
+	  			<li class="${api.httpMethod}">0${api?counter} <strong>${api.httpMethod}</strong> <a href="#${api.className}.${api.methodName}">${api.url}</a>
+	  		<#else>
+	  			<li class="${api.httpMethod}">00${api?counter} <strong>${api.httpMethod}</strong> <a href="#${api.className}.${api.methodName}">${api.url}</a>
+			</#if>		
 		</#list>
 	</ul>
 
@@ -42,20 +73,20 @@ ul#apiDetails li{
 	
 	<br/><br/><br/><br/>
 	
-	<b>${oneClass.fullName}</b>
+	<strong>${oneClass.fullName}</strong>
 	<#if oneClass.comment?has_content>	
 		<pre>${oneClass.comment}</pre>
 	</#if>
 	<ul id="apiDetails">
 		<#list oneClass.apis as api>
-		<li id="${api.className}.${api.methodName}"><b>${api.httpMethod} </b> ${api.url} &nbsp; &nbsp; &nbsp;<b>From: &nbsp; &nbsp; &nbsp;</b> ${api.className}.${api.methodName}
+		<li id="${api.className}.${api.methodName}"><strong>${api.httpMethod} </strong> ${api.url} &nbsp; &nbsp; &nbsp;<strong>From: &nbsp; &nbsp; &nbsp;</strong> ${api.className}.${api.methodName}
 		<#if api.comment?has_content>	
 			<pre>${api.comment}</pre>
 		</#if>
 		
 		<div>
 			<#if api.parameters?has_content>	
-			<b>Parameters</b>
+			<strong>Parameters</strong>
 			<!--  parameters list -->
 			<table>
                   <thead>
@@ -81,13 +112,13 @@ ul#apiDetails li{
 			
 					
 			<#if api.results?has_content>	
-			<b>Response</b>
+			<strong>Response</strong>
 			<!--  test result list -->
 			<table class="response">
                   <thead>
                     <tr>
                       <th>Code</th>
-                      <th>COST</th>
+                      <th>Cost</th>
                       <th>URL</th>
                       <th>Example</th>
                     </tr>

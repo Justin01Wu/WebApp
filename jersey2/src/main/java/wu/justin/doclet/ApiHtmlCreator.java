@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -45,6 +46,8 @@ public class ApiHtmlCreator {
         Map<String, Object> input = new HashMap<String, Object>();
 
         input.put("title", "RESTful Api list");
+        
+        input.put("lastUpdated", new Date().toString());
 
         input.put("allApis", allApis);
         input.put("allApiClass", allApiClass);
