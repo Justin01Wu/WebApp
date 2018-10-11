@@ -2,6 +2,9 @@ package wu.justin.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * test toJsonString method on ObjectId
+ */
 public class User2 {
 	private ObjectId id;
     private String username;
