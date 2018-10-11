@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import wu.justin.bean.DateConvert;
 import wu.justin.bean.MyTimestamp;
-import wu.justin.bean.User2;
+import wu.justin.bean.Student;
 
 /**
  * This is APIs for public access, anybody can access them
@@ -60,16 +60,15 @@ public class PublicApi {
 	    return dateConvert;
 	}
 	/**
-	 * test toJsonString method
-	 * @deprecated, please use /users/user/current.json
+	 * test toJsonString method 
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/objectId.json")
-	public User2 getUser2() {
+	public Student getStudent() {
 		
-		User2 user2 =  new User2();
-	    return user2;
+		Student student =  new Student();
+	    return student;
 	}
 
 	@GET

@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * test toJsonString method on ObjectId
  */
-public class User2 {
+public class Student {
 	private ObjectId id;
     private String username;
     private String password;
     
-    public User2(){
+    public Student(){
     	this.id = new ObjectId();
     	this.username="justin";
     	this.password="password";
