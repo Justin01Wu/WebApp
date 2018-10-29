@@ -122,6 +122,32 @@
 			
 		}; // end of getUser2Json
 		
+		$scope.getCurrentUser = function(){
+			console.log("getting getCurrentUser.json...");
+
+			$scope.errorMessage ="";
+			$scope.responsJsonDisp ="";
+			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
+			
+			var apiUrl = API_UTIL.getAPIUrlBase() + "/users/user/current.json";
+			
+
+			console.log(apiUrl);
+			
+			$http({
+				method : 'GET',
+				url : apiUrl,
+			}).then(function(response) {
+				// success
+				$scope.responsJsonDisp = JSON.stringify(response.data, null,4);				
+			}, function(response) { 
+				console.log("get fails");				
+				$scope.errorMessage = "get fail with status: " + response.status;
+				return false;
+			});
+			
+		}; // end of getCurrentUser
+				
 		$scope.testSSO = function(){
 			console.log("test SSO: external API...");
 

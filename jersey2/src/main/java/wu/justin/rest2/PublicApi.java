@@ -9,10 +9,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import wu.justin.bean.DateConvert;
 import wu.justin.bean.MyTimestamp;
 import wu.justin.bean.Student;
+import wu.justin.rest2.exception.StatusMessageException;
 
 /**
  * This is APIs for public access, anybody can access them
@@ -90,6 +92,18 @@ public class PublicApi {
 	public MyTimestamp postTimestamp(MyTimestamp dateConvert) {		
 	    return dateConvert;
 	}
+
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/error/errorTest.json")
+	public String getStatusMessageException() throws StatusMessageException {
+		
+		throw new StatusMessageException("test StatusMessageException 435345", Response.Status.NOT_ACCEPTABLE);
+	    
+	}
+
+	
 
 
 	

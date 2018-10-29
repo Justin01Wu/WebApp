@@ -21,13 +21,13 @@ div.smallColumn {
 <body>
 	<h2>This is a demo for Jersey version 2 RESTful</h2>
 
-	<a href="api/public/ping">json sample</a>
+	<a href="api/public/ping" target="_blank">json sample</a>
 	<br />
 
-	<a href="api/public/time">get server time</a>
+	<a href="api/public/time" target="_blank">get server time</a>
 	<br />
 
-	<a href="api/users/user/current.json">get current user</a>
+	<a href="api/public/error/errorTest.json" target="_blank">test error</a>
 	<br />
 
 
@@ -44,6 +44,12 @@ div.smallColumn {
 			
 			<button type="button" ng-click="getDateJson()">get date </button>
 			<br/><br/>
+			
+			
+			<button type="button" ng-click="getCurrentUser()">get Current User </button>
+			<br/><br/>
+			
+
 			<button type="button" ng-click="getUser2Json()">get ObjectId </button>
 			<br/><br/>
 			
