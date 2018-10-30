@@ -30,13 +30,17 @@ public class StatusMessageExceptionMapper implements ExceptionMapper<StatusMessa
 	@Override
 	public Response toResponse(StatusMessageException ex) {		
 		
-		log.info(ex.getStatus() + ": " + request.getRequestURI() + ": " + ex.getMessage());
+		Class<?> cls = resourceInfo.getResourceClass();
+		Method method = resourceInfo.getResourceMethod();		
+
+		log.info( cls.getName() + "."+ method.getName() + ": " + ex.getMessage());
+		log.info( ex.getStatus() + ": " + request.getRequestURI() + ": " + ex.getMessage());
 		
 		ApiError appError = new ApiError();
 		appError.setMessage(ex.getMessage());
 		appError.setDevMessage(ex.getDevMess());
 		appError.setStatus(ex.getStatus().getStatusCode());
-		String mediaType = getMediaTypeFromResponse(resourceInfo).get(0);
+		String mediaType = getMediaTypeFromResponse(cls, method).get(0);
 		
 			
 		return Response.status(ex.getStatus())
@@ -46,9 +50,8 @@ public class StatusMessageExceptionMapper implements ExceptionMapper<StatusMessa
 		
 	}
 	
-	private static List<String> getMediaTypeFromResponse(ResourceInfo resourceInfo) {
-		Method method = resourceInfo.getResourceMethod();
-		Class<?> cls = resourceInfo.getResourceClass();
+	private static List<String> getMediaTypeFromResponse(Class<?> cls, Method method) {
+
 		List<String> mediaTypes = new ArrayList<>();
 		Produces produces = method.getAnnotation(Produces.class);
 		if (produces == null) {
