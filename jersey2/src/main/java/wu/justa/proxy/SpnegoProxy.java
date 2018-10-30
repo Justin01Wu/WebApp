@@ -1,16 +1,16 @@
 package wu.justa.proxy;
 
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpRequest;
+import org.apache.log4j.Logger;
 
 public class SpnegoProxy extends GeneralHttpProxy {
 	public static final String KEY_AUTH_USER = "CurrentUser";
 	
-	private static final Logger log = Logger.getLogger(SpnegoProxy.class.getName());
+	private static final Logger log = Logger.getLogger(SpnegoProxy.class);
 	
 	@Override
 	protected String getValidOriginalUrlStart(){
@@ -54,7 +54,7 @@ public class SpnegoProxy extends GeneralHttpProxy {
 		String headerValue = String.valueOf(userId) ;   
 		
 		if(proxyRequest.containsHeader(headerKey)){
-			log.fine(" overwrite http header: " + headerKey);
+			log.debug(" overwrite http header: " + headerKey);
 			proxyRequest.setHeader(headerKey, headerValue);
 		}else{
 			proxyRequest.addHeader(headerKey, headerValue);
@@ -63,7 +63,7 @@ public class SpnegoProxy extends GeneralHttpProxy {
 		headerKey   = InnerTokenFilter.INNER_TOKEN_FROM;
 		headerValue = clazz.getSimpleName();
 		if(proxyRequest.containsHeader(headerKey)){
-			log.fine(" overwrite http header: " + headerKey);
+			log.debug(" overwrite http header: " + headerKey);
 			proxyRequest.setHeader(headerKey, headerValue);
 		}else{
 			proxyRequest.addHeader(headerKey, headerValue);

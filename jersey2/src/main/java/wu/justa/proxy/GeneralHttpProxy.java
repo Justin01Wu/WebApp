@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Enumeration;
-import java.util.logging.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -28,10 +27,11 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
 import org.apache.http.message.BasicHttpRequest;
 import org.apache.http.message.HeaderGroup;
+import org.apache.log4j.Logger;
 
 public abstract class GeneralHttpProxy implements Filter {
 	
-	private static Logger log = Logger.getLogger(GeneralHttpProxy.class.getName());
+	private static Logger log = Logger.getLogger(GeneralHttpProxy.class);
 	
 	//protected boolean doPreserveCookies = false;
 	protected boolean doPreserveHost = false;
@@ -61,7 +61,7 @@ public abstract class GeneralHttpProxy implements Filter {
 			throws IOException, ServletException {
 		
 		if(hasError()){
-			log.severe("GeneralHttpProxy init error, please check settings, so skip it");
+			log.error("GeneralHttpProxy init error, please check settings, so skip it");
 			chain.doFilter(request, response);
 			return;
 		}
@@ -83,7 +83,7 @@ public abstract class GeneralHttpProxy implements Filter {
 		}else{
 			// no authorization
 			
-			log.fine("no authorization, so skip it");
+			log.debug("no authorization, so skip it");
 			if(postAuthenticationFail()){
 				chain.doFilter(request, response);
 			}else{
@@ -106,7 +106,7 @@ public abstract class GeneralHttpProxy implements Filter {
 		final String servletPath = servletRequest.getServletPath();
 		String origUrlStart =  "/" + getValidOriginalUrlStart();
 		if (!servletPath.startsWith(origUrlStart) ) {			
-			log.warning("GeneralHttpProxy doFilter is called on wrong URI, please check web.xml setting: " + servletPath);
+			log.warn("GeneralHttpProxy doFilter is called on wrong URI, please check web.xml setting: " + servletPath);
 			chain.doFilter(servletRequest, servletResponse);
 			return;
 		}		
@@ -118,7 +118,7 @@ public abstract class GeneralHttpProxy implements Filter {
 		String proxyRequestUri = rewriteUrlFromRequest(servletRequest);
 
 		if (proxyRequestUri == null) {
-			log.fine("can't find  proxyRequestUri, so skip it"  );
+			log.debug("can't find  proxyRequestUri, so skip it"  );
 			chain.doFilter(servletRequest, servletResponse);
 			return;
 		}
@@ -130,7 +130,7 @@ public abstract class GeneralHttpProxy implements Filter {
 
 			throw new ServletException(e);
 		}
-		log.fine("targetUrl= " + httpMethod + " " + targetUri);
+		log.debug("targetUrl= " + httpMethod + " " + targetUri);
 		
 	    HttpRequest proxyRequest;
 	    //spec: RFC 2616, sec 4.3: either of these two headers signal that there is a message body.
@@ -147,7 +147,7 @@ public abstract class GeneralHttpProxy implements Filter {
 	    
 	    HttpClient proxyClient = ProxyUtil.createHttpClient(null);
 
-		log.fine("proxy " + servletRequest.getMethod() + " uri: " + servletRequest.getRequestURI() + " -- "
+		log.debug("proxy " + servletRequest.getMethod() + " uri: " + servletRequest.getRequestURI() + " -- "
 					+ proxyRequest.getRequestLine().getUri());
 		
 
@@ -182,7 +182,7 @@ public abstract class GeneralHttpProxy implements Filter {
 
 		} catch (Exception e) {
 			
-			log.fine(" exception is " + e.getClass().getName());
+			log.debug(" exception is " + e.getClass().getName());
 			// abort request, according to best practice with HttpClient
 			if (proxyRequest instanceof AbortableHttpRequest) {
 				AbortableHttpRequest abortableHttpRequest = (AbortableHttpRequest) proxyRequest;

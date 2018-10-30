@@ -1,17 +1,17 @@
 package wu.justa.proxy;
 
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpRequest;
+import org.apache.log4j.Logger;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class AccessTokenProxy extends GeneralHttpProxy {
 	
-	private static Logger LOG = Logger.getLogger(AccessTokenProxy.class.getName());
+	private static Logger LOG = Logger.getLogger(AccessTokenProxy.class);
 	
 	@Override
 	protected void copyRequestHeaders(HttpServletRequest httpRequest, HttpRequest proxyRequest  ) {
@@ -72,7 +72,7 @@ public class AccessTokenProxy extends GeneralHttpProxy {
   			}  			
   			
   		}catch(NumberFormatException | SQLException e){
-  			LOG.severe( e.getMessage());
+  			LOG.error( e.getMessage());
   			return null;
   		}
 		return user;

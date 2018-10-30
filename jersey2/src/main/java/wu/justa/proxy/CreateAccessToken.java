@@ -6,18 +6,20 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CreateAccessToken extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger LOG = Logger.getLogger(CreateAccessToken.class.getName());
+	
+	private static Logger LOG = Logger.getLogger(CreateAccessToken.class);
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		try (OutputStream out = response.getOutputStream()) {
@@ -28,14 +30,14 @@ public class CreateAccessToken extends HttpServlet {
 
 			if(tokenId == null || !tokenId.equals("1")){
 
-	  			LOG.finest("CreateAccessToken is rejected for token "+ tokenId +" on remoteAddr = " + remoteAddr);	
+	  			LOG.trace("CreateAccessToken is rejected for token "+ tokenId +" on remoteAddr = " + remoteAddr);	
 
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "invalid token");
 				return;
 			}
 			
 			if(tokenPassword == null || !tokenPassword.equals("justin719")){
-				LOG.finest("CreateAccessToken is rejected for token "+ tokenId +" on remoteAddr = " + remoteAddr);
+				LOG.trace("CreateAccessToken is rejected for token "+ tokenId +" on remoteAddr = " + remoteAddr);
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "invalid token");
 				return;
 			}
@@ -46,17 +48,17 @@ public class CreateAccessToken extends HttpServlet {
 	  			int userId = Integer.valueOf(accessTokenUser);
 	  			user = InnerUserService.load(userId);
 	  			if(user == null){
-					LOG.finest("CreateAccessToken is rejected for token "+ tokenId +" on remoteAddr = " + remoteAddr);
+					LOG.trace("CreateAccessToken is rejected for token "+ tokenId +" on remoteAddr = " + remoteAddr);
 					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "invalid token");
 					return;
 	  			}
 	  			
 	  		}catch(NumberFormatException e){
-				LOG.severe(e.getMessage());
+				LOG.error(e.getMessage());
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "invalid token");
 				return;
 	  		}catch(SQLException e){
-				LOG.severe(e.getMessage());
+				LOG.error(e.getMessage());
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "invalid token");
 				return;
 	  		}
@@ -69,7 +71,7 @@ public class CreateAccessToken extends HttpServlet {
 			try {
 				accessToken = createJWTToken(user, expiredTime);
 			} catch (Exception e) {
-				LOG.severe(e.getMessage());
+				LOG.error(e.getMessage());
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "failed on token creating");
 				return;
 			}

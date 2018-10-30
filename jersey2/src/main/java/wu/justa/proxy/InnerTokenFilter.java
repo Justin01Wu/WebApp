@@ -1,7 +1,6 @@
 package wu.justa.proxy;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,13 +11,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 public class InnerTokenFilter implements Filter {
 	
 	public static final String INNER_TOKEN_KEY ="USERID";
 	public static final String INNER_TOKEN_FROM ="ACCESS_FROM";	
 
 	
-	private static final Logger log = Logger.getLogger(InnerTokenFilter.class.getName());
+	private static final Logger log = Logger.getLogger(InnerTokenFilter.class);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
@@ -33,7 +34,7 @@ public class InnerTokenFilter implements Filter {
 
   		
   		String remoteAddr = request.getRemoteAddr();
-		log.finest("remoteAddr = " + remoteAddr);	
+		log.trace("remoteAddr = " + remoteAddr);	
 
 		// check if inner token exists and valid
 		String token = httpRequest.getHeader(INNER_TOKEN_KEY);
