@@ -13,6 +13,7 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -82,7 +83,7 @@ public class MyDoclet {
         
         for( ClassDoc aClass : root.classes() ){
         	handleOneClass(aClass);
-        }        
+        }
         
         for(ApiClassEntry oneClass: allApiClass){
         	if(oneClass.getApis() != null){
@@ -386,12 +387,18 @@ public class MyDoclet {
 	
 	private static List<String> readClassPathOptions(String[][] options) {
 		
+        Properties properties = System.getProperties();
+
+        String pathSeparator = properties.getProperty("path.separator");
+        System.out.println( "   pathSeparator: " + pathSeparator);
+        
 		List<String> result  = new ArrayList<>();
         for (int i = 0; i < options.length; i++) {
             String[] opt = options[i];
             if (opt[0].equals("-classpath")) {
             	for(int j=1; j<opt.length; j++){
-            		String[] classPaths = opt[j].split(";");
+            		
+            		String[] classPaths = opt[j].split(pathSeparator);
             		for(String oneClassPath : classPaths){
                 		System.out.println( "   adding classpath: " + oneClassPath);
                 		result.add(oneClassPath);            			
