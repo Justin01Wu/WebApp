@@ -46,6 +46,7 @@ public class TestUserApi {
 		stepGetCurrentUserApi(); 
 		stepGetUserByIdApi();
 		stepGetUserByNegativeIdApi();
+		stepGetUserByIdApi2();
 		
 	}
 	
@@ -63,8 +64,7 @@ public class TestUserApi {
 		final HttpGet request = new HttpGet(url);
 		 
 		responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_OK);
-		document = Configuration.defaultConfiguration().jsonProvider().parse(responseBody);		
-		
+		document = Configuration.defaultConfiguration().jsonProvider().parse(responseBody);
 		
 		String userName = JsonPath.read(document, "$.name");		
 		assertEquals(userName, "Justin Wu");
@@ -72,8 +72,6 @@ public class TestUserApi {
 		
 		Integer userId = JsonPath.read(document, "$.id");		
 		assertEquals(userId, new Integer(56239));
-
-		
 		
 	}
 	
@@ -83,7 +81,6 @@ public class TestUserApi {
 		System.out.println("                ==>testUserApi started....");
 		
 		String url = URL_ROOT +"/api/users/user/12";
-
 		
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
 		
@@ -92,15 +89,34 @@ public class TestUserApi {
 		responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_OK);
 		document = Configuration.defaultConfiguration().jsonProvider().parse(responseBody);		
 		
+		String userName = JsonPath.read(document, "$.name");		
+		assertEquals(userName, "Justin Wu");
+		System.out.println("userName= " + userName);
+		
+		Integer userId = JsonPath.read(document, "$.id");		
+		assertEquals(userId, new Integer(56239));		
+		
+	}
+	
+	private void stepGetUserByIdApi2() throws HttpException, IOException{
+		
+		System.out.println("                ==>testUserApi started....");
+		
+		String url = URL_ROOT +"/api/users/user2/12";
+		
+		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
+		
+		final HttpGet request = new HttpGet(url);
+		 
+		responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_OK);
+		document = Configuration.defaultConfiguration().jsonProvider().parse(responseBody);		
 		
 		String userName = JsonPath.read(document, "$.name");		
 		assertEquals(userName, "Justin Wu");
 		System.out.println("userName= " + userName);
 		
 		Integer userId = JsonPath.read(document, "$.id");		
-		assertEquals(userId, new Integer(56239));
-
-		
+		assertEquals(userId, new Integer(56239));		
 		
 	}
 	
@@ -119,8 +135,6 @@ public class TestUserApi {
 		responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_BAD_REQUEST);
 		
 		assertEquals(responseBody, "userId can't be negative");
-
-		
 		
 	}
 	

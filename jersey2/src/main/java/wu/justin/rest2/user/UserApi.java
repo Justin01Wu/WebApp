@@ -73,6 +73,20 @@ public class UserApi {
 		return user;
 	}
 	
+	/** this one has exact fcuntion as /user/{userId} except its userId is int rather than Integer*/
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/user2/{userId2}")	
+	public User getUserById2(@Context HttpServletRequest httpRequest, @PathParam("userId2") int userId) {
+		
+		System.out.println("getUserById...");
+		if(userId<=0){
+			throw new BadRequestError("userId can't be negative");
+		}
+		User user = createUser();
+		return user;
+	}
+	
 	/** demo how to use PathParam  */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
