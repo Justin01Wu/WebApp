@@ -12,10 +12,16 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<skip.integration.tests>true</skip.integration.tests>
-		<maven.tomcat.port>8080</maven.tomcat.port>
+		
+		<skip.integration.tests>true</skip.integration.tests>		
 		<!-- by default we disable integration test -->
 		<!-- please use this parameter to enable it: mvn clean install -Dskip.integration.tests=false -->
+		
+		<maven.tomcat.port>8080</maven.tomcat.port> 
+        <!--  will get conflict with eclipse embedded Tomcat because we can't pass this parameter to Integration test case-->
+        
+        <tomcat.ajp.port>9009</tomcat.ajp.port>
+		
 	</properties>
 
 	
@@ -60,6 +66,7 @@
 								<home>${project.basedir}/target/tomcat8x</home>
 								<properties>
 									<cargo.servlet.port>${maven.tomcat.port}</cargo.servlet.port>
+									<cargo.tomcat.ajp.port>${tomcat.ajp.port}</cargo.tomcat.ajp.port>
 								</properties>
 								<files>
 									<copy>
