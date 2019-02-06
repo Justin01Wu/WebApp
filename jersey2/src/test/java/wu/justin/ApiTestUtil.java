@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -94,7 +95,7 @@ public final class ApiTestUtil {
 		Date end = new Date();
 		int statusCode = response.getStatusLine().getStatusCode();
 
-		String responseBody = saveOutput2(request, response, start, end);
+		String responseBody = saveOutput(request, response, start, end);
 
 		List<Integer> statusList = Arrays.asList(statusCodeExpected);
 
@@ -123,7 +124,7 @@ public final class ApiTestUtil {
 
 		int statusCode = response.getStatusLine().getStatusCode();
 
-		String responseBody = saveOutput2(request, response, start, end);
+		String responseBody = saveOutput(request, response, start, end);
 
 		assertEquals(statusCodeExpected, statusCode);
 
@@ -133,7 +134,7 @@ public final class ApiTestUtil {
 
 
 	// please align with TestResultHandler.handleOneFile if you change it
-	private static String saveOutput2(HttpRequestBase request, HttpResponse response, Date start, Date end)
+	private static String saveOutput(HttpRequestBase request, HttpResponse response, Date start, Date end)
 			throws HttpException, IOException {
 
 		String requestType = request.getMethod();
@@ -163,7 +164,7 @@ public final class ApiTestUtil {
 		}
 		int statusCode = response.getStatusLine().getStatusCode();
 
-		String caseName = getCaseName2();
+		String caseName = getCaseName();
 
 		try (PrintStream out = getPrintStream("output", caseName);) {
 			long cost = end.getTime() - start.getTime();
@@ -192,6 +193,7 @@ public final class ApiTestUtil {
 			StringEntity params = new StringEntity(data, "UTF-8");
 			params.setContentType("application/json");
 			request.setEntity(params);
+			saveInput(request, data);
 		}
 
 		Date start = new Date();
@@ -200,7 +202,7 @@ public final class ApiTestUtil {
 
 		int statusCode = response.getStatusLine().getStatusCode();
 
-		String responseBody = saveOutput2(request, response, start, end);
+		String responseBody = saveOutput(request, response, start, end);
 
 		assertEquals(statusCodeExpected, statusCode);
 
@@ -216,7 +218,7 @@ public final class ApiTestUtil {
 
 		int statusCode = response.getStatusLine().getStatusCode();
 
-		String responseBody = saveOutput2(request, response, start, end);
+		String responseBody = saveOutput(request, response, start, end);
 
 		assertEquals(statusCodeExpected, statusCode);
 
@@ -238,7 +240,7 @@ public final class ApiTestUtil {
 		return content;
 	}
 
-	private static String getCaseName2() {
+	private static String getCaseName() {
 		
 		Pair2<String, String> result = ClassUtil.getMethodByPrefixOnAnnotation(Category.class, "step");
 		
@@ -256,9 +258,22 @@ public final class ApiTestUtil {
 
 	}
 
-	public static void saveInput2(String Url, HttpRequestBase request, String content) throws FileNotFoundException {
-		String caseName = getCaseName2();
-		save(Url, request, content, caseName, "input");
+	public static void saveInput(HttpRequestBase request, String content) throws FileNotFoundException {
+		String caseName = getCaseName();
+		
+		if (content != null && content.length() > 20) {
+			String newFormat = ApiUtil.getFormatedJsonOrNull(content);
+			if(newFormat != null){
+				content = newFormat; 
+			}			
+		}
+		String url="unknown";
+		try {
+			url = request.getURI().toURL().toString();
+		} catch (MalformedURLException e) {
+			throw new RuntimeException("can't get URL", e);
+		}
+		save(url, request, content, caseName, "input");
 	}
 
 

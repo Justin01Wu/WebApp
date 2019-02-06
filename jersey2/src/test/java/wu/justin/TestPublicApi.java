@@ -75,9 +75,7 @@ public class TestPublicApi  extends IntegrationTestBase{
 		String body ="{ \"processEndTime\" : 1434989360380}";
 		
 		HttpPost request = new HttpPost(url);
-
-		ApiTestUtil.saveInput2(url, request, body);
-		
+	
 		Object responseJson = getJsonByRequest(client, request, body, HttpStatus.SC_OK);
 		
 		long time = JsonPath.read(responseJson, "$.processEndTime");		
