@@ -273,8 +273,8 @@ public class TestResultHandler {
 		String pathName ="{"+ parameter.getName() + "}";
 		String escapeResultEeg = apiUrlSeg.replace(pathName, "wuyg719");
 		
-		escapeResultEeg = quoteRegExSpecialChars(escapeResultEeg);
-		if(parameter.getJavaType().equals("Integer")){
+		escapeResultEeg = quoteRegExSpecialChars(escapeResultEeg);		
+		if(parameter.getJavaType().equals("Integer") || parameter.getJavaType().equals("int")){
 			escapeResultEeg = escapeResultEeg.replace("wuyg719", "[-]?\\d+");  // match any digits without '.' or '+' 	
 		}else if(parameter.getJavaType().equals("String")){
 			escapeResultEeg = escapeResultEeg.replace("wuyg719", "\\S+"); // match any non space character 
