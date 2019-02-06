@@ -15,7 +15,7 @@ import org.junit.experimental.categories.Category;
 import com.jayway.jsonpath.JsonPath;
 
 @Category(IntegrationTest.class)
-public class TestPublicApi  extends IntegrationTestBase2{
+public class TestPublicApi  extends IntegrationTestBase{
 
 	
 	@Test
