@@ -18,6 +18,8 @@ import org.junit.Before;
 
 import com.jayway.jsonpath.Configuration;
 
+import net.minidev.json.JSONArray;
+
 public class IntegrationTestBase {
 
 	protected CookieStore httpCookieStore;
@@ -31,6 +33,7 @@ public class IntegrationTestBase {
 	protected String sValue;
 	protected Boolean bValue , expectedBValue;
 	protected Double dValue, expectedDValue;
+	protected JSONArray array;
 
 	@Before
 	public void before() throws Exception {
