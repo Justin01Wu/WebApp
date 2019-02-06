@@ -111,6 +111,32 @@ ul.summary li.POST strong{
 			
 			
 					
+			<#if api.inputs?has_content>	
+			<strong>Input</strong>
+			<!--  test result list -->
+			<table class="response">
+                  <thead>
+                    <tr>
+                      <th>From</th>
+                      <th>Example</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  
+                  <#list api.inputs as input>
+                    <tr>
+                      <td>${input.caseName}</td>
+                      <td>
+                        <div class="snippet">
+                          <pre><code class="json">${input.json}</code></pre>
+                        </div>                        
+                      </td>
+                  	</tr>
+                  </#list>
+               </tbody>
+            </table>
+            </#if>
+            
 			<#if api.results?has_content>	
 			<strong>Response</strong>
 			<!--  test result list -->
@@ -119,7 +145,7 @@ ul.summary li.POST strong{
                     <tr>
                       <th>Code</th>
                       <th>Cost</th>
-                      <th>URL</th>
+                      <th>From</th>
                       <th>Example</th>
                     </tr>
                   </thead>
@@ -129,7 +155,7 @@ ul.summary li.POST strong{
                     <tr>
                       <td>${response.status}</td>
                       <td>${response.cost}</td>
-                      <td>${response.url}</td>
+                      <td>${response.caseName}</td>
                       <td>
                         <div class="snippet">
                           <pre><code class="json">${response.json}</code></pre>
@@ -140,6 +166,7 @@ ul.summary li.POST strong{
                </tbody>
             </table>
             </#if>
+            
 		</div>
 		
 		</li>

@@ -71,6 +71,13 @@ public class MyDoclet {
 			return false;
 		}		
 		System.out.println("testResultFolder= "+ testResultFolder);
+		
+		String testResultInputFolder = System.getProperty("integration.test.result.input");
+		if (testResultInputFolder == null) {
+			System.out.println("didn't find integration.test.result.input");
+			return false;
+		}		
+		System.out.println("testResultInputFolder= "+ testResultInputFolder);
 
 		String outputPath = System.getProperty("restful.doc.output.path");
 		if (outputPath == null) {
@@ -79,7 +86,7 @@ public class MyDoclet {
 		}	
 		System.out.println("generating file: " + outputPath);
 		
-		handler = new TestResultHandler(Prefix, testResultFolder);
+		handler = new TestResultHandler(Prefix, testResultFolder, testResultInputFolder);
         
         for( ClassDoc aClass : root.classes() ){
         	handleOneClass(aClass);
@@ -264,19 +271,27 @@ public class MyDoclet {
 				String filePath = oneResult.getFilePath();
 				File file = new File(filePath);
 				System.out.println("found test result on: " + file.getAbsolutePath());
-				String jsonStr = null; ;
-				try {
-					jsonStr = TestResultHandler.getJsonFile(file);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				oneResult.setJson(jsonStr);
-				System.out.println(jsonStr);
 				oneEntry.addResult(oneResult);
 
 			}
 		}
 		
+		List<TestResultInputBase> inputs  = handler.findInputFiles(fullPath, httpMethod, oneEntry);
+
+		if(!inputs.isEmpty()){
+			for(TestResultInputBase oneResult: inputs){
+				String filePath = oneResult.getFilePath();
+				File file = new File(filePath);
+				System.out.println("found test input on: " + file.getAbsolutePath());
+				String jsonStr = oneResult.getJson();
+
+				oneResult.setJson(jsonStr);
+				System.out.println(jsonStr);
+				oneEntry.addInput(oneResult);
+
+			}
+
+		}
 
 
     	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
@@ -414,9 +429,11 @@ public class MyDoclet {
 		// call my self as doclet:
 		
 		//String projectDir = "C:/projects/WebApp/WebApp/jersey2";
-		String projectDir = "C:/samples/WebApp/WebApp/jersey2";
+		String projectDir = "C:/samples/webapp/webapp/WebApp/jersey2";
+		
 		
 		System.setProperty("integration.test.result", projectDir + "/target/test-output");
+		System.setProperty("integration.test.result.input", projectDir + "/target/test-input");
 		System.setProperty("restful.doc.output.path", projectDir + "/target/apiDoc.html");		
 		System.setProperty("maven.tomcat.port","12001");		
 		System.setProperty("restful.api.prefix","/api");	

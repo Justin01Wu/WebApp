@@ -1,44 +1,25 @@
 package wu.justin.doclet;
 
-public class TestResult {
+public class TestResult extends TestResultInputBase {
 
-	private String method;
 	private String status;
-	private String url;
 	private String cost;
 	private String start;
 	private String end;
-	private String json;
-	private String filePath;
 	
 	public TestResult(String method, String status, String url, String cost, String start, String end) {
-		super();
-		this.method = method;
+		super(method, url);
 		this.status = status;
-		this.url = url;
 		this.cost = cost;
 		this.start = start;
-		this.end = end;
-		
+		this.end = end;		
 	}
 	
-	public String getMethod() {
-		return method;
-	}
-	public void setMethod(String method) {
-		this.method = method;
-	}
 	public String getStatus() {
 		return status;
 	}
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
 	}
 	public String getCost() {
 		return cost;
@@ -65,19 +46,4 @@ public class TestResult {
 				+ start + ", end=" + end + "]";
 	}
 
-	public String getJson() {
-		return json;
-	}
-
-	public void setJson(String json) {
-		this.json = json;
-	}
-
-	public String getFilePath() {
-		return filePath;
-	}
-
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
 }

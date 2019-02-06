@@ -10,6 +10,7 @@ public class ApiEntry implements Comparable<ApiEntry> {
 	private String methodName;
 	private String comment;
 	private List<TestResult> results = new ArrayList<>(); 
+	private List<TestResultInputBase> inputs = new ArrayList<>();
 	
 	private List<ParameterEntry> parameters = new ArrayList<>();
 	
@@ -57,6 +58,18 @@ public class ApiEntry implements Comparable<ApiEntry> {
 	
 	public void addResult(TestResult result) {
 		results.add(result);
+	}
+	
+	public List<TestResultInputBase> getInputs() {
+		return inputs;
+	}
+
+	public void setInput(List<TestResultInputBase> inputs) {
+		this.inputs = inputs;
+	}	
+	
+	public void addInput(TestResultInputBase result) {
+		inputs.add(result);
 	}
 
 	public List<ParameterEntry> getParameters() {

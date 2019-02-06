@@ -19,14 +19,19 @@ public class TestResultHandler {
 	
 	private Map<String, TestResult> allTestResults = new HashMap<>();
 	
+	private Map<String, TestResultInputBase> allTestInputResults = new HashMap<>();
+	
 	private String prefix;
 	private String testResultFolder;
+	private String testResultInputFolder;
 	
 	
-	public TestResultHandler(String prefix, String testResultFolder){
+	public TestResultHandler(String prefix, String testResultFolder, String testResultInputFolder){
 		this.prefix = prefix;
 		this.testResultFolder = testResultFolder;
+		this.testResultInputFolder = testResultInputFolder;
 		loadTestResults();
+		loadTestInputResults();
 	}
 	
 	
@@ -53,6 +58,32 @@ public class TestResultHandler {
 			try {
 				TestResult result = handleOneFile(file);
 				allTestResults.put(file.getAbsolutePath(), result);
+			} catch (IOException e) {
+				// impossible to get here
+				throw new RuntimeException("impossible error:", e);
+			}			
+
+		}		
+	}
+	
+	private  void loadTestInputResults() {
+		
+		File resultFolder = new File(testResultInputFolder);
+		if(!resultFolder.exists()){
+			System.out.println("didn't find " + testResultInputFolder);
+			return;
+		}
+		if(!resultFolder.isDirectory()){
+			throw new RuntimeException("integration.test.result.input is not a folder: " + testResultInputFolder);
+		}
+		
+		File[] files = resultFolder.listFiles();
+		
+		for(File file :files){
+			//System.out.println("TestResult: " + file.getAbsolutePath());
+			try {
+				TestResultInputBase result = handleOneInputFile(file);
+				allTestInputResults.put(file.getAbsolutePath(), result);
 			} catch (IOException e) {
 				// impossible to get here
 				throw new RuntimeException("impossible error:", e);
@@ -90,11 +121,40 @@ public class TestResultHandler {
 			}			
 			TestResult result =  new TestResult(method, status, url, cost, start, end);
 			result.setFilePath(file.getAbsolutePath()); 
+			result.setJson(sb.toString());
 			return result;
 		}
 		
 	}
 	
+	// please align with ApiTestUtil.saveInput if you change it
+	private static TestResultInputBase handleOneInputFile(File file) throws IOException{
+
+		FileReader reader = new FileReader(file);					
+		try(BufferedReader br = new BufferedReader(reader)){
+		
+			String method = br.readLine();  // Method: GET
+			method = method.substring(7).trim();
+			String url = br.readLine();  // Url: http://localhost:12001/jersey2/api/users/user/current.json
+			
+			String url2 = url.split("/", 5)[4];  // remove host port and application context, will get api/users/user/current.json
+			url = "/" + url2;
+			
+			StringBuilder sb = new StringBuilder();
+			String oneLine = br.readLine();
+			while (oneLine != null){
+				sb.append(oneLine).append("\r\n");
+				oneLine = br.readLine();
+			}			
+			TestResultInputBase result =  new TestResultInputBase(method, url);
+			result.setFilePath(file.getAbsolutePath()); 
+			result.setJson(sb.toString());
+			return result;
+		}
+		
+	}
+	
+	/*
 	public static String getJsonFile(File file) throws IOException{
 
 		FileReader reader = new FileReader(file);					
@@ -123,6 +183,7 @@ public class TestResultHandler {
 		}
 		
 	}
+	*/
 	
 	public List<TestResult> findResultFiles(String apiUrl, String httpMethod, ApiEntry apiEntry){
 		
@@ -130,6 +191,26 @@ public class TestResultHandler {
 		
 		for(String filePath : allTestResults.keySet()){
 			TestResult oneResult = allTestResults.get(filePath);
+			
+			//System.out.println( oneResult);
+			
+			if(!httpMethod.equals(oneResult.getMethod())){
+				continue;
+			}
+
+			if(matchUrl(apiEntry, prefix + apiUrl, oneResult.getUrl())){
+				results.add(oneResult);
+			}
+		}		
+		return results;		
+	}
+	
+	public List<TestResultInputBase> findInputFiles(String apiUrl, String httpMethod, ApiEntry apiEntry){
+		
+		List<TestResultInputBase> results =  new ArrayList<>();
+		
+		for(String filePath : allTestInputResults.keySet()){
+			TestResultInputBase oneResult = allTestInputResults.get(filePath);
 			
 			//System.out.println( oneResult);
 			
