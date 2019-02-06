@@ -1,6 +1,6 @@
 package wu.justin.doclet;
 
-public class TestResult extends TestResultInputBase {
+public class TestResult extends TestResultInput {
 
 	private String status;
 	private String cost;

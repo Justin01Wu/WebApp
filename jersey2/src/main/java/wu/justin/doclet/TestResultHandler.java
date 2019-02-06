@@ -19,7 +19,7 @@ public class TestResultHandler {
 	
 	private Map<String, TestResult> allTestResults = new HashMap<>();
 	
-	private Map<String, TestResultInputBase> allTestInputResults = new HashMap<>();
+	private Map<String, TestResultInput> allTestInputResults = new HashMap<>();
 	
 	private String prefix;
 	private String testResultFolder;
@@ -82,7 +82,7 @@ public class TestResultHandler {
 		for(File file :files){
 			//System.out.println("TestResult: " + file.getAbsolutePath());
 			try {
-				TestResultInputBase result = handleOneInputFile(file);
+				TestResultInput result = handleOneInputFile(file);
 				allTestInputResults.put(file.getAbsolutePath(), result);
 			} catch (IOException e) {
 				// impossible to get here
@@ -128,7 +128,7 @@ public class TestResultHandler {
 	}
 	
 	// please align with ApiTestUtil.saveInput if you change it
-	private static TestResultInputBase handleOneInputFile(File file) throws IOException{
+	private static TestResultInput handleOneInputFile(File file) throws IOException{
 
 		FileReader reader = new FileReader(file);					
 		try(BufferedReader br = new BufferedReader(reader)){
@@ -146,7 +146,7 @@ public class TestResultHandler {
 				sb.append(oneLine).append("\r\n");
 				oneLine = br.readLine();
 			}			
-			TestResultInputBase result =  new TestResultInputBase(method, url);
+			TestResultInput result =  new TestResultInput(method, url);
 			result.setFilePath(file.getAbsolutePath()); 
 			result.setJson(sb.toString());
 			return result;
@@ -205,12 +205,12 @@ public class TestResultHandler {
 		return results;		
 	}
 	
-	public List<TestResultInputBase> findInputFiles(String apiUrl, String httpMethod, ApiEntry apiEntry){
+	public List<TestResultInput> findInputFiles(String apiUrl, String httpMethod, ApiEntry apiEntry){
 		
-		List<TestResultInputBase> results =  new ArrayList<>();
+		List<TestResultInput> results =  new ArrayList<>();
 		
 		for(String filePath : allTestInputResults.keySet()){
-			TestResultInputBase oneResult = allTestInputResults.get(filePath);
+			TestResultInput oneResult = allTestInputResults.get(filePath);
 			
 			//System.out.println( oneResult);
 			

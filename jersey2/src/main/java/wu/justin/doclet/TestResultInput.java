@@ -1,13 +1,13 @@
 package wu.justin.doclet;
 
-public class TestResultInputBase {
+public class TestResultInput {
 	protected String method;
 	protected String url;
 	protected String json;
 	protected String filePath;
 	protected String caseName= "CodeReflection";
 	
-	public TestResultInputBase(String method, String url) {
+	public TestResultInput(String method, String url) {
 		super();
 		this.method = method;
 		this.url = url;		

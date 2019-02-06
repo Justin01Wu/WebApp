@@ -276,10 +276,10 @@ public class MyDoclet {
 			}
 		}
 		
-		List<TestResultInputBase> inputs  = handler.findInputFiles(fullPath, httpMethod, oneEntry);
+		List<TestResultInput> inputs  = handler.findInputFiles(fullPath, httpMethod, oneEntry);
 
 		if(!inputs.isEmpty()){
-			for(TestResultInputBase oneResult: inputs){
+			for(TestResultInput oneResult: inputs){
 				String filePath = oneResult.getFilePath();
 				File file = new File(filePath);
 				System.out.println("found test input on: " + file.getAbsolutePath());
