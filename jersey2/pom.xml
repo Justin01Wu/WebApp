@@ -341,6 +341,7 @@
                 	<additionalJOptions>
         				<additionalJOption>-J-Dmaven.tomcat.port=${maven.tomcat.port}</additionalJOption>
         				<additionalJOption>-J-Dintegration.test.result=${basedir}\target\test-output</additionalJOption>
+        				<additionalJOption>-J-Dintegration.test.result.input=${basedir}\target\test-input</additionalJOption>
         				<additionalJOption>-J-Drestful.doc.output.path=${basedir}\target\apiDoc.html</additionalJOption>   
         				<additionalJOption>-J-Drestful.api.prefix=/api</additionalJOption>   
         				    				
