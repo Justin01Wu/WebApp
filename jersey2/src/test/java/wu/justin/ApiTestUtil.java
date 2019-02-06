@@ -116,6 +116,7 @@ public final class ApiTestUtil {
 			StringEntity params = new StringEntity(data, "UTF-8");
 			params.setContentType("application/json");
 			request.setEntity(params);
+			saveInput(request, data);
 		}
 
 		Date start = new Date();
@@ -258,7 +259,7 @@ public final class ApiTestUtil {
 
 	}
 
-	public static void saveInput(HttpRequestBase request, String content) throws FileNotFoundException {
+	protected static void saveInput(HttpRequestBase request, String content) throws FileNotFoundException {
 		String caseName = getCaseName();
 		
 		if (content != null && content.length() > 20) {
