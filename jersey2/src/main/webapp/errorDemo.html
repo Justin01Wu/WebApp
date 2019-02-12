@@ -11,13 +11,14 @@
 	<br/><br/>		
 		
 	<button type="button" onclick="triggerJsError()">Trigger an JS error</button>
-		<br/><br/>
+	<button type="button" onclick="triggerWrappedError()">Trigger an wrapped JS error</button>
+	
+	<br/><br/>
 		
 	<button type="button" onclick="addErrorHandler()">add JS error handler</button>
-		<br/><br/>
+	<br/><br/>
 		
-		<h2>Please check the server side to see JS error details</h2>
-
+	<h2>Please check the server side to see JS error details</h2>
 
 	<script>
 		if (!window.console) {
@@ -33,7 +34,17 @@
 			window.dfff(); // doesn't exist function
 		}
 		
-		function jsErrorHandler(msg, url, line){
+		function triggerWrappedError(){
+			try{
+				window.dfff2(); // doesn't exist function	
+			}catch(ex){
+				
+			}
+			
+		}
+
+		function jsErrorHandler(msg, url, lineNo, colNo, error){
+			// in IE 5 Mode, it won't send colNo and error, so we don't use it now
 			var xhr;
 			xhr = new XMLHttpRequest();
 			
@@ -42,7 +53,7 @@
 				return;
 			}			
 
-			var params = "msg=" + encodeURIComponent(msg) + '&url=' + encodeURIComponent(url) + "&line=" + line;
+			var params = "msg=" + encodeURIComponent(msg) + '&url=' + encodeURIComponent(url) + "&line=" + lineNo;
 			xhr.open("POST", "jsErrorServlet", true);
 			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			xhr.send(params);
