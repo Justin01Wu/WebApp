@@ -56,6 +56,18 @@
 		<servlet-name>CreateAccessToken</servlet-name>
 		<url-pattern>/CreateAccessToken</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>JSErrorServlet</servlet-name>
+		<servlet-class>wu.justa.servlet.JSErrorServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JSErrorServlet</servlet-name>
+		<url-pattern>/jsErrorServlet</url-pattern>
+	</servlet-mapping>
+	
+	
+	
 	
 
 </web-app>
