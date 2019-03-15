@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,14 +17,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
+
 import wu.justin.bean.Address;
 import wu.justin.bean.TypeEnum;
 import wu.justin.bean.User;
 import wu.justin.rest2.MySetting;
 import wu.justin.rest2.exception.BadRequestError;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 
 /**
  * This is APIs for user related API
@@ -125,6 +127,22 @@ public class UserApi {
 		
 		
 	    return merged;
+	}
+	
+	/** demo how to generate 403 error 
+	  */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/user/current.json")
+	public String createCurrentUser(User userDTO, @QueryParam("testFlag") Boolean testFlag) {
+		
+		if(testFlag!= null && testFlag.equals(true)){
+			return "it is test request, so do nothing";
+		}else {
+			throw new ForbiddenException("test 403 error");	
+		}
+		
 	}
 	
 	private static User createUser(){

@@ -10,6 +10,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.After;
@@ -20,9 +21,25 @@ import org.junit.experimental.categories.Category;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 
+
 @Category(IntegrationTest.class)
 public class TestUserApi {
 	
+	private static String origUserJson;
+
+	
+	static{
+
+		// get expected orig contract result from the file
+		
+		String origUserJsonFile = TestUserApi.class.getSimpleName()+".json";
+
+		try {
+			origUserJson = ApiTestUtil.readJSONFile(origUserJsonFile);
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
+	}
 	
 	private CookieStore httpCookieStore;
 	public static String URL_ROOT = ApiTestUtil.getUrlRoot();
@@ -49,6 +66,31 @@ public class TestUserApi {
 		stepGetUserByIdApi2();
 		
 	}
+	
+	@Test
+	public void step5_UpdateCurrentUserSucceed() throws HttpException, IOException{
+
+		String url = URL_ROOT + "/api/users/user/current.json?testFlag=true";
+		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
+		
+		HttpPost request = new HttpPost(url);
+		responseBody = ApiTestUtil.getResponseByRequest(client, request, "", HttpStatus.SC_OK);		
+		String expetcedResponse = "it is test request, so do nothing";
+		assertEquals( expetcedResponse, responseBody);
+
+	}
+	
+	@Test
+	public void step6_UpdateCurrentUserFail() throws HttpException, IOException{
+		
+		String url = URL_ROOT + "/api/users/user/current.json";
+		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
+		
+		HttpPost request = new HttpPost(url);
+		responseBody = ApiTestUtil.getResponseByRequest(client, request, "", HttpStatus.SC_FORBIDDEN);		
+
+	}
+
 	
 	
 	private void stepGetCurrentUserApi() throws HttpException, IOException{
