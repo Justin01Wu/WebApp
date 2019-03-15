@@ -47,6 +47,12 @@ ul.summary li.POST strong{
 	background: #49cc90;
 }
 
+td.sample{
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */
@@ -207,7 +213,7 @@ ul.summary li.POST strong{
                       <td>${response.cost}</td>
                       <td>${response.caseName}</td>
                       
-                      <td onclick="popup4(this)" data-sample='${response.json}'>click me to open sample</td>
+                      <td class="sample" onclick="popupSample(this)" data-sample='${response.json}'>sample</td>
                   	</tr>
                   </#list>
                </tbody>
@@ -226,7 +232,7 @@ ul.summary li.POST strong{
 <script>
 
 // When the user clicks on the button, open the modal 
-function popup4(ele) {
+function popupSample(ele) {
 	var modal = document.getElementById('myModal');
 	var children  =  modal.getElementsByClassName("myContent");
 	children[0].innerHTML = ele.dataset.sample;
