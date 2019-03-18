@@ -180,11 +180,7 @@ td.sample{
                   <#list api.inputs as input>
                     <tr>
                       <td>${input.caseName}</td>
-                      <td>
-                        <div class="snippet">
-                          <pre><code class="json">${input.json}</code></pre>
-                        </div>                        
-                      </td>
+                      <td class="sample" onclick="popupSample(this)" data-sample='${input.json}'>${input.url}</td>
                   	</tr>
                   </#list>
                </tbody>
@@ -212,7 +208,7 @@ td.sample{
                       <td>${response.cost}</td>
                       <td>${response.caseName}</td>
                       
-                      <td class="sample" onclick="popupSample(this)" data-sample='${response.json}'>sample</td>
+                      <td class="sample" onclick="popupSample(this)" data-sample='${response.json}'>${response.url}</td>
                   	</tr>
                   </#list>
                </tbody>
