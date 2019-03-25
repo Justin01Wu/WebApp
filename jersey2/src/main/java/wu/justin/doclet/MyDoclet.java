@@ -3,6 +3,7 @@ package wu.justin.doclet;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
@@ -41,8 +42,6 @@ import wu.justin.rest2.ApiUtil;
   it will collect integration result for sample
 */
 public class MyDoclet {
-	
-	
 	private static String Prefix;
 	
 	private static TestResultHandler handler;
@@ -99,7 +98,6 @@ public class MyDoclet {
         }
         
         Collections.sort(allApis);        
-        
         
         File output = new File(outputPath);
         try {
@@ -185,8 +183,7 @@ public class MyDoclet {
 
 	}
 	
-	private static void handleOneMethod(Method method, String root, ApiClassEntry apiClass, ClassDoc aClass){
-		
+	private static void handleOneMethod(Method method, String root, ApiClassEntry apiClass, ClassDoc aClass){		
 		
 		Produces myProduce = method.getDeclaredAnnotation(javax.ws.rs.Produces.class);
 		Path myPath = method.getDeclaredAnnotation(javax.ws.rs.Path.class);
@@ -195,8 +192,17 @@ public class MyDoclet {
 			// it is not API method
 			return;
 		}
-
+		
 		MethodDoc[] methodDocs = aClass.methods();
+		
+		String methodPath  = myPath == null? "" : myPath.value();
+		String fullPath = root + methodPath; 
+		String SimpleName =  apiClass.getName()+ "."+ method.getName();
+		
+		System.out.println("         -----------------  start of " + SimpleName + "------------------------ ");
+		
+		System.out.println("         url for method " +SimpleName + " is " + fullPath);
+
 		MethodDoc myMethodDoc = null;
 		for(MethodDoc methodDoc : methodDocs){
 			if(methodDoc.name().equals(method.getName())){
@@ -207,20 +213,12 @@ public class MyDoclet {
 			}			
 			//System.out.println(methodDoc.name());
 		}
-		
-		String methodPath  = myPath == null? "" : myPath.value();
-		String fullPath = root + methodPath; 
-		String SimpleName =  apiClass.getName()+ "."+ method.getName();
-		
-		System.out.println("         -----------------  start of " + SimpleName + "------------------------ ");
-		
-		System.out.println("         url for method " +SimpleName + " is " + fullPath);
-		
-		String comment = null;
-		if(myMethodDoc != null){
-			comment = myMethodDoc.getRawCommentText();
+
+		if(myMethodDoc == null){
+			System.out.println("      ---------  can't find " + method.getName()   );
+			return;
 		}		
-		
+		String comment = myMethodDoc.getRawCommentText();
 		String httpMethod = findHttpMethod(method);
 		
 		Class<?> returnType = method.getReturnType();
@@ -234,10 +232,11 @@ public class MyDoclet {
 		oneEntry.setComment(comment);
 		
 		Parameter[]  parameters = method.getParameters();
+		final Annotation[][] paramAnnotations = method.getParameterAnnotations(); 
 		for(int i=0;i<parameters.length ;i++){
 			com.sun.javadoc.Parameter[] parameterDocs = myMethodDoc.parameters();
 			com.sun.javadoc.Parameter myParameterDoc = parameterDocs[i];
-			handleOneParameter(parameters[i], oneEntry, myParameterDoc);
+			handleOneParameter(parameters[i], paramAnnotations[i], oneEntry, myParameterDoc);
 		}
 		
 		List<TestResult> results  = handler.findResultFiles(fullPath, httpMethod, oneEntry);
@@ -273,6 +272,7 @@ public class MyDoclet {
 				System.out.println("found test result on: " + file.getAbsolutePath());
 				oneEntry.addResult(oneResult);
 
+
 			}
 		}
 		
@@ -288,11 +288,8 @@ public class MyDoclet {
 				oneResult.setJson(jsonStr);
 				System.out.println(jsonStr);
 				oneEntry.addInput(oneResult);
-
 			}
-
 		}
-
 
     	System.out.println("         -----------------  end of " + SimpleName + "------------------------ ");
     	System.out.println("");
@@ -302,12 +299,26 @@ public class MyDoclet {
     	apiClass.addApis(oneEntry);    	
 	}
 	
-	private static void handleOneParameter(Parameter parameter, ApiEntry method, com.sun.javadoc.Parameter myParameterDoc ){
+	private static boolean findSpecialAnnotation(Annotation[] annotations, Class<?> annotationType){
+		for(Annotation one : annotations) {
+			if(one.annotationType().equals(annotationType)) {
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	
+	private static void handleOneParameter(Parameter parameter, Annotation[] annotations, ApiEntry method, com.sun.javadoc.Parameter myParameterDoc ){
 		
 		Class<?> clazz =  parameter.getType();		
 		
 		String type = "";
 		String name =  myParameterDoc.name();
+			
+		if(findSpecialAnnotation(annotations, javax.ws.rs.core.Context.class )) {
+			return;
+		}
 		QueryParam myQueryParam = parameter.getAnnotation(QueryParam.class);
 		if(myQueryParam != null){
 			type = "QueryParam";

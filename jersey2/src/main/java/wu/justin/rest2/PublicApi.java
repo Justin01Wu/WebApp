@@ -3,11 +3,13 @@ package wu.justin.rest2;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -50,7 +52,7 @@ public class PublicApi {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/dateFormat.json")
-	public DateConvert getDateFormat() {		
+	public DateConvert getDateFormat(@Context HttpServletRequest httpRequest) {		
 	    return new DateConvert();
 	}
 	
