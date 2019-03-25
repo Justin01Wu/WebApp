@@ -330,6 +330,8 @@ public class MyDoclet {
 				name = myPathParam.value();
 			}
 		}
+
+		// TODO call BeanGenerator to generate sample if its type is null and it is the only class to match this condition
 		
 		ParameterEntry parameterEntry = new ParameterEntry(name, clazz.getSimpleName(), type);
 		method.addParameter(parameterEntry);
