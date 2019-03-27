@@ -279,7 +279,42 @@ public class MyDoclet {
 		
 		List<TestResultInput> inputs  = handler.findInputFiles(fullPath, httpMethod, oneEntry);
 
-		if(!inputs.isEmpty()){
+		if(inputs.isEmpty()){
+			Class<?> clazz = null;
+			Type pType = null;
+
+			for(ParameterEntry oneP :oneEntry.getParameters()) {
+				if(clazz == null) {
+					if(oneP.getClazz()!= null) {
+						clazz = oneP.getClazz();
+						pType = oneP.getpType();
+					}					
+				}else {
+					if(oneP.getClazz()!= null) {
+						System.out.println("can't handle because we have multiple input parameter" + oneEntry.getMethodName());
+						clazz=null;
+						break;
+					}					
+				}
+			}
+			if( clazz != null) {
+				String returnJson = null;
+				try {
+					Object obj = new BeanGenerator().generate(clazz, pType);
+					returnJson = generateJson(obj);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if(returnJson != null) {
+					TestResultInput oneResult = new TestResultInput(httpMethod, "CodeReflection");
+					oneResult.setJson(returnJson);
+					oneResult.setFilePath("CodeReflection");
+					oneEntry.addInput(oneResult);
+				}
+								
+			}
+			
+		}else {
 			for(TestResultInput oneResult: inputs){
 				String filePath = oneResult.getFilePath();
 				File file = new File(filePath);
@@ -336,17 +371,9 @@ public class MyDoclet {
 		ParameterEntry parameterEntry = new ParameterEntry(name, clazz.getSimpleName(), type);
 		method.addParameter(parameterEntry);
 		if(isInputClass) {						
-			try {
-				Object obj = new BeanGenerator().generate(clazz, pType);
-				String returnJson = generateJson(obj);
-				parameterEntry.setSample(returnJson);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}			
-		}
-		
-		
-		
+			parameterEntry.setClazz(clazz);
+			parameterEntry.setpType(pType);
+		}		
 		return;
 		
 	}

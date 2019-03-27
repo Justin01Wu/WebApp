@@ -1,5 +1,7 @@
 package wu.justin.doclet;
 
+import java.util.StringJoiner;
+
 public class TestResultInput {
 	protected String method;
 	protected String url;
@@ -50,8 +52,15 @@ public class TestResultInput {
 			String[] segs = first.split("\\\\");
 			String myCase = segs[segs.length-1];
 			segs = myCase.split("_");
-			if(segs.length == 3 ) {
-				caseName = segs[0]+ "."+ segs[1];
+			if(segs.length >2 ) {				
+				StringJoiner sj = new StringJoiner("_");
+				for(int i=0; i<segs.length -1;i++) {
+					sj.add(segs[i]);
+				}				
+				caseName = sj.toString();
+			}else {
+				// unexpected case name
+				caseName =  myCase;
 			}
 		}
 	}

@@ -1,12 +1,14 @@
 package wu.justin.doclet;
 
+import java.lang.reflect.Type;
 
 public class ParameterEntry {
 
 	private String name;
 	private String javaType;
 	private String type;  // @QueryParam or  @PathParam
-	private String sample="";  
+	private Class<?> clazz;
+	private Type pType;	
 
 	public ParameterEntry(String name, String javaType, String type) {
 		super();
@@ -34,12 +36,20 @@ public class ParameterEntry {
 		this.type = type;
 	}
 
-	public String getSample() {
-		return sample;
+	public Class<?> getClazz() {
+		return clazz;
 	}
 
-	public void setSample(String sample) {
-		this.sample = sample;
+	public void setClazz(Class<?> clazz) {
+		this.clazz = clazz;
+	}
+
+	public Type getpType() {
+		return pType;
+	}
+
+	public void setpType(Type pType) {
+		this.pType = pType;
 	}
 
 }
