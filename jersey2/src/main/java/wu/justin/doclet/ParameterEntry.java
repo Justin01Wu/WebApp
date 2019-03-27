@@ -6,6 +6,7 @@ public class ParameterEntry {
 	private String name;
 	private String javaType;
 	private String type;  // @QueryParam or  @PathParam
+	private String sample="";  
 
 	public ParameterEntry(String name, String javaType, String type) {
 		super();
@@ -31,6 +32,14 @@ public class ParameterEntry {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getSample() {
+		return sample;
+	}
+
+	public void setSample(String sample) {
+		this.sample = sample;
 	}
 
 }

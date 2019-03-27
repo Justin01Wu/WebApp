@@ -232,11 +232,12 @@ public class MyDoclet {
 		oneEntry.setComment(comment);
 		
 		Parameter[]  parameters = method.getParameters();
-		final Annotation[][] paramAnnotations = method.getParameterAnnotations(); 
+		final Annotation[][] paramAnnotations = method.getParameterAnnotations();
+		Type[] pTypes = method.getGenericParameterTypes();
 		for(int i=0;i<parameters.length ;i++){
 			com.sun.javadoc.Parameter[] parameterDocs = myMethodDoc.parameters();
 			com.sun.javadoc.Parameter myParameterDoc = parameterDocs[i];
-			handleOneParameter(parameters[i], paramAnnotations[i], oneEntry, myParameterDoc);
+			handleOneParameter(parameters[i], paramAnnotations[i], oneEntry, myParameterDoc, pTypes[i]);
 		}
 		
 		List<TestResult> results  = handler.findResultFiles(fullPath, httpMethod, oneEntry);
@@ -309,34 +310,48 @@ public class MyDoclet {
 		
 	}
 	
-	private static void handleOneParameter(Parameter parameter, Annotation[] annotations, ApiEntry method, com.sun.javadoc.Parameter myParameterDoc ){
+	private static void handleOneParameter(Parameter parameter, Annotation[] annotations, ApiEntry method, com.sun.javadoc.Parameter myParameterDoc, Type pType ) {
 		
 		Class<?> clazz =  parameter.getType();		
-		
+		boolean isInputClass = false;
 		String type = "";
 		String name =  myParameterDoc.name();
 			
 		if(findSpecialAnnotation(annotations, javax.ws.rs.core.Context.class )) {
+			//skip Context
 			return;
 		}
 		QueryParam myQueryParam = parameter.getAnnotation(QueryParam.class);
+		PathParam myPathParam = parameter.getAnnotation(PathParam.class);
 		if(myQueryParam != null){
 			type = "QueryParam";
 			name = myQueryParam.value();
-		}else{
-			PathParam myPathParam = parameter.getAnnotation(PathParam.class);
-			if(myPathParam != null){
-				type = "PathParam";
-				name = myPathParam.value();
-			}
+		}else if(myPathParam != null){
+			type = "PathParam";
+			name = myPathParam.value();			
+		}else {
+			isInputClass = true;
 		}
 
-		// TODO call BeanGenerator to generate sample if its type is null and it is the only class to match this condition
-		
 		ParameterEntry parameterEntry = new ParameterEntry(name, clazz.getSimpleName(), type);
 		method.addParameter(parameterEntry);
+		if(isInputClass) {						
+			try {
+				Object obj = new BeanGenerator().generate(clazz, pType);
+				String returnJson = generateJson(obj);
+				parameterEntry.setSample(returnJson);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}			
+		}
+		
+		
+		
+		return;
 		
 	}
+	
+
 	
 	private static String findHttpMethod(Method method){
 		GET[] myGETs = method.getAnnotationsByType(GET.class);
