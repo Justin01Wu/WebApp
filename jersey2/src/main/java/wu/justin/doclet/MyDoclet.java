@@ -358,7 +358,7 @@ public class MyDoclet {
 			return;
 		}
 //		if(findSpecialAnnotation(annotations, FormDataParam.class )) {
-//			//skip Context
+//			//skip FormDataParam
 //			return;			
 //		}
 		
