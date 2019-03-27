@@ -24,6 +24,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -352,10 +353,15 @@ public class MyDoclet {
 		String type = "";
 		String name =  myParameterDoc.name();
 			
-		if(findSpecialAnnotation(annotations, javax.ws.rs.core.Context.class )) {
+		if(findSpecialAnnotation(annotations, Context.class )) {
 			//skip Context
 			return;
 		}
+//		if(findSpecialAnnotation(annotations, FormDataParam.class )) {
+//			//skip Context
+//			return;			
+//		}
+		
 		QueryParam myQueryParam = parameter.getAnnotation(QueryParam.class);
 		PathParam myPathParam = parameter.getAnnotation(PathParam.class);
 		if(myQueryParam != null){
