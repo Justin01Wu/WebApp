@@ -103,7 +103,7 @@ public class MyDoclet {
         File output = new File(outputPath);
         try {
             FileOutputStream out = new FileOutputStream(output);
-			ApiHtmlCreator.create(allApis, allApiClass, out);
+			ApiHtmlCreator.create(allApis, allApiClass, handler, out);
 		} catch (IOException | TemplateException e) {
 			e.printStackTrace();
 		}
@@ -262,7 +262,7 @@ public class MyDoclet {
 				if(returnJson!= null){
 					 //results  = new ArrayList<>();
 					 TestResult oneResult =  new TestResult(httpMethod, "200", fullPath, "unknown", "unknown", "unknown");
-					 oneResult.setJson(returnJson);
+					 oneResult.setOutput(returnJson);
 					 oneEntry.addResult(oneResult);
 				}
 			}

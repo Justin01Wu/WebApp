@@ -6,6 +6,7 @@ public class TestResult extends TestResultInput {
 	private String cost;
 	private String start;
 	private String end;
+	protected String output;
 	
 	public TestResult(String method, String status, String url, String cost, String start, String end) {
 		super(method, url);
@@ -44,6 +45,14 @@ public class TestResult extends TestResultInput {
 	public String toString() {
 		return "TestResult [method=" + method + ", status=" + status + ", url=" + url + ", cost=" + cost + ", start="
 				+ start + ", end=" + end + "]";
+	}
+
+	public String getOutput() {
+		return output;
+	}
+
+	public void setOutput(String output) {
+		this.output = output;
 	}
 
 }

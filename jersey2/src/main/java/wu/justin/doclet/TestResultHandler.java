@@ -308,5 +308,14 @@ public class TestResultHandler {
 		return null;
 
 	}
+	
+	public Map<String, TestResult> getAllTestResults() {
+		return allTestResults;
+	}
+
+
+	public Map<String, TestResultInput> getAllTestInputResults() {
+		return allTestInputResults;
+	}
 
 }

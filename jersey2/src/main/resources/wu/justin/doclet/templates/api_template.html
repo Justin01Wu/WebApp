@@ -4,10 +4,6 @@
 <title>${title}</title>
 <style type="text/css">
 
-.title{
-	font-size: 48px;
-    font-weight: bold;
-}
 table{
     border: 1px solid black;
     table-layout: fixed;
@@ -94,7 +90,7 @@ td.sample{
 </style>
 </head>
 <body>
-	<span class="title">${title}</span>
+	<h1>${title}</h1>
 	
 	<br/>Cost = "unknown" means the sample comes from mock up data, the data has no meaning
 	<br/>Cost != "unknown" means the sample comes from Integration test result, the data has  meaning
@@ -111,6 +107,7 @@ td.sample{
 	
 	</div>
 
+	<h2> API list</h2>
 	<ul class="summary">
 		<#list allApis as api>
 			<#if api?counter gt 99>
@@ -123,8 +120,10 @@ td.sample{
 		</#list>
 	</ul>
 
-
-
+	
+	<br/><br/><br/><br/>
+	<h2> API Details</h2>
+	
 	<#list allApiClass as oneClass> 
 	
 	<br/><br/><br/><br/>
@@ -208,7 +207,7 @@ td.sample{
                       <td>${response.cost}</td>
                       <td>${response.caseName}</td>
                       
-                      <td class="sample" onclick="popupSample(this)" data-sample='${response.json}'>${response.url}</td>
+                      <td class="sample" onclick="popupSample(this)" data-sample='${response.output}'>${response.url}</td>
                   	</tr>
                   </#list>
                </tbody>
@@ -223,6 +222,39 @@ td.sample{
 
 	</#list>
 
+
+	<h2> Test Case list</h2>
+	<table class="response">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Method</th>
+            <th>CaseName</th>
+            <th>Cost</th>
+            <th>Input</th>
+            <th>Output</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+        <#list testResults as output>
+          <tr>
+            <td>${output?counter}</td>
+            <td>${output.method}</td>
+            <td>${output.caseName}</td>
+            <td>${output.cost}</td>
+            <#if output.json?has_content>
+            	<td class="sample" onclick="popupSample(this)" data-sample='${output.json}'>input</td>
+            <#else>
+               	<td class="sample"></td>
+            </#if>
+            <td class="sample" onclick="popupSample(this)" data-sample='${output.output}'>output</td>
+            <td>${output.url}</td>
+        	</tr>
+        </#list>
+     </tbody>
+  </table>
 
 <script>
 

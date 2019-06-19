@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +23,7 @@ import freemarker.template.Version;
 
 public class ApiHtmlCreator {
 	
-	public static void create(List<ApiEntry> allApis, List<ApiClassEntry> allApiClass, OutputStream out) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException{
+	public static void create(List<ApiEntry> allApis, List<ApiClassEntry> allApiClass, TestResultHandler handler, OutputStream out) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException{
 		// 1. Configure FreeMarker
         //
         // You should do this ONLY ONCE, when your application starts,
@@ -51,6 +53,9 @@ public class ApiHtmlCreator {
 
         input.put("allApis", allApis);
         input.put("allApiClass", allApiClass);
+        
+        List<TestResult> testResults  = getCombinedResult(handler);
+        input.put("testResults", testResults);
 
         // 2.2. Get the template
 
@@ -63,6 +68,35 @@ public class ApiHtmlCreator {
         template.process(input, consoleWriter);
 
     }
+	
+	private static List<TestResult> getCombinedResult(TestResultHandler handler){
+        Map<String, TestResult> combinedResults =  new HashMap<>();
+        // convert to caseName result map from fileName result map 
+        
+        Map<String, TestResult> output = handler.getAllTestResults();
+        Map<String, TestResultInput> in = handler.getAllTestInputResults();
+        for(String key: output.keySet()) {
+        	TestResult one = output.get(key);
+        	one.setOutput(one.getJson());
+        	one.setJson(null);
+        	combinedResults.put(one.getCaseName(), one);
+        }
+        
+        for(String key: in.keySet()) {
+        	TestResultInput oneIn = in.get(key);
+        	TestResult oneOut = combinedResults.get(oneIn.getCaseName());
+        	if(oneOut != null) {
+        		oneOut.setJson(oneIn.getJson());
+        	}
+        }
+
+        List<TestResult> testResults = new ArrayList<>(combinedResults.values());
+        
+        testResults.sort( Comparator.comparing( TestResult::getCaseName ) ); 
+        
+        return testResults;
+
+	}
 
 
 }
