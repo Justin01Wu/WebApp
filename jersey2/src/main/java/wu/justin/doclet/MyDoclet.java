@@ -245,10 +245,13 @@ public class MyDoclet {
 		if(results.isEmpty()){
 			if( method.getReturnType().equals(javax.ws.rs.core.Response.class)){
 				System.err.println("can't handle Response on method: " + method.getName());
+				TestResult oneResult =  new TestResult(httpMethod, "200", fullPath, "unknown", "unknown", "unknown");
+				oneResult.setOutput("unknown");
+				oneEntry.addResult(oneResult);
 			} else if( method.getReturnType().equals(Void.TYPE)){
 				System.out.println(" it is void on method: " + method.getName());
 				TestResult oneResult =  new TestResult(httpMethod, "204", fullPath, "unknown", "unknown", "unknown");
-				oneResult.setJson("");
+				oneResult.setOutput("unknown");
 				oneEntry.addResult(oneResult);
 			}else{
 				String returnJson = null;
@@ -264,6 +267,10 @@ public class MyDoclet {
 					 TestResult oneResult =  new TestResult(httpMethod, "200", fullPath, "unknown", "unknown", "unknown");
 					 oneResult.setOutput(returnJson);
 					 oneEntry.addResult(oneResult);
+				}else {
+					 TestResult oneResult =  new TestResult(httpMethod, "200", fullPath, "unknown", "unknown", "unknown");
+					 oneResult.setOutput("unknown");
+					 oneEntry.addResult(oneResult);					
 				}
 			}
 

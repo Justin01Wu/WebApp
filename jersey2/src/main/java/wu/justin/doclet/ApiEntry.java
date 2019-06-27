@@ -9,6 +9,7 @@ public class ApiEntry implements Comparable<ApiEntry> {
 	private String className;
 	private String methodName;
 	private String comment;
+	private boolean caseCovered= false;
 	private List<TestResult> results = new ArrayList<>(); 
 	private List<TestResultInput> inputs = new ArrayList<>();
 	
@@ -99,5 +100,13 @@ public class ApiEntry implements Comparable<ApiEntry> {
         return this.url.compareTo(url2);
 
     }
+
+	public boolean isCaseCovered() {
+		return caseCovered;
+	}
+
+	public void setCaseCovered(boolean caseCovered) {
+		this.caseCovered = caseCovered;
+	}
 
 }

@@ -54,8 +54,30 @@ public class ApiHtmlCreator {
         input.put("allApis", allApis);
         input.put("allApiClass", allApiClass);
         
+        int caseCoveredAmount = 0, totalApiAmount = 0;
+        
+        for(ApiEntry oneApi: allApis) {
+        	totalApiAmount ++;
+        	if(oneApi.getResults() != null) {
+        		if(oneApi.getResults().size()>1) {
+        			caseCoveredAmount ++;
+        			oneApi.setCaseCovered(true);
+        		}else if(oneApi.getResults().size() ==1) {
+        			if(!oneApi.getResults().get(0).getCaseName().equals("CodeReflection")) {
+        				caseCoveredAmount ++;
+        				oneApi.setCaseCovered(true);
+        			}        			
+        		}        		
+        	}
+        }
+        
+        input.put("totalApiAmount", totalApiAmount);
+        input.put("caseCoveredAmount", caseCoveredAmount);
+        input.put("caseCoveredRate", (caseCoveredAmount/(double)totalApiAmount)*100 );
+        
         List<TestResult> testResults  = getCombinedResult(handler);
         input.put("testResults", testResults);
+        
 
         // 2.2. Get the template
 
@@ -69,6 +91,7 @@ public class ApiHtmlCreator {
 
     }
 	
+	/** combine API output and inmput together*/ 
 	private static List<TestResult> getCombinedResult(TestResultHandler handler){
         Map<String, TestResult> combinedResults =  new HashMap<>();
         // convert to caseName result map from fileName result map 

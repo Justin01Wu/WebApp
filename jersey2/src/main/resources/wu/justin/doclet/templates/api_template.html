@@ -30,15 +30,15 @@ ul.summary li:nth-child(odd) {
 	background: #F2F5FF;
 }
 
-ul.summary li.GET strong{
+table.summary td.GET strong{
 	padding-right: 29px;
 	background: #61affe;
 }
-ul.summary li.PUT strong{
+table.summary td.PUT strong{
 	padding-right: 29px;
 	background: #fca130;
 }
-ul.summary li.POST strong{
+table.summary td.POST strong{
 	padding-right: 19px;
 	background: #49cc90;
 }
@@ -93,8 +93,12 @@ td.sample{
 	<h1>${title}</h1>
 	
 	<br/>Cost = "unknown" means the sample comes from mock up data, the data has no meaning
-	<br/>Cost != "unknown" means the sample comes from Integration test result, the data has  meaning
-	<br/> Last updated: ${lastUpdated}
+	<br/>Cost != "unknown" means the sample comes from Integration test result, the data has meaning
+	<br/>
+	<br/> Last updated: ${lastUpdated}	
+	<br/>Total Api Amount: ${totalApiAmount}
+	<br/>Cased covered Api Amount: ${caseCoveredAmount}
+	<br/>Cased covered Rate: ${caseCoveredRate} %
 
 	<!-- The Modal -->
 	<div id="myModal" class="modal">
@@ -108,17 +112,28 @@ td.sample{
 	</div>
 
 	<h2> API list</h2>
-	<ul class="summary">
-		<#list allApis as api>
-			<#if api?counter gt 99>
-	  			<li class="${api.httpMethod}">${api?counter} <strong>${api.httpMethod}</strong> <a href="#${api.className}.${api.methodName}">${api.url}</a>			
-			<#elseif api?counter gt 9>			
-	  			<li class="${api.httpMethod}">0${api?counter} <strong>${api.httpMethod}</strong> <a href="#${api.className}.${api.methodName}">${api.url}</a>
-	  		<#else>
-	  			<li class="${api.httpMethod}">00${api?counter} <strong>${api.httpMethod}</strong> <a href="#${api.className}.${api.methodName}">${api.url}</a>
-			</#if>		
-		</#list>
-	</ul>
+		
+	<table class="summary">
+       <thead>
+          <tr>
+            <th style="width: 100px;">No.</th>
+            <th style="width: 100px;">Method</th>
+            <th style="width: 100px;">Case Covered</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tbody>        
+           <#list allApis as api>
+             <tr>
+               <td>${api?counter}</td>
+               <td class="${api.httpMethod}"><strong>${api.httpMethod}</strong></td>
+               
+               <td>${api.caseCovered?string('yes', 'no')}</td>
+               <td><a href="#${api.className}.${api.methodName}">${api.url}</a></td>
+           	</tr>
+           </#list>
+        </tbody>
+     </table>
 
 	
 	<br/><br/><br/><br/>
@@ -227,13 +242,14 @@ td.sample{
 	<table class="response">
         <thead>
           <tr>
-            <th>#</th>
-            <th>Method</th>
-            <th>CaseName</th>
-            <th>Cost</th>
-            <th>Input</th>
-            <th>Output</th>
-            <th>URL</th>
+            <th style="width: 80px;">#</th>
+            <th style="width: 80px;">Method</th>
+            <th style="width: 400px;">CaseName</th>
+            <th style="width: 80px;">Cost</th>
+            <th style="width: 80px;">Input</th>
+            <th style="width: 80px;">Output</th>
+            <th style="width: 80px;">Status</th>
+            <th style="width: 400px;">URL</th>
           </tr>
         </thead>
         <tbody>
@@ -250,6 +266,7 @@ td.sample{
                	<td class="sample"></td>
             </#if>
             <td class="sample" onclick="popupSample(this)" data-sample='${output.output}'>output</td>
+            <td>${output.status}</td>            
             <td>${output.url}</td>
         	</tr>
         </#list>
