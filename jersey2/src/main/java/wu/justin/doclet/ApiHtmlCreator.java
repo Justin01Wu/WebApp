@@ -78,6 +78,21 @@ public class ApiHtmlCreator {
         List<TestResult> testCases  = getCombinedResult(handler);
         input.put("testCases", testCases);
         
+        int totalCaseAmount = 0;
+        int totalApiCost = 0;  //ms
+        for(TestResult oneCase: testCases) {
+        	totalCaseAmount ++;
+        	String costStr = oneCase.getCost();
+        	if(!costStr.endsWith("ms")) {
+        		throw new RuntimeException("unexpected cost: " + costStr);
+        	}
+       		String costMs = costStr.substring(0,  costStr.length()-2);
+   			Integer cost = Integer.valueOf(costMs);
+   			totalApiCost =  totalApiCost + cost;
+        }
+        
+        input.put("totalCaseAmount", totalCaseAmount);
+        input.put("averageApiCost", totalApiCost/(double)totalCaseAmount);
 
         // 2.2. Get the template
 
@@ -91,7 +106,7 @@ public class ApiHtmlCreator {
 
     }
 	
-	/** combine API output and inmput together*/ 
+	/** combine API output and input together: input will be set on json field and output will be set on output field */ 
 	private static List<TestResult> getCombinedResult(TestResultHandler handler){
         Map<String, TestResult> combinedResults =  new HashMap<>();
         // convert to caseName result map from fileName result map 

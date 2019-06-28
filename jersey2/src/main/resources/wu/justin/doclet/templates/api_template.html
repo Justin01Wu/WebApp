@@ -10,6 +10,13 @@ table{
     width: 100%;
     border-collapse: collapse;
 }
+
+table tr:nth-child(even) {
+    background-color: #FFFFF2;
+}
+table tr:nth-child(odd) {
+    background-color: #F2F5FF;
+}
     
 th, td {
     border: 1px solid black;
@@ -19,6 +26,12 @@ th, td {
 table.response th:nth-child(1){
     width: 100px;
 }
+
+table.response td{
+    word-wrap: break-word;
+}
+
+
 table.response th:nth-child(2){
     width: 100px;
 }
@@ -92,14 +105,33 @@ td.sample{
 <body>
 	<h1>${title}</h1>
 	
-	<br/>Cost = "unknown" means the sample comes from mock up data, the data has no meaning
-	<br/>Cost != "unknown" means the sample comes from Integration test result, the data has meaning
-	<br/>
-	<br/> Last updated: ${lastUpdated}	
-	<br/>Total Api Amount: ${totalApiAmount}
-	<br/>Cased covered Api Amount: ${caseCoveredAmount}
-	<br/>Cased covered Rate: ${caseCoveredRate} %
+	
+	
+    <div style="display:flex">
+        <div style="width:40%">
+    		<h2>Content</h2>    
+	        <ul >
+				<li ><a href="#API_LIST"><h2>API List</h2></a></li>	
+				<li ><a href="#API_DETAILS"><h2>API Details</h2></a></li>
+				<li ><a href="#CASE_LIST"><h2>Test case List</h2></a></li>
+			</ul>
+        </div>
+        <div>
+        	<h2>Summary</h2>
+			<br/> Last updated: ${lastUpdated}	
+			<br/>Total API Amount: ${totalApiAmount}
+			<br/>Cased covered API Amount: ${caseCoveredAmount}
+			<br/>Cased covered Rate: ${caseCoveredRate} %
+			<br/>All API test case amount: ${totalCaseAmount} 
+			<br/>Average API Cost: ${averageApiCost} ms
 
+        </div>
+    </div>
+
+	<br/>
+	
+
+	
 	<!-- The Modal -->
 	<div id="myModal" class="modal">
 	
@@ -111,6 +143,9 @@ td.sample{
 	
 	</div>
 
+<br/><br/><br/><br/>
+
+<div id = "API_LIST">
 	<h2> API list</h2>
 		
 	<table class="summary">
@@ -134,10 +169,15 @@ td.sample{
            </#list>
         </tbody>
      </table>
-
+     <br/><br/><br/><br/>
+</div>
 	
-	<br/><br/><br/><br/>
+	
+	
+<div id = "API_DETAILS">
 	<h2> API Details</h2>
+	<br/>Cost = "unknown" means the sample comes from mock up data, the data has no meaning
+	<br/>Cost != "unknown" means the sample comes from Integration test result, the data has meaning
 	
 	<#list allApiClass as oneClass> 
 	
@@ -243,19 +283,23 @@ td.sample{
 	</ul>
 
 	</#list>
+	<br/><br/><br/><br/>
+</div>
 
+
+<div id = "CASE_LIST">
 
 	<h2> Test Case list</h2>
 	<table class="response">
         <thead>
           <tr>
-            <th style="width: 80px;">#</th>
-            <th style="width: 80px;">Method</th>
+            <th style="width: 30px;">#</th>
+            <th style="width: 45px;">Method</th>
             <th style="width: 400px;">CaseName</th>
             <th style="width: 80px;">Cost</th>
-            <th style="width: 80px;">Input</th>
-            <th style="width: 80px;">Output</th>
-            <th style="width: 80px;">Status</th>
+            <th style="width: 40px;">Input</th>
+            <th style="width: 40px;">Output</th>
+            <th style="width: 40px;">Status</th>
             <th style="width: 400px;">URL</th>
           </tr>
         </thead>
@@ -279,7 +323,7 @@ td.sample{
         </#list>
      </tbody>
   </table>
-
+</div>
 <script>
 
 // When the user clicks on the button, open the modal 
