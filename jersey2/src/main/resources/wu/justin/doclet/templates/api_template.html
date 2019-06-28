@@ -194,7 +194,11 @@ td.sample{
                   <#list api.inputs as input>
                     <tr>
                       <td>${input.caseName}</td>
-                      <td class="sample" onclick="popupSample(this)" data-sample='${input.json}'>${input.url}</td>
+                      <#if input.caseName = "CodeReflection">            	
+            			<td class="sample" onclick="popupSample( this)" data-sample='${input.json}'>${input.url}</td>
+            		  <#else>               			
+               			<td class="sample" onclick="popupFromSample('${input.caseName}', 'input')">${input.url}</td>
+            		  </#if> 
                   	</tr>
                   </#list>
                </tbody>
@@ -221,8 +225,11 @@ td.sample{
                       <td>${response.status}</td>
                       <td>${response.cost}</td>
                       <td>${response.caseName}</td>
-                      
-                      <td class="sample" onclick="popupSample(this)" data-sample='${response.output}'>${response.url}</td>
+                      <#if response.caseName = "CodeReflection">            	
+            			<td class="sample" onclick="popupSample( this)" data-sample='${response.output}'>${response.url}</td>
+            		  <#else>               	
+               			<td class="sample" onclick="popupFromSample('${response.caseName}', 'output')">${response.url}</td>
+            		  </#if>                      
                   	</tr>
                   </#list>
                </tbody>
@@ -254,20 +261,20 @@ td.sample{
         </thead>
         <tbody>
         
-        <#list testResults as output>
+        <#list testCases as testCase>
           <tr>
-            <td>${output?counter}</td>
-            <td>${output.method}</td>
-            <td>${output.caseName}</td>
-            <td>${output.cost}</td>
-            <#if output.json?has_content>
-            	<td class="sample" onclick="popupSample(this)" data-sample='${output.json}'>input</td>
+            <td>${testCase?counter}</td>
+            <td>${testCase.method}</td>
+            <td>${testCase.caseName}</td>
+            <td>${testCase.cost}</td>
+            <#if testCase.json?has_content>
+            	<td id="input_${testCase.caseName}" class="sample" onclick="popupSample(this)" data-sample='${testCase.json}'>input</td>
             <#else>
                	<td class="sample"></td>
             </#if>
-            <td class="sample" onclick="popupSample(this)" data-sample='${output.output}'>output</td>
-            <td>${output.status}</td>            
-            <td>${output.url}</td>
+            <td id="output_${testCase.caseName}" class="sample" onclick="popupSample(this)" data-sample='${testCase.output}'>output</td>
+            <td>${testCase.status}</td>            
+            <td>${testCase.url}</td>
         	</tr>
         </#list>
      </tbody>
@@ -281,6 +288,12 @@ function popupSample(ele) {
 	var children  =  modal.getElementsByClassName("myContent");
 	children[0].innerHTML = ele.dataset.sample;
 	modal.style.display = "block";
+}
+
+function popupFromSample(caseName, type) {
+
+	var caseEle = document.getElementById(type + "_" + caseName);
+	popupSample(caseEle);
 }
 
 // When the user clicks on <span> (x), close the modal

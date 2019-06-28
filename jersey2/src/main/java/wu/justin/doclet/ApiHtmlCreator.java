@@ -75,8 +75,8 @@ public class ApiHtmlCreator {
         input.put("caseCoveredAmount", caseCoveredAmount);
         input.put("caseCoveredRate", (caseCoveredAmount/(double)totalApiAmount)*100 );
         
-        List<TestResult> testResults  = getCombinedResult(handler);
-        input.put("testResults", testResults);
+        List<TestResult> testCases  = getCombinedResult(handler);
+        input.put("testCases", testCases);
         
 
         // 2.2. Get the template
