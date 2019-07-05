@@ -60,13 +60,17 @@ public class ApiHtmlCreator {
         	totalApiAmount ++;
         	if(oneApi.getResults() != null) {
         		if(oneApi.getResults().size()>1) {
+        			// comes from test cases
         			caseCoveredAmount ++;
         			oneApi.setCaseCovered(true);
-        		}else if(oneApi.getResults().size() ==1) {
-        			if(!oneApi.getResults().get(0).getCaseName().equals("CodeReflection")) {
+        		}else if(oneApi.getResults().size() == 1) {
+        			if(oneApi.getResults().get(0).getCaseName().equals("CodeReflection")) {
+        				// comes from code reflection
+        			}else {
+        				// comes from test cases
         				caseCoveredAmount ++;
         				oneApi.setCaseCovered(true);
-        			}        			
+        			}
         		}        		
         	}
         }
@@ -106,7 +110,7 @@ public class ApiHtmlCreator {
 
     }
 	
-	/** combine API output and input together: input will be set on json field and output will be set on output field */ 
+	/** combine API output and inmput together*/ 
 	private static List<TestResult> getCombinedResult(TestResultHandler handler){
         Map<String, TestResult> combinedResults =  new HashMap<>();
         // convert to caseName result map from fileName result map 
@@ -138,3 +142,4 @@ public class ApiHtmlCreator {
 
 
 }
+
