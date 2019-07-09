@@ -2,6 +2,7 @@ package wu.justin;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,11 +13,17 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 import org.apache.http.Header;
@@ -28,9 +35,22 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.junit.experimental.categories.Category;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
+
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 import wu.justin.rest2.ApiUtil;
 
 
@@ -246,7 +266,8 @@ public final class ApiTestUtil {
 		Pair2<String, String> result = ClassUtil.getMethodByPrefixOnAnnotation(Category.class, "step");
 		
 		if (result == null) {
-			return "unknownClassAndMethod";
+			//return "unknownClassAndMethod";
+			throw new RuntimeException("method with api call name should start with step; one method should only have one api call!");
 		} else {
 			String className = result.getL();
 			String methodName = result.getR();
@@ -316,5 +337,83 @@ public final class ApiTestUtil {
 			out.println("Url: " + Url);
 			out.print(JsonFile);
 		}
+	}
+	
+	// by pass invalid ssl certificate  if needed, do nothing if it is non https request	
+	public static HttpClientBuilder createTrustAllHttpClientBuilder( ) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+		  SSLContextBuilder builder = new SSLContextBuilder();
+		  builder.loadTrustMaterial(null, (chain, authType) -> true);           
+		  SSLConnectionSocketFactory sslsf = new 
+		  SSLConnectionSocketFactory(builder.build(), NoopHostnameVerifier.INSTANCE);
+		  return HttpClients.custom().setSSLSocketFactory(sslsf);
+	}	
+	
+	/** go through every fields in recursive way to verify JSON structure*/
+	// For non 3rd library implementation, please see https://stackoverflow.com/questions/50967015/how-to-compare-json-documents-and-return-the-differences-with-jackson-or-gson
+	public static void verifyJson(Map<String, Object> actualJson, Map<String, Object> expectedJson) throws JsonProcessingException, IOException {
+		
+		for(String key:  expectedJson.keySet()) {
+			Object expectValue = expectedJson.get(key);
+		    Object actualValue = JsonPath.read(actualJson, "$."+key);
+		    if(expectValue instanceof Map) {		    		
+		    	@SuppressWarnings("unchecked")
+				Map<String,Object> a = (Map<String, Object>)actualValue;
+		    	@SuppressWarnings("unchecked")
+		    	Map<String,Object> e = (Map<String,Object>)expectValue;		    	
+		    	verifyJson(a,e);
+		    }else if(expectValue instanceof JSONArray) {
+		    	if(!(actualValue instanceof JSONArray)) {
+		    		fail("different type on " + key);
+		    	}
+		    	List<?>  e = (ArrayList<?>)expectValue;
+		    	List<?> a = (ArrayList<?>)actualValue;
+
+		    	if(a.size() != e.size()) {
+		    		fail("different size on " + key);
+		    	}
+		    	//no need to sort before compare because JSON specs said: 
+		    	//  An array is an ordered sequence of zero or more values
+		    	
+		    	for(int i=0;i<a.size();i++) {
+		    		Map<String, Object> aa = (Map<String, Object>)a.get(i);
+		    		Map<String, Object> ee = (Map<String, Object>)e.get(i);
+		    		verifyJson(aa,ee);
+		    	}		    	
+		    }else {
+		    	assertEquals("verify property " + key, expectValue, actualValue);
+		    }		    
+		}
+	}
+	
+	/** will ignore the order of fields and space to compare two JSON string
+	 * the difference from verifyJson: 
+	 * (1) can't tell which field failed, 
+	 * (2) can ignore the order of an json array which verifyJson will fail*/
+	public static boolean jsonEquals(String actualJson , String expectedJson ) throws JsonProcessingException, IOException  {
+		
+		Objects.requireNonNull(actualJson, "actualJson can't be null");
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);		
+
+		JsonNode tree1 = mapper.readTree(actualJson);
+		JsonNode tree2 = mapper.readTree(expectedJson);
+
+		return tree1.equals(tree2);
+		
+	}
+	
+	public static boolean jsonEquals(Map<String, Object> actualJson , JSONObject expectedJson ) throws JsonProcessingException, IOException  {
+		
+		Objects.requireNonNull(actualJson, "actualJson can't be null");
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+		
+		String json1  = mapper.writeValueAsString(actualJson);		
+
+		JsonNode tree1 = mapper.readTree(json1);
+		JsonNode tree2 = mapper.readTree(expectedJson.toJSONString());
+
+		return tree1.equals(tree2);
+		
 	}
 }

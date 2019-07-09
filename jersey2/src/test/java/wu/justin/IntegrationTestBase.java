@@ -41,7 +41,8 @@ public class IntegrationTestBase {
 		
 		UserInfo userInfo = new UserInfo();
 		LoginService.loginAsUser(httpCookieStore, userInfo);
-		client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
+		HttpClientBuilder builder = ApiTestUtil.createTrustAllHttpClientBuilder();
+		client = builder.setDefaultCookieStore(httpCookieStore).build();
 	}
 
 	@After
