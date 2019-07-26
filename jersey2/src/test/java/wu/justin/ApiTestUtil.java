@@ -51,13 +51,14 @@ import com.jayway.jsonpath.JsonPath;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import wu.justin.rest2.ApiUtil;
 
 
 public final class ApiTestUtil {
-	
+
 	public static final String ISO_LONG_DATE_FORMAT = "HHmmss";
-	
 
 	private ApiTestUtil() {
 	}
@@ -70,7 +71,7 @@ public final class ApiTestUtil {
 	}
 
 
-	public static String getReturn(HttpResponse response) throws HttpException, IOException {
+	protected static String getReturn(HttpResponse response) throws HttpException, IOException {
 		if (response.getEntity() == null) {
 			return "";
 		}
@@ -106,10 +107,10 @@ public final class ApiTestUtil {
 		return URL_ROOT;
 
 	}
-
+	
 	public static String getResponseByRequest(HttpClient client, HttpGet request, Integer... statusCodeExpected)
 			throws HttpException, IOException {
-
+		
 		Date start = new Date();
 		HttpResponse response = client.execute(request);
 		Date end = new Date();
@@ -152,7 +153,7 @@ public final class ApiTestUtil {
 		return responseBody;
 	}
 
-
+	
 
 	// please align with TestResultHandler.handleOneFile if you change it
 	private static String saveOutput(HttpRequestBase request, HttpResponse response, Date start, Date end)
@@ -229,7 +230,7 @@ public final class ApiTestUtil {
 
 		return responseBody;
 	}
-
+	
 	public static String getResponseByRequest(HttpClient client, HttpDelete request, int statusCodeExpected)
 			throws IOException, HttpException {
 
@@ -245,7 +246,7 @@ public final class ApiTestUtil {
 
 		return responseBody;
 	}
-
+	
 
 	public static String readJSONFile(String fileName) throws FileNotFoundException, URISyntaxException {
 
@@ -256,11 +257,20 @@ public final class ApiTestUtil {
 		String content = scanner.useDelimiter("\\Z").next();
 		scanner.close();
 
-		// System.out.println("Content :" + content);
-
 		return content;
 	}
+	
+	
+	
+	public static net.minidev.json.JSONObject readJSONFile2Obj(String fileName) throws FileNotFoundException, URISyntaxException, ParseException {
 
+		String	jsonStr = ApiTestUtil.readJSONFile(fileName);
+		JSONObject expectedJson = (JSONObject)new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE).parse(jsonStr);
+
+		return expectedJson;
+	}
+
+	
 	private static String getCaseName() {
 		
 		Pair2<String, String> result = ClassUtil.getMethodByPrefixOnAnnotation(Category.class, "step");
@@ -339,7 +349,7 @@ public final class ApiTestUtil {
 		}
 	}
 	
-	// by pass invalid ssl certificate  if needed, do nothing if it is non https request	
+	// by pass invalid ssl certificate  if needed, do nothing if it is non https request
 	public static HttpClientBuilder createTrustAllHttpClientBuilder( ) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
 		  SSLContextBuilder builder = new SSLContextBuilder();
 		  builder.loadTrustMaterial(null, (chain, authType) -> true);           
@@ -348,7 +358,8 @@ public final class ApiTestUtil {
 		  return HttpClients.custom().setSSLSocketFactory(sslsf);
 	}	
 	
-	/** go through every fields in recursive way to verify JSON structure*/
+	/** go through every fields in recursive way to verify JSON structure
+	 * expectedJson can has less fields than actual Json*/
 	// For non 3rd library implementation, please see https://stackoverflow.com/questions/50967015/how-to-compare-json-documents-and-return-the-differences-with-jackson-or-gson
 	public static void verifyJson(Map<String, Object> actualJson, Map<String, Object> expectedJson) throws JsonProcessingException, IOException {
 		
@@ -416,4 +427,5 @@ public final class ApiTestUtil {
 		return tree1.equals(tree2);
 		
 	}
+
 }
