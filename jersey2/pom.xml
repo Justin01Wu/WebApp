@@ -339,7 +339,7 @@
                     	<docletArtifact>
             				<groupId>wu.justa</groupId>
             				<artifactId>object-tree-creator</artifactId>
-            				<version>1.4</version>
+            				<version>1.5</version>
                     	</docletArtifact>
                     	
                 	</docletArtifacts>
