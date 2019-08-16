@@ -1,9 +1,10 @@
 package wu.justin;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.List;
+import java.net.URISyntaxException;
 
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
@@ -18,34 +19,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 
 
 @Category(IntegrationTest.class)
-public class TestUserApi {
-	
-	private static String origUserJson;
-
-	
-	static{
-
-		// get expected orig contract result from the file
-		
-		String origUserJsonFile = TestUserApi.class.getSimpleName()+".json";
-
-		try {
-			origUserJson = ApiTestUtil.readJSONFile(origUserJsonFile);
-		} catch (Exception e) {			
-			e.printStackTrace();
-		}
-	}
+public class TestUserApi extends IntegrationTestBase {
 	
 	private CookieStore httpCookieStore;
 	public static String URL_ROOT = ApiTestUtil.getUrlRoot();
 	
-	private Object document;
-	private String responseBody;
+	
 	
 	@Before
 	public void setup() throws HttpException, IOException  {
@@ -68,15 +51,60 @@ public class TestUserApi {
 	}
 	
 	@Test
-	public void step5_UpdateCurrentUserSucceed() throws HttpException, IOException{
+	public void step5_UpdateCurrentUserTestFlag() throws HttpException, IOException{
 
 		String url = URL_ROOT + "/api/users/user/current.json?testFlag=true";
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
 		
 		HttpPost request = new HttpPost(url);
-		responseBody = ApiTestUtil.getResponseByRequest(client, request, "", HttpStatus.SC_OK);		
+		jsonDoc = this.getJsonByRequest(client, request, null, HttpStatus.SC_OK);		
+		String msg = JsonPath.read(jsonDoc, "$.msg");
 		String expetcedResponse = "it is test request, so do nothing";
-		assertEquals( expetcedResponse, responseBody);
+		assertEquals( expetcedResponse, msg);
+
+	}
+	
+	@Test
+	public void step5_UpdateCurrentUserSucceed() throws HttpException, IOException, URISyntaxException{
+
+		
+		String origVriscJsonFile2 = TestUserApi.class.getSimpleName() + ".json";
+		
+		String payLoad = ApiTestUtil.readJSONFile(origVriscJsonFile2);
+
+		String url = URL_ROOT + "/api/users/user/current.json";
+		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
+		
+		HttpPost request = new HttpPost(url);
+		jsonDoc = this.getJsonByRequest(client, request, payLoad, HttpStatus.SC_OK);		
+		String msg = JsonPath.read(jsonDoc, "$.msg");
+		String expetcedResponse = "succeed";
+		assertEquals( expetcedResponse, msg);
+
+	}
+	@Test
+	public void step6_UpdateCurrentUserFailOnWrongField() throws HttpException, IOException{
+		
+		String url = URL_ROOT + "/api/users/user/current.json";
+		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
+		
+		HttpPost request = new HttpPost(url);
+		httpBody = ApiTestUtil.getResponseByRequest(client, request, "{\"wrong\":\"format\"}", HttpStatus.SC_BAD_REQUEST);	
+		
+		assertTrue(httpBody.contains("Unrecognized field \"wrong\""));
+
+	}
+	
+	@Test
+	public void step6_UpdateCurrentUserFailOnWrongFormat() throws HttpException, IOException{
+		
+		String url = URL_ROOT + "/api/users/user/current.json";
+		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
+		
+		HttpPost request = new HttpPost(url);
+		httpBody = ApiTestUtil.getResponseByRequest(client, request, "incorrect json data", HttpStatus.SC_BAD_REQUEST);	
+		
+		assertTrue(httpBody.contains("Unrecognized token 'incorrect'"));
 
 	}
 	
@@ -87,11 +115,9 @@ public class TestUserApi {
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
 		
 		HttpPost request = new HttpPost(url);
-		responseBody = ApiTestUtil.getResponseByRequest(client, request, "", HttpStatus.SC_FORBIDDEN);		
+		httpBody = ApiTestUtil.getResponseByRequest(client, request, "", HttpStatus.SC_FORBIDDEN);		
 
 	}
-
-	
 	
 	private void stepGetCurrentUserApi() throws HttpException, IOException{
 		// every method only call one API 
@@ -103,16 +129,14 @@ public class TestUserApi {
 		
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
 		
-		final HttpGet request = new HttpGet(url);
-		 
-		responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_OK);
-		document = Configuration.defaultConfiguration().jsonProvider().parse(responseBody);
+		HttpGet request = new HttpGet(url);		 
+		jsonDoc = this.getJsonByRequest(client, request, HttpStatus.SC_OK);
 		
-		String userName = JsonPath.read(document, "$.name");		
+		String userName = JsonPath.read(jsonDoc, "$.name");		
 		assertEquals(userName, "Justin Wu");
 		System.out.println("userName= " + userName);
 		
-		Integer userId = JsonPath.read(document, "$.id");		
+		Integer userId = JsonPath.read(jsonDoc, "$.id");		
 		assertEquals(userId, new Integer(56239));
 		
 	}
@@ -126,16 +150,15 @@ public class TestUserApi {
 		
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
 		
-		final HttpGet request = new HttpGet(url);
+		HttpGet request = new HttpGet(url);
 		 
-		responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_OK);
-		document = Configuration.defaultConfiguration().jsonProvider().parse(responseBody);		
+		jsonDoc = this.getJsonByRequest(client, request, HttpStatus.SC_OK);				
 		
-		String userName = JsonPath.read(document, "$.name");		
+		String userName = JsonPath.read(jsonDoc, "$.name");		
 		assertEquals(userName, "Justin Wu");
 		System.out.println("userName= " + userName);
 		
-		Integer userId = JsonPath.read(document, "$.id");		
+		Integer userId = JsonPath.read(jsonDoc, "$.id");		
 		assertEquals(userId, new Integer(56239));		
 		
 	}
@@ -148,16 +171,15 @@ public class TestUserApi {
 		
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
 		
-		final HttpGet request = new HttpGet(url);
-		 
-		responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_OK);
-		document = Configuration.defaultConfiguration().jsonProvider().parse(responseBody);		
+		HttpGet request = new HttpGet(url);		 
 		
-		String userName = JsonPath.read(document, "$.name");		
+		jsonDoc = this.getJsonByRequest(client, request, HttpStatus.SC_OK);		
+		
+		String userName = JsonPath.read(jsonDoc, "$.name");		
 		assertEquals(userName, "Justin Wu");
 		System.out.println("userName= " + userName);
 		
-		Integer userId = JsonPath.read(document, "$.id");		
+		Integer userId = JsonPath.read(jsonDoc, "$.id");		
 		assertEquals(userId, new Integer(56239));		
 		
 	}
@@ -168,64 +190,19 @@ public class TestUserApi {
 		System.out.println("                ==>testUserApi started....");
 		
 		String url = URL_ROOT +"/api/users/user/-12";
-
 		
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
 		
 		final HttpGet request = new HttpGet(url);
 		 
-		responseBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_BAD_REQUEST);
+		httpBody = ApiTestUtil.getResponseByRequest(client, request, HttpStatus.SC_BAD_REQUEST);
 		
-		assertEquals(responseBody, "userId can't be negative");
-		
-	}
-	
-	// it comes from 
-	// https://github.com/jayway/JsonPath
-	@Test
-	public void testJson(){		
-		
-		String json ="{store: "
-				+ "{    book: ["
-				+ "        {            "
-				+ "category: 'reference',            "
-				+ "author: 'Nigel Rees',            "
-				+ "title: 'Sayings of the Century',"
-				+ "            price: 8.95"
-				+ "        },"
-				+ "        {"
-				+ "            category: 'fiction',"
-				+ "            author: 'J. R. R. Tolkien',"
-				+ "            title: 'The Lord of the Rings',"
-				+ "            isbn: '0-395-19395-8',"
-				+ "            price: 22.99"
-				+ "        }    ],"
-				+ "    bicycle: {"
-				+ "        color: 'red',"
-				+ "        price: 19.95"
-				+ "    }"
-				+ "},"
-				+ " expensive: 10"
-				+ "}";
-		
-		Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
-		
-		String author0 = JsonPath.read(document, "$.store.book[0].author");
-		List<String> category = JsonPath.read(document, "store.book[?(@.author=='Nigel Rees')].category");
+		assertEquals(httpBody, "userId can't be negative");		
+	}	
 
-		System.out.println("author0= " + author0);
-		System.out.println("category= " + category);
-		
-		assertEquals(author0, "Nigel Rees");
-
-		assertEquals(category.size(), 1);
-		assertEquals(category.get(0), "reference");
-
-	}
 	
 	@After
-	public void tearDown() throws Exception {
-		
+	public void tearDown() throws Exception {		
 		// logout
 		LoginService.logout(URL_ROOT, httpCookieStore);
 		

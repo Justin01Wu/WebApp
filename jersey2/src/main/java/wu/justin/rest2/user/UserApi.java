@@ -2,11 +2,13 @@ package wu.justin.rest2.user;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -34,6 +36,8 @@ import wu.justin.rest2.exception.BadRequestError;
 @Path("/users")
 public class UserApi {
 	
+	
+	
 	/** demo how to convert java object tree to json */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -48,7 +52,7 @@ public class UserApi {
 			throw new RuntimeException("can't find db ip...");
 		}
 		
-		User user = createUser();
+		User user = UserService.getUserById(56239);
 		return user;
 	}
 	
@@ -56,7 +60,7 @@ public class UserApi {
 		
 		System.out.println("getUserById...");
 		
-		User user = createUser();
+		User user = UserService.getUserById(56239);
 		return user;
 	}
 	
@@ -71,7 +75,7 @@ public class UserApi {
 		if(userId<=0){
 			throw new BadRequestError("userId can't be negative");
 		}
-		User user = createUser();
+		User user = UserService.getUserById(56239);
 		return user;
 	}
 	
@@ -85,7 +89,7 @@ public class UserApi {
 		if(userId<=0){
 			throw new BadRequestError("userId can't be negative");
 		}
-		User user = createUser();
+		User user = UserService.getUserById(56239);
 		return user;
 	}
 	
@@ -100,7 +104,7 @@ public class UserApi {
 		
 		System.out.println("getUserById...");
 		
-		User user = createUser();
+		User user = UserService.getUserById(56239);
 		return user;
 	}
 	
@@ -114,7 +118,7 @@ public class UserApi {
 		
 		System.out.println("setCurrentUser...");
 		
-		User currentUser = createUser();
+		User currentUser = UserService.getUserById(56239);
 		
 		
 		// use userDTO to override currentUser to avoid partial json return because @JsonIgnore will ignore some data
@@ -138,31 +142,15 @@ public class UserApi {
 	public String createCurrentUser(User userDTO, @QueryParam("testFlag") Boolean testFlag) {
 		
 		if(testFlag!= null && testFlag.equals(true)){
-			return "it is test request, so do nothing";
-		}else {
+			return "{\"msg\": \"it is test request, so do nothing\"}";
+		}
+		if(userDTO == null) {
 			throw new ForbiddenException("test 403 error");	
 		}
+		UserService.addUser(userDTO);
+		return "{\"msg\": \"succeed\"}";
 		
 	}
 	
-	private static User createUser(){
-		User user = new User(56239, "Justin Wu");
-		user.addEmails("justin01.wu@gmail.com");
-		user.addEmails("wuyg719@gmail.com");
-		user.setBirthDate(new Date());
-		user.setType(TypeEnum.Developer);
-		
-		user.setPassword("abcd1234");
-		
-		Address homeAddress =  new Address();
-		homeAddress.setId(123768);
-		homeAddress.setCountry("Canada");
-		homeAddress.setAddress("This is a tab character[	],but jackson will convert it into \t");
-		
-		user.setHomeAddress(homeAddress);
-		
-		user.setDesc("This is a sample to demo how Jackson convert a Java object tree into json");
-	    return user;
-		
-	}
+
 }

@@ -47,11 +47,12 @@ public class TestCreateAccessToken {
 		
 		CloseableHttpClient client = HttpClients.createDefault();
 		
-		HttpResponse response = client.execute(request);
-		int statusCode = response.getStatusLine().getStatusCode();
-		assertEquals(statusCode, HttpStatus.SC_OK);
+		//HttpResponse response = client.execute(request);
+		//int statusCode = response.getStatusLine().getStatusCode();
+		//assertEquals(statusCode, HttpStatus.SC_OK);
 		
-		String body = ApiTestUtil.getReturn(response);
+		//String body = ApiTestUtil.getReturn(response);
+		String body = ApiTestUtil.getResponseByRequest(client, request, null, HttpStatus.SC_OK);
 		
 		Object json = Configuration.defaultConfiguration().jsonProvider().parse(body);
 		

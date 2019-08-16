@@ -71,7 +71,7 @@ public final class ApiTestUtil {
 	}
 
 
-	protected static String getReturn(HttpResponse response) throws HttpException, IOException {
+	private static String getReturn(HttpResponse response) throws HttpException, IOException {
 		if (response.getEntity() == null) {
 			return "";
 		}
@@ -125,19 +125,20 @@ public final class ApiTestUtil {
 
 	}
 	
-	public static String getResponseByRequest(HttpClient client, HttpPut request, String data,
+	public static String getResponseByRequest(HttpClient client, HttpPut request, String jsonData,
 			int statusCodeExpected) throws HttpException, IOException {
-		request.addHeader("content-type", "application/json");
+		
 		request.addHeader("Accept", "*/*");
 		request.addHeader("Accept-Encoding", "gzip,deflate,sdch");
 		request.addHeader("Accept-Language", "en-US,en;q=0.8");
 
 		// set body
-		if (data != null) {
-			StringEntity params = new StringEntity(data, "UTF-8");
+		if (jsonData != null) {
+			request.addHeader("content-type", "application/json");
+			StringEntity params = new StringEntity(jsonData, "UTF-8");
 			params.setContentType("application/json");
 			request.setEntity(params);
-			saveInput(request, data);
+			saveInput(request, jsonData);
 		}
 
 		Date start = new Date();
@@ -151,9 +152,7 @@ public final class ApiTestUtil {
 		assertEquals(statusCodeExpected, statusCode);
 
 		return responseBody;
-	}
-
-	
+	}	
 
 	// please align with TestResultHandler.handleOneFile if you change it
 	private static String saveOutput(HttpRequestBase request, HttpResponse response, Date start, Date end)
@@ -203,19 +202,20 @@ public final class ApiTestUtil {
 		return responseBody;
 	}
 
-	public static String getResponseByRequest(HttpClient client, HttpPost request, String data,
+	public static String getResponseByRequest(HttpClient client, HttpPost request, String jsonData,
 			int statusCodeExpected) throws HttpException, IOException {
-		request.addHeader("content-type", "application/json");
+		
 		request.addHeader("Accept", "*/*");
 		request.addHeader("Accept-Encoding", "gzip,deflate,sdch");
 		request.addHeader("Accept-Language", "en-US,en;q=0.8");
 
 		// set body
-		if (data != null) {
-			StringEntity params = new StringEntity(data, "UTF-8");
+		if (jsonData != null) {
+			request.addHeader("content-type", "application/json");
+			StringEntity params = new StringEntity(jsonData, "UTF-8");
 			params.setContentType("application/json");
 			request.setEntity(params);
-			saveInput(request, data);
+			saveInput(request, jsonData);
 		}
 
 		Date start = new Date();
@@ -290,7 +290,7 @@ public final class ApiTestUtil {
 
 	}
 
-	protected static void saveInput(HttpRequestBase request, String content) throws FileNotFoundException {
+	private static void saveInput(HttpRequestBase request, String content) throws FileNotFoundException {
 		String caseName = getCaseName();
 		
 		if (content != null && content.length() > 20) {
@@ -337,7 +337,7 @@ public final class ApiTestUtil {
 	}
 
 
-	protected static void save(String Url, HttpRequestBase request, String JsonFile, String caseName, String type)
+	private static void save(String Url, HttpRequestBase request, String JsonFile, String caseName, String type)
 			throws FileNotFoundException {
 
 		String requestType = request.getMethod();
