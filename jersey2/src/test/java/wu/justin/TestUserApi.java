@@ -82,6 +82,8 @@ public class TestUserApi extends IntegrationTestBase {
 		assertEquals( expetcedResponse, msg);
 
 	}
+	
+	// test JsonMappingExceptionMapper
 	@Test
 	public void step6_UpdateCurrentUserFailOnWrongField() throws HttpException, IOException{
 		
@@ -95,6 +97,7 @@ public class TestUserApi extends IntegrationTestBase {
 
 	}
 	
+	// test JsonParseExceptionMapper
 	@Test
 	public void step6_UpdateCurrentUserFailOnWrongFormat() throws HttpException, IOException{
 		
