@@ -386,9 +386,38 @@ public final class ApiTestUtil {
 		    	//  An array is an ordered sequence of zero or more values
 		    	
 		    	for(int i=0;i<a.size();i++) {
-		    		Map<String, Object> aa = (Map<String, Object>)a.get(i);
-		    		Map<String, Object> ee = (Map<String, Object>)e.get(i);
-		    		verifyJson(aa,ee);
+		    		Object aa = a.get(i);
+		    		Object ee = e.get(i);
+		    		if(aa == null) {
+		    			if(ee != null) {
+		    				fail("expected value should be null on " + i + " of " + key);
+		    			}
+		    		}else {
+		    			if(ee == null) {
+		    				fail("expected value should not be null on " + i + " of " + key);
+		    			}else {
+		    				// both are not null
+		    				if(aa instanceof Map) {
+		    					if(ee instanceof Map) {
+						    		verifyJson((Map<String, Object>)aa, (Map<String, Object>)ee);	    						
+		    					}else {
+		    						fail("expected value should be a Json Object on " + i + " of " + key);
+		    					}
+		    				}else if(aa instanceof Double){
+		    					if(ee instanceof Double) {
+		    						if(!aa.equals(ee)) {
+		    							fail("expected value not equals on " + i + " of " + key);
+		    						}
+		    					}else {
+		    						fail("expected value should be Double on " + i + " of " + key);
+		    					}
+		    					
+		    				}else {
+		    					System.out.println("    == notImplemented on " + aa.getClass().getName() + "on " + i + " of " + key);
+		    				}
+		    				
+		    			}
+		    		}
 		    	}		    	
 		    }else {
 		    	assertEquals("verify property " + key, expectValue, actualValue);
