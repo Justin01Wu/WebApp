@@ -6,9 +6,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
+import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvider;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 /**
  * 
@@ -32,7 +32,7 @@ public class JacksonObjectMapperProvider implements ContextResolver<ObjectMapper
     private static ObjectMapper createDefaultMapper() {
     	
         //ObjectMapper mapper = new ObjectMapper();         
-        JacksonJsonProvider jackson_json_provider = new JacksonJaxbJsonProvider();
+        JacksonJsonProvider jackson_json_provider = new JacksonJsonProvider();
 
         ObjectMapper mapper = jackson_json_provider.locateMapper(Date.class, MediaType.APPLICATION_JSON_TYPE);
         
