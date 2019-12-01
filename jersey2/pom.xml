@@ -146,6 +146,7 @@
 			<version>2.29.1</version>
 		</dependency>
 		
+		<!-- this is required for jersey-media-json-jackson since version 2.26, before it is hardcoded -->
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
