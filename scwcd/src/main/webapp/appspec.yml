@@ -5,5 +5,5 @@ os: linux
 
 files:
   - source: /
-    destination:  /var/scwcd/scwcd
+    destination:   /usr/share/tomcat/webapps/scwcd
 
