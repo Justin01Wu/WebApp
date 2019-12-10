@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.security.KeyManagementException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
 import java.util.BitSet;
 import java.util.Formatter;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,12 +17,11 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.HttpParams;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
 
 public class ProxyUtil {	
 	
@@ -89,49 +85,17 @@ public class ProxyUtil {
 		    return outBuf != null ? outBuf : in;
 		  }
 		  
-		  private static DefaultHttpClient httpClientTrustingAllSSLCerts(HttpParams hcParams) throws NoSuchAlgorithmException, KeyManagementException {
-				//DefaultHttpClient httpclient = new DefaultHttpClient();
-				DefaultHttpClient httpclient = new DefaultHttpClient(	new ThreadSafeClientConnManager(), hcParams);
-
-				SSLContext sc = SSLContext.getInstance("SSL");
-				sc.init(null, getTrustingManager(), new java.security.SecureRandom());
-
-				SSLSocketFactory socketFactory = new SSLSocketFactory(sc);
-				Scheme sch = new Scheme("https", 443, socketFactory);
-				httpclient.getConnectionManager().getSchemeRegistry().register(sch);
-				return httpclient;
-			}
-		  
-		  public static HttpClient createHttpClient(final RequestConfig requestConfig) {
-			  HttpClientBuilder builder = HttpClientBuilder.create();
-			  if(requestConfig != null){
-				  builder.setDefaultRequestConfig(requestConfig);  
-			  }
+		  public static HttpClient createHttpClient(final RequestConfig requestConfig) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
 			  
-			  HttpClient httpClient =  builder.build();
+			  SSLContextBuilder sslBuilder = new SSLContextBuilder();
+			  sslBuilder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
+			  SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+					  sslBuilder.build());
+			  CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(
+			          sslsf).build();
+
 			  return httpClient;
 		}
-		  
-		  
-		  private static TrustManager[] getTrustingManager() {
-				TrustManager[] trustAllCerts = new TrustManager[] { 
-					new X509TrustManager() {
-						@Override
-						public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-							return null;
-						}
-						@Override
-						public void checkClientTrusted(X509Certificate[] certs, String authType) {
-							// Do nothing
-						}
-						@Override
-						public void checkServerTrusted(X509Certificate[] certs, String authType) {
-							// Do nothing
-						}
-					} 
-				};
-				return trustAllCerts;
-			}
 		  
 			 /** Copy response body data (the entity) from the proxy to the servlet client. */
 		  public static void copyResponseEntity(HttpResponse proxyResponse, HttpServletResponse servletResponse,

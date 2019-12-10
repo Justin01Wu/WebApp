@@ -144,14 +144,16 @@ public abstract class GeneralHttpProxy implements Filter {
 	    copyRequestHeaders(servletRequest, proxyRequest);
 
 	    setXForwardedForHeader(servletRequest, proxyRequest);
-	    
-	    HttpClient proxyClient = ProxyUtil.createHttpClient(null);
 
 		log.debug("proxy " + servletRequest.getMethod() + " uri: " + servletRequest.getRequestURI() + " -- "
-					+ proxyRequest.getRequestLine().getUri());
+				+ proxyRequest.getRequestLine().getUri());
+
+
 		
 
 		try {
+			
+		    HttpClient proxyClient = ProxyUtil.createHttpClient(null);
 
 			HttpHost host = getTargetHost(servletRequest);
 			HttpResponse proxyResponse = proxyClient.execute(host , proxyRequest);
