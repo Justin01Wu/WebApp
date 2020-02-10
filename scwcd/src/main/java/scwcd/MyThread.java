@@ -11,7 +11,8 @@ public class MyThread {
 		ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 		long[] threadIds = threadMXBean.getAllThreadIds();
 		for (int ii = 0; ii < threadIds.length; ii++) {
-			printStack(sb, threadMXBean.getThreadInfo(threadIds[ii], 100));
+			ThreadInfo info = threadMXBean.getThreadInfo(threadIds[ii], 100); 
+			printStack(sb, info);
 		}
 		return sb.toString();
 	}
