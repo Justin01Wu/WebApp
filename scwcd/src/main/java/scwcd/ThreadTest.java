@@ -1,16 +1,18 @@
 package scwcd;
 
-public class ThreadTest implements Runnable
-{
+public class ThreadTest implements Runnable {
 
-    public void run()
-    {
-        synchronized(this){
-            for (int i = 0; i < 10; i++)
-            {
-                System.out.print(" " + i);
+    public void run() {
+        	boolean continueFlag = true;
+            while(continueFlag)  {
+                try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					continueFlag= false;
+				}
             }
-        }
+        
     }
     public static void main(String[] args)
     {

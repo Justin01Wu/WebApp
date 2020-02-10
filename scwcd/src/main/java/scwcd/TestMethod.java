@@ -16,6 +16,11 @@ public class TestMethod extends HttpServlet {
     //Initialize global variables
     public void init() throws ServletException {
         System.out.println("TestMethod.init() is called automatically because of load-on-startup");
+        
+        // start a infinite loop thread
+        Runnable r = new ThreadTest();
+        Thread t1 = new Thread(r);
+        t1.start();
     }
 
     //Process the HTTP Get request
