@@ -12,12 +12,12 @@ public class MyThread {
 		long[] threadIds = threadMXBean.getAllThreadIds();
 		for (int ii = 0; ii < threadIds.length; ii++) {
 			ThreadInfo info = threadMXBean.getThreadInfo(threadIds[ii], 100); 
-			printStack(sb, info);
+			printThreadStack(sb, info);
 		}
 		return sb.toString();
 	}
 	
-	private static void printStack(StringBuffer sb, ThreadInfo threadInfo) {
+	private static void printThreadStack(StringBuffer sb, ThreadInfo threadInfo) {
 		Thread.State state = threadInfo.getThreadState();
 //		if (state != Thread.State.RUNNABLE && state != Thread.State.BLOCKED && state != Thread.State.TIMED_WAITING)
 //			return;
@@ -28,10 +28,11 @@ public class MyThread {
 		int ij;
 		for (ij = ste.length-1; ij >=0 ; ij--) {
 			elements[ij] = ste[ij].toString();
-			if (lastEl>=0) {
+			if (lastEl >= 0) {
 				continue;
 			}
 			if ( elements[ij].startsWith("scwcd") || elements[ij].startsWith("listener") ) {
+				// only print my thread stack, ignore system threads
 				lastEl = ij;
 			}
 		}

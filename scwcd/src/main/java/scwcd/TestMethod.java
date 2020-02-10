@@ -20,7 +20,7 @@ public class TestMethod extends HttpServlet {
         
         // start an infinite loop thread
         Runnable r = new ThreadTest();
-        Thread t1 = new Thread(r);
+        Thread t1 = new Thread(r, "ThreadTest from TestMethod.init");
         t1.start();
     }
 
