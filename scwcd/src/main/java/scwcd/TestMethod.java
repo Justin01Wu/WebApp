@@ -14,16 +14,18 @@ public class TestMethod extends HttpServlet {
 	private static final String CONTENT_TYPE = "text/html";
 
     //Initialize global variables
+	@Override
     public void init() throws ServletException {
         System.out.println("TestMethod.init() is called automatically because of load-on-startup");
         
-        // start a infinite loop thread
+        // start an infinite loop thread
         Runnable r = new ThreadTest();
         Thread t1 = new Thread(r);
         t1.start();
     }
 
     //Process the HTTP Get request
+	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
         response.setContentType(CONTENT_TYPE);
@@ -49,6 +51,7 @@ public class TestMethod extends HttpServlet {
 
 
     //Clean up resources
+    @Override
     public void destroy() {
         // I can't find a way to ask container to execute this except shutdown
         // the container
