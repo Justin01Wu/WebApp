@@ -20,6 +20,10 @@ public class JsonPathUtil {
 	
 	public JsonPathUtil(String document) {
 		dc = JsonPath.using(JsonPathConfig).parse(document);
+	}
+	
+	public JsonPathUtil(Object document) {
+		dc = JsonPath.using(JsonPathConfig).parse(document);
 	}	
 	
 	public <T> T getJsonPathOrNull(String jsonPath, Predicate... filters) {

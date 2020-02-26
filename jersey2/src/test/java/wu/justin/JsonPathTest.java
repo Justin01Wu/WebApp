@@ -12,6 +12,7 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 
+import net.minidev.json.JSONArray;
 import wu.justin.rest2.JsonPathUtil;
 
 public class JsonPathTest {
@@ -102,7 +103,21 @@ public class JsonPathTest {
 		
 		String book2 = jpu.getJsonPathOrNull("$.store.book2");		
 		assertNull(book2);
+		
+		JSONArray books = jpu.getJsonPathOrNull("$.store.book");
+		
+		Object book = books.get(0);
+		handleOneBook(book);
+	}
+	
+	private static void handleOneBook(Object book){
+		JsonPathUtil jpu2 = new JsonPathUtil(book);
+		String author3 = jpu2.getJsonPathOrNull("$.author3");
+		assertNull(author3);
 
+		String author = jpu2.getJsonPathOrNull("$.author");
+		assertEquals(author, "Nigel Rees");
+		
 	}
 
 }
