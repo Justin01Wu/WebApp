@@ -12,8 +12,9 @@ public class JsonPathUtil {
 
 	private static Configuration JsonPathConfig = Configuration
 			.defaultConfiguration()
-			.addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);  
-	// this option will let dc return null rather than exception if target doesn't exists 
+			.addOptions(Option.SUPPRESS_EXCEPTIONS);  
+	// this option will let dc always return null rather than exception if target doesn't exists
+	// or empty list if it expected a list
 	
 	private DocumentContext dc;
 	

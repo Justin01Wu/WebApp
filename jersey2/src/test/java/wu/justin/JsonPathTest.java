@@ -11,6 +11,7 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
+import com.jayway.jsonpath.PathNotFoundException;
 
 import net.minidev.json.JSONArray;
 import wu.justin.rest2.JsonPathUtil;
@@ -108,6 +109,10 @@ public class JsonPathTest {
 		
 		Object book = books.get(0);
 		handleOneBook(book);
+		
+		String author3 = jpu.readOrNull("$.store.book2[0].author");		
+		assertNull(author3);
+
 	}
 	
 	private static void handleOneBook(Object book){
@@ -116,8 +121,42 @@ public class JsonPathTest {
 		assertNull(author3);
 
 		String author = jpu2.readOrNull("$.author");
+		assertEquals(author, "Nigel Rees");		
+	}	
+	
+	@Test(expected = PathNotFoundException.class)
+	public void testException(){
+		
+		Configuration JsonPathConfig = Configuration
+				.defaultConfiguration()
+				.addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+		
+		DocumentContext dc = JsonPath.using(JsonPathConfig).parse(json);
+		
+		dc.read("$.store.book2[0].author");		
+		// jpu can only detect path leaf name error, not the parent name error 
+
+	}
+	
+	@Test	
+	public void testNoException(){
+		
+		Configuration JsonPathConfig = Configuration
+				.defaultConfiguration()
+				.addOptions(Option.SUPPRESS_EXCEPTIONS);
+		
+		DocumentContext dc = JsonPath.using(JsonPathConfig).parse(json);
+		String author = dc.read("$.store.book2[0].author");
+		assertNull(author);
+		
+		author = dc.read("$.store.book[0].author");
 		assertEquals(author, "Nigel Rees");
 		
+		author = dc.read("$.store.book[0].author2");
+		assertNull(author);
+		 
+
 	}
+
 
 }
