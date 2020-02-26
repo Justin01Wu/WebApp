@@ -12,6 +12,8 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 
+import wu.justin.rest2.JsonPathUtil;
+
 public class JsonPathTest {
 	
 	private static String json ="{store: "
@@ -72,12 +74,33 @@ public class JsonPathTest {
 	public void testNullReturnValue(){
 		
 		DocumentContext dc = getJsonPathDocumentContext(json);
+		
+		String author = dc.read("$.store.book[0].author");
+		assertEquals(author, "Nigel Rees");
+		
 		String author2 = dc.read( "$.store.book[0].author2");
 		
 		assertNull(author2);
 		
 		String book2 = dc.read( "$.store.book2");
 		
+		assertNull(book2);
+
+	}
+	
+	// it comes from  https://stackoverflow.com/questions/38449267/optional-jsonpath-using-jayway
+	@Test
+	public void testNullReturnValue2(){
+		
+		JsonPathUtil jpu = new JsonPathUtil(json);
+		
+		String author = jpu.getJsonPathOrNull("$.store.book[0].author");
+		assertEquals(author, "Nigel Rees");
+		
+		String author2 = jpu.getJsonPathOrNull("$.store.book[0].author2");		
+		assertNull(author2);
+		
+		String book2 = jpu.getJsonPathOrNull("$.store.book2");		
 		assertNull(book2);
 
 	}
