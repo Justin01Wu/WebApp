@@ -26,7 +26,7 @@ public class JsonPathUtil {
 		dc = JsonPath.using(JsonPathConfig).parse(document);
 	}	
 	
-	public <T> T getJsonPathOrNull(String jsonPath, Predicate... filters) {
+	public <T> T readOrNull(String jsonPath, Predicate... filters) {
 		
 		return dc.read(jsonPath, filters);
 	}

@@ -95,16 +95,16 @@ public class JsonPathTest {
 		
 		JsonPathUtil jpu = new JsonPathUtil(json);
 		
-		String author = jpu.getJsonPathOrNull("$.store.book[0].author");
+		String author = jpu.readOrNull("$.store.book[0].author");
 		assertEquals(author, "Nigel Rees");
 		
-		String author2 = jpu.getJsonPathOrNull("$.store.book[0].author2");		
+		String author2 = jpu.readOrNull("$.store.book[0].author2");		
 		assertNull(author2);
 		
-		String book2 = jpu.getJsonPathOrNull("$.store.book2");		
+		String book2 = jpu.readOrNull("$.store.book2");		
 		assertNull(book2);
 		
-		JSONArray books = jpu.getJsonPathOrNull("$.store.book");
+		JSONArray books = jpu.readOrNull("$.store.book");
 		
 		Object book = books.get(0);
 		handleOneBook(book);
@@ -112,10 +112,10 @@ public class JsonPathTest {
 	
 	private static void handleOneBook(Object book){
 		JsonPathUtil jpu2 = new JsonPathUtil(book);
-		String author3 = jpu2.getJsonPathOrNull("$.author3");
+		String author3 = jpu2.readOrNull("$.author3");
 		assertNull(author3);
 
-		String author = jpu2.getJsonPathOrNull("$.author");
+		String author = jpu2.readOrNull("$.author");
 		assertEquals(author, "Nigel Rees");
 		
 	}
