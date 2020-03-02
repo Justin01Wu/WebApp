@@ -59,6 +59,7 @@ public class Student {
 	@JsonProperty("classroom2")
 	@JsonSerialize(using = ClassRoomSerializer.class)
 	@JsonTargetType(getType = JsonTargetEnum.Desc)   // the difference from getClassRoomId
+	// from https://stackoverflow.com/questions/22634860/how-to-pass-parameter-to-jsonserializer
 	public Integer getClassRoomId2() {
 		return classRoomId;
 	}	
