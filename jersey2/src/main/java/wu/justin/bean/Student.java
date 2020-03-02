@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import wu.justin.rest2.converter.ClassRoomSerializer;
+import wu.justin.rest2.converter.JsonTargetEnum;
+import wu.justin.rest2.converter.JsonTargetType;
 
 /**
  * test toJsonString method on ObjectId
@@ -53,5 +55,12 @@ public class Student {
 	public void setClassRoomId(Integer classRoomId) {
 		this.classRoomId = classRoomId;
 	} 
+	
+	@JsonProperty("classroom2")
+	@JsonSerialize(using = ClassRoomSerializer.class)
+	@JsonTargetType(getType = JsonTargetEnum.Desc)   // the difference from getClassRoomId
+	public Integer getClassRoomId2() {
+		return classRoomId;
+	}	
 
 }
