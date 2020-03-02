@@ -13,7 +13,7 @@ public class ObjectId {
 	
 	//JACKSON will call this method in ObjectIdSerializerModule
 	public String toJsonString(){
-		return "Justin test Object Id 123456";
+		return "test global serializer on a special type, id= " + id;
 	}
 
 	public int getId() {
