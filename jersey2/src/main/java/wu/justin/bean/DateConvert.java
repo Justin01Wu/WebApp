@@ -3,13 +3,13 @@ package wu.justin.bean;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import wu.justin.rest2.ISO8601DateConverter.ISO8601DateDeserializer;
-import wu.justin.rest2.ISO8601DateConverter.ISO8601DateSerializer;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import wu.justin.rest2.converter.ISO8601DateConverter.ISO8601DateDeserializer;
+import wu.justin.rest2.converter.ISO8601DateConverter.ISO8601DateSerializer;
 
 
 /** 

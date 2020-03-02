@@ -10,6 +10,8 @@ import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvi
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import wu.justin.rest2.converter.ObjectIdSerializerModule;
+
 /**
  * 
  * from http://jmchung.github.io/blog/2014/06/18/how-to-customise-the-jackson-json-objectmapper-in-java-ee-enterprise-application/

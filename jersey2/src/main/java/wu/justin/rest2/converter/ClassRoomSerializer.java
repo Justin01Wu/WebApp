@@ -1,4 +1,4 @@
-package wu.justin.rest2;
+package wu.justin.rest2.converter;
 
 import java.io.IOException;
 import java.util.HashMap;

@@ -3,7 +3,7 @@ package wu.justin.bean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import wu.justin.rest2.ClassRoomSerializer;
+import wu.justin.rest2.converter.ClassRoomSerializer;
 
 /**
  * test toJsonString method on ObjectId
