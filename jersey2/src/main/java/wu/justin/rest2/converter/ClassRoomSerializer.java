@@ -44,6 +44,8 @@ public class ClassRoomSerializer extends JsonSerializer<Integer> {
 		}
 
 		gen.writeObject(cr);
+		// TODO please follow this to implement a parameter:
+		// https://stackoverflow.com/questions/22634860/how-to-pass-parameter-to-jsonserializer
 
 	}
 }

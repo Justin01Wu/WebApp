@@ -1,6 +1,7 @@
 package wu.justin.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import wu.justin.rest2.converter.ClassRoomSerializer;
@@ -43,6 +44,7 @@ public class Student {
 		this.password = password;
 	}
 
+	@JsonProperty("classroom")
 	@JsonSerialize(using = ClassRoomSerializer.class)
 	public Integer getClassRoomId() {
 		return classRoomId;
