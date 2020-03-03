@@ -29,15 +29,6 @@ public class ClassRoomSerializer extends StdSerializer<Integer> implements Conte
 		this.type = t;
 	}
 	
-
-	private static Map<Integer, ClassRoom> classrooms = new HashMap<>();
-	static {
-		ClassRoom cr = new ClassRoom(1, "test cutomized serializer on foreign key");
-		classrooms.put(1, cr);
-		cr = new ClassRoom(2,"test cutomized serializer on foreign key");
-		classrooms.put(2, cr);
-	}
-	
 	private static final String NOT_FOUND = "Unknown classroom "; 
 
 	 @Override
@@ -54,7 +45,7 @@ public class ClassRoomSerializer extends StdSerializer<Integer> implements Conte
 			return;
 		}
 		
-		ClassRoom cr = classrooms.get(id);
+		ClassRoom cr = CachedClassRoom.findById(id);
 		if (cr == null  ) {
 			gen.writeString(NOT_FOUND + id);
 			return;
@@ -65,8 +56,7 @@ public class ClassRoomSerializer extends StdSerializer<Integer> implements Conte
 			gen.writeObject(cr);	
 		}else if(type== JsonTargetEnum.Desc ) {
 			gen.writeString(cr.getDesc());
-		}
-		
+		}		
 	}
 
 	 

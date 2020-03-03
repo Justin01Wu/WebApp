@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import wu.justin.rest2.converter.ClassRoomConverter;
 import wu.justin.rest2.converter.ClassRoomSerializer;
 import wu.justin.rest2.converter.JsonTargetEnum;
 import wu.justin.rest2.converter.JsonTargetType;
@@ -21,7 +22,7 @@ public class Student {
     	this.id = new ObjectId();
     	this.username="justin";
     	this.password="password";
-    	this.classRoomId=2;
+    	this.classRoomId=1;
     }
     
 	public ObjectId getId() {
@@ -61,7 +62,13 @@ public class Student {
 	@JsonTargetType(getType = JsonTargetEnum.Desc)   // the difference from getClassRoomId
 	// from https://stackoverflow.com/questions/22634860/how-to-pass-parameter-to-jsonserializer
 	public Integer getClassRoomId2() {
-		return classRoomId;
+		return 2;
 	}	
+	
+	@JsonProperty("classroom3")
+	@JsonSerialize(using = ClassRoomConverter.IdDesc.class)
+	public Integer getClassRoomId3() {
+		return 3;
+	}		
 
 }
