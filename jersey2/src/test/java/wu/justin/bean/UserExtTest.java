@@ -1,6 +1,7 @@
 package wu.justin.bean;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -28,7 +29,7 @@ public class UserExtTest {
         String templateData = ApiTestUtil.readJSONFile(origJsonDataFile);
         UserExt dto = mapper.readValue(templateData, UserExt.class);
         
-        assertEquals( Integer.valueOf(1233), dto.getId());
+        assertNull( dto.getId());
         String targetJson = mapper.writeValueAsString(dto);
         
         JSONObject json = ApiTestUtil.convertJSONStr2Obj(targetJson);
