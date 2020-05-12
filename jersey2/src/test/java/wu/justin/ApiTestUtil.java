@@ -247,10 +247,12 @@ public final class ApiTestUtil {
 		return responseBody;
 	}
 	
-
+	/**
+	 *  Sometimes you can replace it with readJSONFile2Obj 
+	 */	
 	public static String readJSONFile(String fileName) throws FileNotFoundException, URISyntaxException {
 
-		File targetFile = new File("src\\test\\resources\\" + fileName);
+		File targetFile = new File("src/test/resources/" + fileName);
 		System.out.println("Json File: " + targetFile.getAbsolutePath());
 
 		Scanner scanner = new Scanner(targetFile);
@@ -260,15 +262,16 @@ public final class ApiTestUtil {
 		return content;
 	}
 	
-	
-	
-	public static net.minidev.json.JSONObject readJSONFile2Obj(String fileName) throws FileNotFoundException, URISyntaxException, ParseException {
+    public static JSONObject readJSONFile2Obj(String fileName) throws FileNotFoundException, URISyntaxException, ParseException {
 
-		String	jsonStr = ApiTestUtil.readJSONFile(fileName);
-		JSONObject expectedJson = (JSONObject)new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE).parse(jsonStr);
+        String	jsonStr = readJSONFile(fileName);
+        return convertJSONStr2Obj(jsonStr);
+    }
 
-		return expectedJson;
-	}
+    public static JSONObject convertJSONStr2Obj(String jsonStr) throws FileNotFoundException, URISyntaxException, ParseException {
+        JSONObject expectedJson = (JSONObject)new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE).parse(jsonStr);
+        return expectedJson;
+    }
 
 	
 	private static String getCaseName() {
