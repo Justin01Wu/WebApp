@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
@@ -20,6 +21,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import com.jayway.jsonpath.JsonPath;
+
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.ParseException;
 
 
 @Category(IntegrationTest.class)
@@ -39,7 +43,7 @@ public class TestUserApi extends IntegrationTestBase {
 	}	
 
 	@Test
-	public void testAllUserApi() throws HttpException, IOException{
+	public void testAllUserApi() throws HttpException, IOException, URISyntaxException, ParseException{
 		
 		// every method only call one API
 		// everyAPI call method must start with "step"
@@ -68,7 +72,7 @@ public class TestUserApi extends IntegrationTestBase {
 	public void step5_UpdateCurrentUserSucceed() throws HttpException, IOException, URISyntaxException{
 
 		
-		String origVriscJsonFile2 = TestUserApi.class.getSimpleName() + ".json";
+		String origVriscJsonFile2 = TestUserApi.class.getSimpleName() + "_rita.json";
 		
 		String payLoad = ApiTestUtil.readJSONFile(origVriscJsonFile2);
 
@@ -122,7 +126,7 @@ public class TestUserApi extends IntegrationTestBase {
 
 	}
 	
-	private void stepGetCurrentUserApi() throws HttpException, IOException{
+	private void stepGetCurrentUserApi() throws HttpException, IOException, URISyntaxException, ParseException{
 		// every method only call one API 
 		
 		System.out.println("                ==>testUserApi started....");
@@ -135,12 +139,13 @@ public class TestUserApi extends IntegrationTestBase {
 		HttpGet request = new HttpGet(url);		 
 		jsonDoc = this.getJsonByRequest(client, request, HttpStatus.SC_OK);
 		
-		String userName = JsonPath.read(jsonDoc, "$.name");		
-		assertEquals(userName, "Justin Wu");
-		System.out.println("userName= " + userName);
-		
 		Integer userId = JsonPath.read(jsonDoc, "$.id");		
-		assertEquals(userId, new Integer(56239));
+		assertEquals(userId, Integer.valueOf(56239));
+		
+		String file = TestUserApi.class.getSimpleName() + "_justin.json";
+		JSONObject expectedJson = ApiTestUtil.readJSONFile2Obj(file);
+		
+		ApiTestUtil.verifyJson((Map<String, Object>)jsonDoc, (Map<String, Object>)expectedJson);
 		
 	}
 	
@@ -183,7 +188,7 @@ public class TestUserApi extends IntegrationTestBase {
 		System.out.println("userName= " + userName);
 		
 		Integer userId = JsonPath.read(jsonDoc, "$.id");		
-		assertEquals(userId, new Integer(56239));		
+		assertEquals(userId, Integer.valueOf(56239));		
 		
 	}
 	
