@@ -1,0 +1,16 @@
+{
+  "id": 56239,
+  "name": "Justin Wu",
+  "type": "Developer",
+  "birthDate": 1589894576434,
+  "emails": [
+    "justin01.wu@gmail.com",
+    "wuyg719@gmail.com"
+  ],
+  "x": 0,
+  "homeAddress": {
+    "id": 123768,
+    "address": "This is a tab character[\t],but jackson will convert it into \t",
+    "country": "Canada"
+  }
+}
