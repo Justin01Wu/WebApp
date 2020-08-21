@@ -1,10 +1,13 @@
 package wu.justin.rest2.user;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import wu.justin.bean.Address;
+import wu.justin.bean.Pair2;
 import wu.justin.bean.TypeEnum;
 import wu.justin.bean.User;
 
@@ -40,6 +43,17 @@ public class UserService {
 	
 	public static synchronized User getUserById(Integer userId) {
 		return users.get(userId);
+		
+	}
+	
+	public static synchronized List<User> getUserByRange(Pair2<Integer,Integer> range) {
+		List<User> userList = new ArrayList<>(); 
+		for(User user :users.values()) {
+			if(user.getId()< range.getR()  && user.getId() > range.getL()) {
+				userList.add(user);
+			}
+		}
+		return userList;
 		
 	}
 	

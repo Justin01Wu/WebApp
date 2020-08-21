@@ -1,10 +1,7 @@
 package wu.justin.rest2.user;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -22,8 +19,7 @@ import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 
-import wu.justin.bean.Address;
-import wu.justin.bean.TypeEnum;
+import wu.justin.bean.Pair2;
 import wu.justin.bean.User;
 import wu.justin.rest2.MySetting;
 import wu.justin.rest2.exception.BadRequestError;
@@ -96,16 +92,17 @@ public class UserApi {
 	/** demo how to use PathParam  */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/user/range.json")	
-	public User getUserByRange(		
+	@Path("/range.json")	
+	public List<User> getUserByRange(		
 			@QueryParam("from") int from,
 			@QueryParam("to") int to,
 			@QueryParam("orderBy") List<String> orderBy)  {
 		
-		System.out.println("getUserById...");
+		System.out.println("getUserByRange...");
 		
-		User user = UserService.getUserById(56239);
-		return user;
+		Pair2<Integer, Integer> range = new Pair2<>(from, to);
+		
+		return UserService.getUserByRange(range);
 	}
 	
 	/** demo how to convert java object tree to json 

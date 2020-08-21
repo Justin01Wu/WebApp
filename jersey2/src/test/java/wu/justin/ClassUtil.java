@@ -2,6 +2,8 @@ package wu.justin;
 
 import java.lang.annotation.Annotation;
 
+import wu.justin.bean.Pair2;
+
 public class ClassUtil {
 	/**
 	 * go back stack trace until we find last method on target annotation 

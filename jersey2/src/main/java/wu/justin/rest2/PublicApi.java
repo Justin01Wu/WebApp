@@ -81,7 +81,8 @@ public class PublicApi {
 	public List<Integer> getIntegerList() {
 		
 		List<Integer> result = new ArrayList<>();
-		result.add(34345);
+		result.add(3435);
+		result.add(4567);
 		
 	    return result;
 	}

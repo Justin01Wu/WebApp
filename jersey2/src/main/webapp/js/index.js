@@ -21,8 +21,6 @@
 			};
 			$scope.sendDateJson(requestJson);
 		};
-
-		
 		
 		
 		$scope.sendCorrectDateJson = function(){

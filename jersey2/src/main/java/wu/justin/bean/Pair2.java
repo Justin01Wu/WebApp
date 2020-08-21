@@ -1,4 +1,4 @@
-package wu.justin;
+package wu.justin.bean;
 
 public class Pair2<L, R> {
 
