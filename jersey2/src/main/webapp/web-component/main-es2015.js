@@ -400,9 +400,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/__ivy_ngcc__/fesm2015/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _angular_elements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/elements */ "./node_modules/@angular/elements/__ivy_ngcc__/fesm2015/elements.js");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _fire_justa_fire_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fire/justa-fire.component */ "./src/app/fire/justa-fire.component.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
+/* harmony import */ var _angular_elements__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/elements */ "./node_modules/@angular/elements/__ivy_ngcc__/fesm2015/elements.js");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _fire_justa_fire_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fire/justa-fire.component */ "./src/app/fire/justa-fire.component.ts");
+/* harmony import */ var _multi_user_picker_multi_user_picker_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./multi-user-picker/multi-user-picker.component */ "./src/app/multi-user-picker/multi-user-picker.component.ts");
+
+
 
 
 
@@ -414,28 +418,37 @@ class AppModule {
         this.injector = injector;
     }
     ngDoBootstrap() {
-        const el = Object(_angular_elements__WEBPACK_IMPORTED_MODULE_2__["createCustomElement"])(_fire_justa_fire_component__WEBPACK_IMPORTED_MODULE_4__["JustaFireComponent"], { injector: this.injector });
+        let el = Object(_angular_elements__WEBPACK_IMPORTED_MODULE_3__["createCustomElement"])(_fire_justa_fire_component__WEBPACK_IMPORTED_MODULE_5__["JustaFireComponent"], { injector: this.injector });
         customElements.define('justa-fire', el);
+        el = Object(_angular_elements__WEBPACK_IMPORTED_MODULE_3__["createCustomElement"])(_multi_user_picker_multi_user_picker_component__WEBPACK_IMPORTED_MODULE_6__["MultiUserPickerComponent"], { injector: this.injector });
+        customElements.define('justa-user-picker', el);
     }
 }
 AppModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({ type: AppModule });
 AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({ factory: function AppModule_Factory(t) { return new (t || AppModule)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injector"])); }, providers: [], imports: [[
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"]
+            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"] // this is needed for HttpClient
         ]] });
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsetNgModuleScope"](AppModule, { declarations: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
-        _fire_justa_fire_component__WEBPACK_IMPORTED_MODULE_4__["JustaFireComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"]] }); })();
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsetNgModuleScope"](AppModule, { declarations: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
+        _fire_justa_fire_component__WEBPACK_IMPORTED_MODULE_5__["JustaFireComponent"],
+        _multi_user_picker_multi_user_picker_component__WEBPACK_IMPORTED_MODULE_6__["MultiUserPickerComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
+        _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"] // this is needed for HttpClient
+    ] }); })();
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](AppModule, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"],
         args: [{
                 declarations: [
-                    _app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
-                    _fire_justa_fire_component__WEBPACK_IMPORTED_MODULE_4__["JustaFireComponent"]
+                    _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
+                    _fire_justa_fire_component__WEBPACK_IMPORTED_MODULE_5__["JustaFireComponent"],
+                    _multi_user_picker_multi_user_picker_component__WEBPACK_IMPORTED_MODULE_6__["MultiUserPickerComponent"]
                 ],
                 entryComponents: [
-                    _fire_justa_fire_component__WEBPACK_IMPORTED_MODULE_4__["JustaFireComponent"]
+                    _fire_justa_fire_component__WEBPACK_IMPORTED_MODULE_5__["JustaFireComponent"],
+                    _multi_user_picker_multi_user_picker_component__WEBPACK_IMPORTED_MODULE_6__["MultiUserPickerComponent"]
                 ],
                 imports: [
-                    _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"]
+                    _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
+                    _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"] // this is needed for HttpClient
                 ],
                 providers: [],
             }]
@@ -539,6 +552,106 @@ JustaFireComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefin
 
 /***/ }),
 
+/***/ "./src/app/multi-user-picker/multi-user-picker.component.ts":
+/*!******************************************************************!*\
+  !*** ./src/app/multi-user-picker/multi-user-picker.component.ts ***!
+  \******************************************************************/
+/*! exports provided: MultiUserPickerComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultiUserPickerComponent", function() { return MultiUserPickerComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
+
+
+
+
+
+function MultiUserPickerComponent_div_2_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const x_r1 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate2"]("", x_r1.id, " - ", x_r1.name, "");
+} }
+class MultiUserPickerComponent {
+    constructor(http) {
+        this.http = http;
+        this.list = [];
+        if (src_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].localApi) {
+            this.apiUrl = 'assets/user.list.json';
+            // this.apiUrl = "assets/user.api.wrong.field.json";
+            // this.apiUrl = "assets/user.api.not.array.json";
+        }
+        else {
+            this.apiUrl = '/jersey2/api/users/range.json?from=1&to=100000';
+        }
+        this.http.get(this.apiUrl).subscribe((res) => {
+            this.handleApiResonse(res);
+        }, (err) => {
+            this.errorMsg = `API Error: ${err.status} ${err.statusText}`;
+        });
+    }
+    ngOnInit() {
+    }
+    handleApiResonse(res) {
+        const tempList = [];
+        // convert to target option list
+        this.errorMsg = '';
+        if (!Array.isArray(res)) {
+            this.errorMsg = 'Didn\'t find array from API response';
+            return;
+        }
+        res.forEach(item => {
+            if (!item.id) {
+                this.errorMsg = 'Didn\'t find id from API response';
+                return;
+            }
+            if (!item.name) {
+                this.errorMsg = 'Didn\'t find name from API response';
+                return;
+            }
+            const one = {
+                id: item.id,
+                name: item.name
+            };
+            tempList.push(one);
+        });
+        if (this.errorMsg) {
+            return;
+        }
+        this.list = tempList;
+        // set selected
+    }
+}
+MultiUserPickerComponent.ɵfac = function MultiUserPickerComponent_Factory(t) { return new (t || MultiUserPickerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"])); };
+MultiUserPickerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: MultiUserPickerComponent, selectors: [["app-multi-user-picker"]], decls: 3, vars: 1, consts: [[4, "ngFor", "ngForOf"]], template: function MultiUserPickerComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "multi-user-picker works!");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, MultiUserPickerComponent_div_2_Template, 2, 2, "div", 0);
+    } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.list);
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgForOf"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL211bHRpLXVzZXItcGlja2VyL211bHRpLXVzZXItcGlja2VyLmNvbXBvbmVudC5jc3MifQ== */"] });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](MultiUserPickerComponent, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
+        args: [{
+                selector: 'app-multi-user-picker',
+                templateUrl: './multi-user-picker.component.html',
+                styleUrls: ['./multi-user-picker.component.css']
+            }]
+    }], function () { return [{ type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }]; }, null); })();
+
+
+/***/ }),
+
 /***/ "./src/environments/environment.ts":
 /*!*****************************************!*\
   !*** ./src/environments/environment.ts ***!
@@ -553,7 +666,8 @@ __webpack_require__.r(__webpack_exports__);
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 const environment = {
-    production: false
+    production: false,
+    localApi: true
 };
 /*
  * For easier debugging in development mode, you can import the following file
