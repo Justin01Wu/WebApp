@@ -32,6 +32,9 @@ MIT
 @angular/elements
 MIT
 
+@angular/forms
+MIT
+
 @angular/platform-browser
 MIT
 
