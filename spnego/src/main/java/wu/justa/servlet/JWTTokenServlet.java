@@ -34,11 +34,13 @@ public class JWTTokenServlet extends HttpServlet {
 		String newLine = System.lineSeparator();
 		String temp = "{\"userName\": \"%s\"," + newLine
 				+ " \"JWTToken\": \"%s\", " + newLine
+				+ " \"keyId\": \"%s\", " + newLine
 				+ " \"JWTCreated\": %d, " + newLine
 				+ "\"JWTExpired\": %d}";
 		String token = createToken2 (au);
 		String result = String.format(temp, au.getUserName(), 
 				token, 
+				au.getTokenKey(),
 				au.getTokenCreateTime().getTime(),
 				au.getTokenExpiredTime().getTime()
 				);
@@ -63,7 +65,7 @@ public class JWTTokenServlet extends HttpServlet {
 		Date exp = new Date(expMillis); // expired time
 		
 		user.setTokenCreateTime(now);
-		user.setTokenKey("Spnego_" + now);
+		user.setTokenKey("Spnego_" + user.getUserName() + "_" + now.getTime());
 		user.setTokenExpiredTime(exp);
 		
 		String token = createToken(user);

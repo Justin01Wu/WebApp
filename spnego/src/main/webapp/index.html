@@ -9,6 +9,7 @@
 	It used Spnego protocol to authenticate user, then generate JWT Token:<br/> <br/>
 	
 	 UserName: <label id=userName></label><br/>
+	 TokenKey: <label id=tokenKey></label><br/>
 	 CreatedTime: <label id=createdTime></label><br/>
 	 ExpiredTime: <label id=expiredTime></label><br/>
 	 JWTToken: <textarea id=JWTToken cols="100" rows="5" readonly="readonly"></textarea><br/>
@@ -19,8 +20,6 @@
 	 
 <script>
 (function() {
-	// use anonymous function to avoid JS global variable conflict
-
 	'use strict';
 
 	var request = new XMLHttpRequest()
@@ -31,6 +30,7 @@
 		 
 		var data = JSON.parse(this.response);
 		document.getElementById("userName").innerHTML  = data.userName;
+		document.getElementById("tokenKey").innerHTML  = data.keyId;
 		var date = new Date(data.JWTCreated);
 		document.getElementById("createdTime").innerHTML = date.toString();
 		date = new Date(data.JWTExpired);
