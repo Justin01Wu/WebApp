@@ -33,13 +33,13 @@ public class JWTTokenServlet extends HttpServlet {
 
 		String temp = "{\"userName\": \"%s\","
 				+ " \"JWTToken\": \"%s\", "
-				+ " \"JWTExpired\": \"%s\", "
-				+ "\"JWTCreated\": \"%s\"}";
+				+ " \"JWTCreated\": \"%s\", "
+				+ "\"JWTExpired\": \"%s\"}";
 		String token = createToken2 (au);
 		String result = String.format(temp, au.getUserName(), 
 				token, 
-				au.getTokenExpiredTime(),
-				au.getTokenCreateTime()
+				au.getTokenCreateTime(),
+				au.getTokenExpiredTime()
 				);
 		response.setStatus(HttpServletResponse.SC_OK);
 
