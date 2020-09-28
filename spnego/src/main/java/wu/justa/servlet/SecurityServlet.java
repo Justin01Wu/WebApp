@@ -1,6 +1,7 @@
 package wu.justa.servlet;
 
 import java.io.IOException;
+import java.security.Principal;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -52,6 +53,13 @@ public class SecurityServlet extends HttpServlet {
 		}
 
 		String authDomainUserName = request.getRemoteUser();  // SpnegoHttpFilter set it 
+		
+		Principal p = request.getUserPrincipal(); // SpnegoHttpFilter set it
+		
+		log.info(p);
+		
+		// Spnego set it for us
+		
 		HttpSession session = request.getSession();
 
 		if (authDomainUserName == null || authDomainUserName.isEmpty()) {

@@ -55,7 +55,7 @@ public class ClickstreamFilter implements Filter {
   			
   		boolean isHttpSessionValid = false;
 
-  		VcapsUser au = (VcapsUser)httpSession.getAttribute("session_user");
+  		VcapsUser au = (VcapsUser)httpSession.getAttribute(ClickstreamFilter.session_user);
   				
   		if(au != null){
   			isHttpSessionValid = true;

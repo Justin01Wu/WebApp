@@ -89,6 +89,17 @@
 		<servlet-name>SecurityServlet</servlet-name>
 		<url-pattern>/SecurityServlet</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>JWTTokenServlet</servlet-name>
+		<servlet-class>wu.justa.servlet.JWTTokenServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>JWTTokenServlet</servlet-name>
+		<url-pattern>/JWTTokenServlet</url-pattern>
+	</servlet-mapping>	
+	
 	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
