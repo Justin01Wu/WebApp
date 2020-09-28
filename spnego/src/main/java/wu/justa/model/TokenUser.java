@@ -2,7 +2,7 @@ package wu.justa.model;
 
 import java.util.Date;
 
-public class VcapsUser {
+public class TokenUser {
 	
 	private String userName;
 	private String email;

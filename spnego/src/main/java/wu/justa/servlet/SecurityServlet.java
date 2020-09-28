@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import wu.justa.model.VcapsUser;
+import wu.justa.model.TokenUser;
 
 /**
  * This Servlet is the authentication and authorization for the application
@@ -63,7 +63,7 @@ public class SecurityServlet extends HttpServlet {
 
 		try {
 
-			VcapsUser authUser = new VcapsUser();
+			TokenUser authUser = new TokenUser();
 			authUser.setUserName(authDomainUserName);
 
 			if (log.isTraceEnabled()) {

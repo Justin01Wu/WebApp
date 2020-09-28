@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
-import wu.justa.model.VcapsUser;
+import wu.justa.model.TokenUser;
 
 public class JWTTokenServlet extends HttpServlet {
 
@@ -25,10 +25,10 @@ public class JWTTokenServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		HttpSession session = request.getSession();
-		VcapsUser au = (VcapsUser) session.getAttribute(ClickstreamFilter.session_user);
+		TokenUser au = (TokenUser) session.getAttribute(ClickstreamFilter.session_user);
 
 		if (au == null) {
-			au = new VcapsUser();
+			au = new TokenUser();
 		}
 
 		String newLine = System.lineSeparator();
@@ -54,7 +54,7 @@ public class JWTTokenServlet extends HttpServlet {
 
 	}
 	
-	private static String createToken2( VcapsUser user) {
+	private static String createToken2( TokenUser user) {
 		long ttlMillis = 86400000l; // one day
 		// long ttlMillis = 31536000000l; // one year
 
@@ -70,7 +70,7 @@ public class JWTTokenServlet extends HttpServlet {
 		return token;		
 	}
 	
-	private static String createToken( VcapsUser user) {
+	private static String createToken( TokenUser user) {
 		
 		Algorithm algorithm = Algorithm.HMAC256("MyPassword1234");
 		String token = JWT.create()
