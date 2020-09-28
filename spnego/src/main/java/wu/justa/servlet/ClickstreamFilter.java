@@ -90,9 +90,9 @@ public class ClickstreamFilter implements Filter {
 
 	private boolean isBackDoors(String uri) {
 
-		if ((uri.indexOf("unexpectedErrorReal.jsf") > 0) || (uri.indexOf("unexpectedError.jsf") > 0)
-				|| (uri.indexOf("SecurityServlet") > 0) || (uri.indexOf("login.jsp") > 0) || uri.endsWith(".js")
-				|| uri.endsWith(".css")) {
+		if ((uri.indexOf("SecurityServlet") > 0)				 
+				|| uri.endsWith(".js")
+				) {
 			return true;
 		}
 		return false;
