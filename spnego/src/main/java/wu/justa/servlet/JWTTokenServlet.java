@@ -31,15 +31,16 @@ public class JWTTokenServlet extends HttpServlet {
 			au = new VcapsUser();
 		}
 
-		String temp = "{\"userName\": \"%s\","
-				+ " \"JWTToken\": \"%s\", "
-				+ " \"JWTCreated\": \"%s\", "
-				+ "\"JWTExpired\": \"%s\"}";
+		String newLine = System.lineSeparator();
+		String temp = "{\"userName\": \"%s\"," + newLine
+				+ " \"JWTToken\": \"%s\", " + newLine
+				+ " \"JWTCreated\": %d, " + newLine
+				+ "\"JWTExpired\": %d}";
 		String token = createToken2 (au);
 		String result = String.format(temp, au.getUserName(), 
 				token, 
-				au.getTokenCreateTime(),
-				au.getTokenExpiredTime()
+				au.getTokenCreateTime().getTime(),
+				au.getTokenExpiredTime().getTime()
 				);
 		response.setStatus(HttpServletResponse.SC_OK);
 

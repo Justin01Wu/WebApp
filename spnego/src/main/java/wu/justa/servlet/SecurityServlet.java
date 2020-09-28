@@ -31,20 +31,8 @@ public class SecurityServlet extends HttpServlet {
 		process(request, response);
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		process(request, response);
-	}
-
 	/**
-	 * Process to see if the user's input matches a record in database table If
-	 * matches, user will be navigate to home page other wise, user will be remind
-	 * on the login page.
-	 * 
-	 * @param request  the request
-	 * @param response the response
-	 * 
-	 * @throws ServletException the servlet exception
-	 * @throws IOException      Signals that an I/O exception has occurred.
+	 * get username from  SpnegoHttpFilter, and set it to http session
 	 */
 	public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
