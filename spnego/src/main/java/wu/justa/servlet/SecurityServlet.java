@@ -78,9 +78,9 @@ public class SecurityServlet extends HttpServlet {
 			if (origUrl != null) {
 
 				// redirectUrl = URLDecoder.decode(origUrl, "UTF-8");
-				redirectUrl = origUrl; // looks like request.getParameter already decoded it
-				// VCAPSAGILE-1633 SSO forward URL without properly URL encoding
-
+				String token = JWTTokenServlet.createToken2(authUser);
+				redirectUrl = origUrl + "&token=" + token ; 
+				
 				if (log.isDebugEnabled()) {
 					log.debug("redirect to: " + redirectUrl);
 				}
