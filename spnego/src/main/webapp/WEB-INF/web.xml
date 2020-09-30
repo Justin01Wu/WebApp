@@ -87,7 +87,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>SecurityServlet</servlet-name>
-		<url-pattern>/SecurityServlet</url-pattern>
+		<url-pattern>/Security</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -97,7 +97,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>JWTTokenServlet</servlet-name>
-		<url-pattern>/JWTTokenServlet</url-pattern>
+		<url-pattern>/JWTToken</url-pattern>
 	</servlet-mapping>	
 	
 	

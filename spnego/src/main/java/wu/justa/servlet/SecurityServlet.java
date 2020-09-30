@@ -26,6 +26,7 @@ public class SecurityServlet extends HttpServlet {
 
 	public static final String LOGIN_ERROR = "/jsp/common/errorLogin.jsp";
 	public static final String PAGE_HOME = "/spnego/index.html";
+	public static final String JWT_TOKEN_QUERY = "jwtToken";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		process(request, response);
@@ -80,9 +81,9 @@ public class SecurityServlet extends HttpServlet {
 				// redirectUrl = URLDecoder.decode(origUrl, "UTF-8");
 				String token = JWTTokenServlet.createToken2(authUser);
 				if(origUrl.contains("?")) {
-					redirectUrl = origUrl + "&token=" + token ;	
+					redirectUrl = origUrl + "&"+ JWT_TOKEN_QUERY + "=" + token ;	
 				}else {
-					redirectUrl = origUrl + "?token=" + token ;
+					redirectUrl = origUrl + "?"+ JWT_TOKEN_QUERY + "=" + token ;
 				}				 
 				
 				if (log.isDebugEnabled()) {

@@ -90,7 +90,7 @@ public class ClickstreamFilter implements Filter {
 
 	private boolean isBackDoors(String uri) {
 
-		if ((uri.indexOf("SecurityServlet") > 0)				 
+		if ((uri.indexOf("Security") > 0)				 
 				|| uri.endsWith(".js")
 				) {
 			return true;
@@ -110,13 +110,13 @@ public class ClickstreamFilter implements Filter {
 		}
 
 		if (uri.equals(httpRequest.getContextPath() + "/")) {
-			targetUrl = "/spnego/SecurityServlet";
+			targetUrl = "/spnego/Security";
 		} else {
 			String orgRequestUrl = getFullUrl(httpRequest);
 			if (log.isDebugEnabled()) {
 				log.debug("remember url for future redirecting: " + orgRequestUrl);
 			}
-			targetUrl = "/spnego/SecurityServlet?" + ORIGINAL_REQUEST_URL + "="
+			targetUrl = "/spnego/Security?" + ORIGINAL_REQUEST_URL + "="
 					+ URLEncoder.encode(orgRequestUrl, "UTF-8");
 		}
 
