@@ -79,7 +79,11 @@ public class SecurityServlet extends HttpServlet {
 
 				// redirectUrl = URLDecoder.decode(origUrl, "UTF-8");
 				String token = JWTTokenServlet.createToken2(authUser);
-				redirectUrl = origUrl + "&token=" + token ; 
+				if(origUrl.contains("?")) {
+					redirectUrl = origUrl + "&token=" + token ;	
+				}else {
+					redirectUrl = origUrl + "?token=" + token ;
+				}				 
 				
 				if (log.isDebugEnabled()) {
 					log.debug("redirect to: " + redirectUrl);
