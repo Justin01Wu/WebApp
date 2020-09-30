@@ -22,3 +22,4 @@ Spnego authenticate center
 + It is too simple to make a bug
 + It give you JWT token directly, which KryCloak didn't
 + Won't sync status after the token is created, so no performance issue
++ Client side also become simpler , 3 filters merged into one filter
