@@ -13,7 +13,9 @@ Spnego authenticate center
 	+ session status monitor
 	+ realm, client, roles, groups are unnecessary
 	+ try to authorize user, which is incorrect. Every application has different style to manage permission. 
-+ also its code quality is not so good, like HttpFailure didn't override getMessage 
++ also its code quality is not so good, like 
+    + HttpFailure didn't override getMessage
+	+ Hard code status : response.sendError(403); 
 + it is open source project, no vendor is supporting it
 + Also services are using its public key to verify token, which forces services stay inside enterprise network, which should go to cloud
 
