@@ -26,7 +26,7 @@ public class ClickstreamFilter implements Filter {
 
 	private static final Logger log = Logger.getLogger(ClickstreamFilter.class);
 	protected FilterConfig filterConfig;
-	public final static String ORIGINAL_REQUEST_URL = "_original_request_uri";
+	public final static String ORIGINAL_REQUEST_URL = "redirect_uri";
 
 	public final static String session_user = "session_user";
 
