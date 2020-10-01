@@ -8,25 +8,26 @@
 	<display-name>Spnego JWT token Application</display-name>
 		
 	<filter>
-		<filter-name>SpnegoHttpFilter</filter-name>
-		<filter-class>net.sourceforge.spnego.SpnegoHttpFilter</filter-class>
-		<init-param>
-			<param-name>spnego.allow.basic</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>spnego.allow.localhost</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>spnego.allow.unsecure.basic</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>spnego.login.client.module</param-name>
-			<param-value>spnego-client</param-value>
-		</init-param>
-		
+	    <filter-name>SpnegoHttpFilter</filter-name>
+	    <filter-class>net.sourceforge.spnego.SpnegoHttpFilter</filter-class>
+	    <init-param>
+	        <param-name>spnego.allow.basic</param-name>
+	        <param-value>false</param-value>
+	    </init-param>
+	    <!-- Skip spnego authentication if requests are coming from localhost -->
+		<!--Set this value to true if you run a local instance of the server and you want to avoid having to register an SPN for your workstation. -->
+	    <init-param>
+	        <param-name>spnego.allow.localhost</param-name>
+	        <param-value>true</param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>spnego.allow.unsecure.basic</param-name>
+	        <param-value>false</param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>spnego.login.client.module</param-name>
+	        <param-value>spnego-client</param-value>
+	    </init-param>
 	    <init-param>
 	        <param-name>spnego.krb5.conf</param-name>
 	        <!-- this variable could be in <tomcat home dir>/conf/catalina.properties -->
@@ -37,35 +38,31 @@
 	        <!-- this variable could be in <tomcat home dir>/conf/catalina.properties -->
 	        <param-value>${spnego.login.conf}</param-value>
 	    </init-param>
-
-		<init-param>
-			<param-name>spnego.preauth.username</param-name>
-			<param-value>svcVCapsLDAPRead</param-value>
-		</init-param>
-		<init-param>
-			<param-name>spnego.preauth.password</param-name>
-			<param-value>Today01Abc</param-value>
-		</init-param>
-		<init-param>
-			<param-name>spnego.login.server.module</param-name>
-			<param-value>spnego-server</param-value>
-		</init-param>
-		<init-param>
-			<param-name>spnego.prompt.ntlm</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>spnego.logger.level</param-name>
-			<param-value>1</param-value>
-		</init-param>
+	    <!--  using tomcat.keytab in  spnego.login.conf, so no username and password-->
+	    <init-param>
+	        <param-name>spnego.preauth.username</param-name>
+	        <param-value></param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>spnego.preauth.password</param-name>
+	        <param-value></param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>spnego.login.server.module</param-name>
+	        <param-value>spnego-server</param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>spnego.prompt.ntlm</param-name>
+	        <param-value>false</param-value>
+	    </init-param>
+	    <!--  Valid values are 1 thru 7. Default specified by container. 1 = FINEST; 7 = SEVERE -->
+	    <!-- Set value to 1 for debugging/verbose logging. -->
+	    <init-param>
+	        <param-name>spnego.logger.level</param-name>
+	        <param-value>1</param-value>
+	    </init-param>
 	</filter>
-	<!-- 
-	<filter-mapping>
-		<filter-name>SpnegoHttpFilter</filter-name>
-		<url-pattern>*.jsp</url-pattern>
-		<url-pattern>*.json</url-pattern>
-	</filter-mapping>
-	 -->
+
     <filter-mapping>
         <filter-name>SpnegoHttpFilter</filter-name>
         <servlet-name>SecurityServlet</servlet-name>
