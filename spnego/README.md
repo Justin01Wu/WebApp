@@ -22,6 +22,7 @@ Spnego authenticate center
 ## new project benefits
 + It is much simpler thanKeyCloak, just 3 java classes, less than 100 code line
 + It is too simple to make a bug
++ It is stateless, KeyCloak is stateful
 + It give you JWT token directly, which KeyCloak didn't
 + Won't sync status after the token is created, so no performance issue
 + Client side also become simpler, 3 filters are merged into one filter, no dependency on this project 
