@@ -95,17 +95,6 @@
         <servlet-name>JWTTokenServlet</servlet-name>
     </filter-mapping>
 	
-	<!-- 
-	<filter>
-		<filter-name>clickstreamFilter</filter-name>
-		<filter-class>wu.justa.spnego.ClickstreamFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>clickstreamFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	 -->
-	 
 	<servlet>
 		<servlet-name>SecurityServlet</servlet-name>
 		<servlet-class>wu.justa.spnego.SecurityServlet</servlet-class>

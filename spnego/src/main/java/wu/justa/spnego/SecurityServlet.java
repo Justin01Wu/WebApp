@@ -1,13 +1,11 @@
 package wu.justa.spnego;
 
 import java.io.IOException;
-import java.net.URI;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -22,6 +20,8 @@ public class SecurityServlet extends HttpServlet {
 
 	public static final String PAGE_HOME = "/spnego/";
 	public static final String JWT_TOKEN_QUERY = "jwtToken";
+	public final static String ORIGINAL_REQUEST_URL = "redirect_uri";
+	//public final static String session_user = "session_user";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		if (log.isTraceEnabled()) {
@@ -43,8 +43,6 @@ public class SecurityServlet extends HttpServlet {
 		if (log.isTraceEnabled()) {
 			log.trace("set session attribute of 'user' with " + authUser);
 		}
-		HttpSession session = request.getSession();
-		session.setAttribute(ClickstreamFilter.session_user, authUser);
 		
 		String userName = authUser.getUserName();
 		try {
@@ -72,7 +70,6 @@ public class SecurityServlet extends HttpServlet {
 
 		log.info(authDomainUserName + "\t" + request.getRemoteAddr() + " \t" + "try to login");
 
-		String authUserName = null;
 		TokenUser authUser = new TokenUser();
 		authUser.setUserName(authDomainUserName);
 		return authUser;
@@ -81,7 +78,7 @@ public class SecurityServlet extends HttpServlet {
 	
 	private static String getRedirectUrl(HttpServletRequest request, TokenUser authUser) {
 		String redirectUrl = null;
-		String origUrl = request.getParameter(ClickstreamFilter.ORIGINAL_REQUEST_URL);
+		String origUrl = request.getParameter(ORIGINAL_REQUEST_URL);
 		
 		if (origUrl != null) {
 
