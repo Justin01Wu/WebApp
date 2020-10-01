@@ -96,7 +96,7 @@
 	
 	<filter>
 		<filter-name>clickstreamFilter</filter-name>
-		<filter-class>wu.justa.servlet.ClickstreamFilter</filter-class>
+		<filter-class>wu.justa.spnego.ClickstreamFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>clickstreamFilter</filter-name>
@@ -105,7 +105,7 @@
 	
 	<servlet>
 		<servlet-name>SecurityServlet</servlet-name>
-		<servlet-class>wu.justa.servlet.SecurityServlet</servlet-class>
+		<servlet-class>wu.justa.spnego.SecurityServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
@@ -115,7 +115,7 @@
 
 	<servlet>
 		<servlet-name>JWTTokenServlet</servlet-name>
-		<servlet-class>wu.justa.servlet.JWTTokenServlet</servlet-class>
+		<servlet-class>wu.justa.spnego.JWTTokenServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>

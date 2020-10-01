@@ -1,4 +1,4 @@
-package wu.justa.servlet;
+package wu.justa.spnego;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-
-import wu.justa.model.User;
 
 /**
  * check if http session is valid
@@ -55,7 +53,7 @@ public class ClickstreamFilter implements Filter {
 
 		boolean isHttpSessionValid = false;
 
-		User au = (User) httpSession.getAttribute(ClickstreamFilter.session_user);
+		TokenUser au = (TokenUser) httpSession.getAttribute(ClickstreamFilter.session_user);
 
 		if (au != null) {
 			isHttpSessionValid = true;

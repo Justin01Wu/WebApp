@@ -20,10 +20,12 @@ Spnego authenticate center
 + Also services are using its public key to verify token, which forces services stay inside enterprise network, which should go to cloud
 
 ## new project benefits
-+ It is much simpler thanKeyCloak, just 3 java classes, less than 100 code line
-+ It is too simple to make a bug
++ It is much simpler than KeyCloak, just 4 java classes, less than 100 code line
 + It is stateless, KeyCloak is stateful
++ It doesn't need a database, no administrator 
++ It is solid because it is too simple
 + It give you JWT token directly, which KeyCloak didn't
 + Won't sync status after the token is created, so no performance issue
-+ Client side also become simpler, 3 filters are merged into one filter, no dependency on this project 
-+ No refresh token, Client can easily use existing access token to get new access token
++ Client side also become simpler, 3 filters are merged into one filter, no dependency on this project
++ Modern application is even more simpler with enabled CORS, because JavaScript can directly call it now 
++ No refresh token, Clients can easily use existing access token to get new access token

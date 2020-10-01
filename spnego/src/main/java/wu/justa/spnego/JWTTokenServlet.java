@@ -1,9 +1,10 @@
-package wu.justa.servlet;
+package wu.justa.spnego;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,21 +15,28 @@ import org.apache.log4j.Logger;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
-import wu.justa.model.User;
-
 public class JWTTokenServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 15464563L;
 
 	private static final Logger log = Logger.getLogger(JWTTokenServlet.class);
+	
+	
+	public void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.setContentType("application/json");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		log.info("getting JWT Token...");
 
 		HttpSession session = request.getSession();
-		User au = (User) session.getAttribute(ClickstreamFilter.session_user);
+		TokenUser au = (TokenUser) session.getAttribute(ClickstreamFilter.session_user);
 
 		if (au == null) {
-			au = new User();
+			au = new TokenUser();
 		}
 
 		String newLine = System.lineSeparator();
@@ -47,6 +55,7 @@ public class JWTTokenServlet extends HttpServlet {
 		response.setStatus(HttpServletResponse.SC_OK);
 
 		response.setContentType("application/json");
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		PrintWriter out = response.getWriter();
 		out.print(result);
 		out.flush();
@@ -56,7 +65,7 @@ public class JWTTokenServlet extends HttpServlet {
 
 	}
 	
-	public static String createToken2( User user) {
+	public static String createToken2( TokenUser user) {
 		long ttlMillis = 86400000l; // one day
 		// long ttlMillis = 31536000000l; // one year
 
@@ -72,7 +81,7 @@ public class JWTTokenServlet extends HttpServlet {
 		return token;		
 	}
 	
-	private static String createToken( User user) {
+	private static String createToken( TokenUser user) {
 		
 		Algorithm algorithm = Algorithm.HMAC256("MyPassword1234");
 		String token = JWT.create()

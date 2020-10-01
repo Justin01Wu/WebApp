@@ -1,4 +1,4 @@
-package wu.justa.model;
+package wu.justa.spnego;
 
 import java.util.Date;
 

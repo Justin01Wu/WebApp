@@ -1,6 +1,7 @@
-package wu.justa.servlet;
+package wu.justa.spnego;
 
 import java.io.IOException;
+import java.net.URI;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-
-import wu.justa.model.User;
 
 /**
  * This Servlet is the authentication user, find who you are on Spnego protocol
@@ -53,7 +52,7 @@ public class SecurityServlet extends HttpServlet {
 		log.info(authDomainUserName + "\t" + request.getRemoteAddr() + " \t" + "try to login");
 
 		String authUserName = null;
-		User authUser = new User();
+		TokenUser authUser = new TokenUser();
 		authUser.setUserName(authDomainUserName);
 
 		if (log.isTraceEnabled()) {
@@ -71,27 +70,49 @@ public class SecurityServlet extends HttpServlet {
 		}
 	}
 	
-	private static String getRedirectUrl(HttpServletRequest request, User authUser) {
+	private static String getRedirectUrl(HttpServletRequest request, TokenUser authUser) {
 		String redirectUrl = null;
 		String origUrl = request.getParameter(ClickstreamFilter.ORIGINAL_REQUEST_URL);
+		
 		if (origUrl != null) {
 
-			String token = JWTTokenServlet.createToken2(authUser);
-			if(origUrl.contains("?")) {
-				redirectUrl = origUrl + "&"+ JWT_TOKEN_QUERY + "=" + token ;	
+			if(isSameOrig(request, origUrl)){
+				// same orig
+				redirectUrl = origUrl;
 			}else {
-				redirectUrl = origUrl + "?"+ JWT_TOKEN_QUERY + "=" + token ;
-			}				 
-			
-			if (log.isDebugEnabled()) {
-				log.debug("redirect to: " + redirectUrl);
+				// different orig
+				String token = JWTTokenServlet.createToken2(authUser);
+				if(origUrl.contains("?")) {
+					redirectUrl = origUrl + "&"+ JWT_TOKEN_QUERY + "=" + token ;	
+				}else {
+					redirectUrl = origUrl + "?"+ JWT_TOKEN_QUERY + "=" + token ;
+				}				
 			}
+			
 		} else {
 			redirectUrl = PAGE_HOME;
 			//throw new RuntimeException("Justin test2345");
 		}
+		if (log.isDebugEnabled()) {
+			log.debug("redirect to: " + redirectUrl);
+		}
+
 		return redirectUrl;
 
+	}
+	
+	private static boolean isSameOrig(HttpServletRequest request, String uri) {
+					
+			String contextURL = request.getScheme() 
+				+ "://" + request.getServerName() 
+				+ ":" + request.getServerPort() 
+				+ request.getContextPath();
+			
+			if(uri.startsWith(contextURL)) {
+				return true;
+			}
+			return false;
+		
 	}
 
 
