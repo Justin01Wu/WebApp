@@ -24,29 +24,50 @@ public class SecurityServlet extends HttpServlet {
 	public static final String JWT_TOKEN_QUERY = "jwtToken";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		if (log.isTraceEnabled()) {
+			log.trace("Enter SecuritySerlvet process() method");
+		}
 		process(request, response);
 	}
 
 	/**
 	 * get username from  SpnegoHttpFilter, and set it to http session
 	 */
-	public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public static void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		if (log.isTraceEnabled()) {
-			log.trace("Enter SecuritySerlvet process() method");
+		TokenUser authUser = getAuthUser(request, response);
+		if(authUser == null) {
+			return;			
 		}
-
+		
+		if (log.isTraceEnabled()) {
+			log.trace("set session attribute of 'user' with " + authUser);
+		}
+		HttpSession session = request.getSession();
+		session.setAttribute(ClickstreamFilter.session_user, authUser);
+		
+		String userName = authUser.getUserName();
+		try {
+			String redirectUrl = getRedirectUrl(request, authUser);
+			response.sendRedirect(redirectUrl);
+			log.info(userName + "\t" + request.getRemoteAddr() + " \t" + "login success");
+		} catch (Exception se) {
+			log.error(userName + "\t" + request.getRemoteAddr() + " \tFailed login attempt");
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+		}
+	}
+	
+	public static TokenUser getAuthUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String authDomainUserName = request.getRemoteUser();  // SpnegoHttpFilter set it 
 		
 //		Principal p = request.getUserPrincipal(); // SpnegoHttpFilter set it		
-//		log.trace(p);
+//		log.trace(p);	
 		
-		HttpSession session = request.getSession();
 
 		if (authDomainUserName == null || authDomainUserName.isEmpty()) {
 			log.error(authDomainUserName + "\t" + request.getRemoteAddr() + " \tFailed login attempt");
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-			return;
+			return null;
 		}		
 
 		log.info(authDomainUserName + "\t" + request.getRemoteAddr() + " \t" + "try to login");
@@ -54,20 +75,8 @@ public class SecurityServlet extends HttpServlet {
 		String authUserName = null;
 		TokenUser authUser = new TokenUser();
 		authUser.setUserName(authDomainUserName);
+		return authUser;
 
-		if (log.isTraceEnabled()) {
-			log.trace("set session attribute of 'user' with " + authUser);
-		}
-		session.setAttribute(ClickstreamFilter.session_user, authUser);
-		
-		try {
-			String redirectUrl = getRedirectUrl(request, authUser);
-			response.sendRedirect(redirectUrl);
-			log.info(authDomainUserName + "\t" + request.getRemoteAddr() + " \t" + "login success");
-		} catch (Exception se) {
-			log.error(authUserName + "\t" + request.getRemoteAddr() + " \tFailed login attempt");
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-		}
 	}
 	
 	private static String getRedirectUrl(HttpServletRequest request, TokenUser authUser) {

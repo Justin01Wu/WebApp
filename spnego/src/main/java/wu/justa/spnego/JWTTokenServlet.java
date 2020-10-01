@@ -31,12 +31,10 @@ public class JWTTokenServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		log.info("getting JWT Token...");
-
-		HttpSession session = request.getSession();
-		TokenUser au = (TokenUser) session.getAttribute(ClickstreamFilter.session_user);
-
+		
+		TokenUser au = SecurityServlet.getAuthUser(request, response);
 		if (au == null) {
-			au = new TokenUser();
+			return;
 		}
 
 		String newLine = System.lineSeparator();

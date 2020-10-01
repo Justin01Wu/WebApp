@@ -92,8 +92,10 @@
     <filter-mapping>
         <filter-name>SpnegoHttpFilter</filter-name>
         <servlet-name>SecurityServlet</servlet-name>
+        <servlet-name>JWTTokenServlet</servlet-name>
     </filter-mapping>
 	
+	<!-- 
 	<filter>
 		<filter-name>clickstreamFilter</filter-name>
 		<filter-class>wu.justa.spnego.ClickstreamFilter</filter-class>
@@ -102,7 +104,8 @@
 		<filter-name>clickstreamFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+	 -->
+	 
 	<servlet>
 		<servlet-name>SecurityServlet</servlet-name>
 		<servlet-class>wu.justa.spnego.SecurityServlet</servlet-class>
