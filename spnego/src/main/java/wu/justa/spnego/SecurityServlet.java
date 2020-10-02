@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 /**
- * This Servlet is the authentication user, find who you are on Spnego protocol
+ * This Servlet will redirect to the original request with JWT token
  */
 public class SecurityServlet extends HttpServlet {
 
@@ -18,10 +18,8 @@ public class SecurityServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 23423L;
 
-	public static final String PAGE_HOME = "/spnego/";
 	public static final String JWT_TOKEN_QUERY = "jwtToken";
 	public final static String ORIGINAL_REQUEST_URL = "redirect_uri";
-	//public final static String session_user = "session_user";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		if (log.isTraceEnabled()) {
@@ -35,6 +33,12 @@ public class SecurityServlet extends HttpServlet {
 	 */
 	public static void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		String origUrl = request.getParameter(ORIGINAL_REQUEST_URL);
+		
+		if (origUrl == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
 		TokenUser authUser = getAuthUser(request, response);
 		if(authUser == null) {
 			return;			
@@ -46,7 +50,7 @@ public class SecurityServlet extends HttpServlet {
 		
 		String userName = authUser.getUserName();
 		try {
-			String redirectUrl = getRedirectUrl(request, authUser);
+			String redirectUrl = getRedirectUrl(origUrl, authUser);
 			response.sendRedirect(redirectUrl);
 			log.info(userName + "\t" + request.getRemoteAddr() + " \t" + "login success");
 		} catch (Exception se) {
@@ -76,29 +80,16 @@ public class SecurityServlet extends HttpServlet {
 
 	}
 	
-	private static String getRedirectUrl(HttpServletRequest request, TokenUser authUser) {
+	private static String getRedirectUrl(String origUrl, TokenUser authUser) {
 		String redirectUrl = null;
-		String origUrl = request.getParameter(ORIGINAL_REQUEST_URL);
 		
-		if (origUrl != null) {
-
-			if(isSameOrig(request, origUrl)){
-				// same orig
-				redirectUrl = origUrl;
-			}else {
-				// different orig
-				String token = JWTTokenServlet.createToken2(authUser);
-				if(origUrl.contains("?")) {
-					redirectUrl = origUrl + "&"+ JWT_TOKEN_QUERY + "=" + token ;	
-				}else {
-					redirectUrl = origUrl + "?"+ JWT_TOKEN_QUERY + "=" + token ;
-				}				
-			}
+		String token = JWTTokenServlet.createToken2(authUser);
+		if(origUrl.contains("?")) {
+			redirectUrl = origUrl + "&"+ JWT_TOKEN_QUERY + "=" + token ;	
+		}else {
+			redirectUrl = origUrl + "?"+ JWT_TOKEN_QUERY + "=" + token ;
+		}			
 			
-		} else {
-			redirectUrl = PAGE_HOME;
-			//throw new RuntimeException("Justin test2345");
-		}
 		if (log.isDebugEnabled()) {
 			log.debug("redirect to: " + redirectUrl);
 		}
@@ -107,20 +98,5 @@ public class SecurityServlet extends HttpServlet {
 
 	}
 	
-	private static boolean isSameOrig(HttpServletRequest request, String uri) {
-					
-			String contextURL = request.getScheme() 
-				+ "://" + request.getServerName() 
-				+ ":" + request.getServerPort() 
-				+ request.getContextPath()
-				+ "/";
-			
-			if(uri.startsWith(contextURL)) {
-				return true;
-			}
-			return false;
-		
-	}
-
 
 }

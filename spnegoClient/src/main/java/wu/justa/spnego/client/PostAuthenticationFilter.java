@@ -53,12 +53,10 @@ public class PostAuthenticationFilter implements Filter {
 	public void doFilter(final ServletRequest req, final ServletResponse resp, final FilterChain chain) throws IOException, ServletException {
         final HttpServletRequest request = (HttpServletRequest)req;
         final HttpServletResponse response = (HttpServletResponse)resp;
-	    final HttpSession session = request.getSession(false);
+	    final HttpSession session = request.getSession();
 
 	    User authUser = null;
-	    if (session != null) {
-	    	authUser = (User)session.getAttribute(KEY_AUTH_USER);	
-	    }
+    	authUser = (User)session.getAttribute(KEY_AUTH_USER);	
 
 	    if (null != authUser) {//already authorized => possible to continue
 	        if (!authUser.getDomainUserName().equals(request.getAttribute(DOMAIN_USER_NAME))) {
