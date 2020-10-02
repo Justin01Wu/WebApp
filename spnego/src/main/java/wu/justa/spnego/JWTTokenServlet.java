@@ -13,6 +13,8 @@ import org.apache.log4j.Logger;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
+// direct return JWT token as json format
+// CORS is enabled, so JavaScript from other origin can directly call it
 public class JWTTokenServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 15464563L;
