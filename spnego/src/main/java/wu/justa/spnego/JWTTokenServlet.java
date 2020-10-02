@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,13 +18,6 @@ public class JWTTokenServlet extends HttpServlet {
 	private static final long serialVersionUID = 15464563L;
 
 	private static final Logger log = Logger.getLogger(JWTTokenServlet.class);
-	
-	
-	public void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.setContentType("application/json");
-		response.setHeader("Access-Control-Allow-Origin", "*");
-	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
@@ -52,7 +44,9 @@ public class JWTTokenServlet extends HttpServlet {
 		response.setStatus(HttpServletResponse.SC_OK);
 
 		response.setContentType("application/json");
-		response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        //response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD");
+        
 		PrintWriter out = response.getWriter();
 		out.print(result);
 		out.flush();

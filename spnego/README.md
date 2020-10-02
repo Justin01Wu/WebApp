@@ -20,7 +20,7 @@ Spnego authenticate center
 + Also services are using its public key to verify token, which forces services stay inside enterprise network, which should go to cloud
 
 ## new project benefits
-+ It is much simpler than KeyCloak, just 4 java classes, less than 100 code line
++ It is much simpler than KeyCloak, just 3 java classes, less than 200 code line
 + It is stateless, KeyCloak is stateful
 + It doesn't need a database, no administrator 
 + It is solid because it is too simple
