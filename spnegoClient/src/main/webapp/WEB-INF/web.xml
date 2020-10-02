@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-         id="vcaps-treaty" version="3.1">
-         
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="vcaps-treaty" version="3.1">
+
 	<display-name>Spnego Client test Application</display-name>
-		
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
+
+	<filter>
+        <description>Filter called after authentication (user authorization)</description>
+		<filter-name>PostAuthenticationFilter</filter-name>
+		<filter-class>wu.justa.spnego.client.PostAuthenticationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PostAuthenticationFilter</filter-name>
+        <url-pattern>/redirect/*</url-pattern>
+	</filter-mapping>
 
 </web-app>

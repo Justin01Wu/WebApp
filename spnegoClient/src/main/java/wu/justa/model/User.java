@@ -10,7 +10,7 @@ public class User {
 	private Date tokenExpiredTime;
 	private String token;
 	private String tokenKey;
-	private String status;
+	private String status ="active";
 	private String domainUserName;
 	
 	public String getUserName() {

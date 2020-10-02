@@ -112,7 +112,8 @@ public class SecurityServlet extends HttpServlet {
 			String contextURL = request.getScheme() 
 				+ "://" + request.getServerName() 
 				+ ":" + request.getServerPort() 
-				+ request.getContextPath();
+				+ request.getContextPath()
+				+ "/";
 			
 			if(uri.startsWith(contextURL)) {
 				return true;

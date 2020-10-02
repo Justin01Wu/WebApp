@@ -1,0 +1,52 @@
+<html>
+<head>
+	<title>direct token</title>	
+</head>
+
+<body>
+	<h2>This is a demo for how to directly get token from Spnego auth center</h2>
+	
+	JavaScript will directly call a http GET to get JWT Token:<br/> <br/>
+	
+	 UserName: <label id=userName></label><br/>
+	 TokenKey: <label id=tokenKey></label><br/>
+	 CreatedTime: <label id=createdTime></label><br/>
+	 ExpiredTime: <label id=expiredTime></label><br/>
+	 JWTToken: <textarea id=JWTToken cols="100" rows="5" readonly="readonly"></textarea><br/>
+	 
+	 <br/><br/><br/>
+	 <button onclick="getToken()">get token</button>
+	 
+<script>
+
+
+	function getToken(){
+		var request = new XMLHttpRequest()
+
+		request.open('GET', 'http://CA09417D:8380/spnego/JWTToken', true);
+		//request.open('GET', 'http://localhost:8380/spnego/JWTToken', true);
+		
+		// target server enabled CORS, so can directly call it		
+
+		request.onload = function() {
+			 
+			var data = JSON.parse(this.response);
+			document.getElementById("userName").innerHTML  = data.userName;
+			document.getElementById("tokenKey").innerHTML  = data.keyId;
+			var date = new Date(data.JWTCreated);
+			document.getElementById("createdTime").innerHTML = date.toString();
+			date = new Date(data.JWTExpired);
+			document.getElementById("expiredTime").innerHTML = date;
+			document.getElementById("JWTToken").value = data.JWTToken;
+		}
+		
+		request.send();
+		
+	}
+	
+
+ 
+
+</script>
+</body>
+</html>

@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -27,7 +26,6 @@ public class PostAuthenticationFilter implements Filter {
 
 	private static final Logger log = Logger.getLogger(PostAuthenticationFilter.class);
 
-    private static final String LOGIN_ERROR = "/jsp/common/errorLogin.jsp";
     private static final String IMPERSONATED_ENABLED = "sso.impersonated.enabled";
     
     private static final String AuthServer = "http://localhost:8380/spnego/Security?redirect_uri=";
@@ -85,7 +83,10 @@ public class PostAuthenticationFilter implements Filter {
 		try {
 			domainUserName = extractUniqueName(request, this.isSSOImpersonatedEnabled);
 	    	request.setAttribute(DOMAIN_USER_NAME, domainUserName);
-	    	processUserRequest(request, response, token);
+	    	boolean succeed = processUserRequest(request, response, token);
+	    	if( !succeed) {
+	    		return;
+	    	}
 		} catch (Exception e) {
 			log.error("", e);
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
@@ -190,7 +191,7 @@ public class PostAuthenticationFilter implements Filter {
 	}
 	
 
-	private void processUserRequest(final HttpServletRequest request, final HttpServletResponse response, String token) throws ServletException, IOException {
+	private boolean processUserRequest(final HttpServletRequest request, final HttpServletResponse response, String token) throws ServletException, IOException {
 		if (log.isTraceEnabled()) {
 			log.trace("Entering PostAuthenticationFilter processing of user request");
 		}
@@ -203,13 +204,14 @@ public class PostAuthenticationFilter implements Filter {
         authUser.setDomainUserName(authDomainUserName);
 
         if (!validateUser(request, response, authUser, authDomainUserName)) {
-			return;
+			return false;
 		}
 		
 		authUser.setToken(token);
 
         HttpSession session = request.getSession();
 		session.setAttribute(KEY_AUTH_USER, authUser);
+		return true;
 
 	}
 
@@ -218,32 +220,15 @@ public class PostAuthenticationFilter implements Filter {
         String clientIp = NetworkUtil.getClientIp(request);
         if (authUser==null) {
             log.warn(String.format("%s\t%s \tLogin failed! - The user name does not exist!", authDomainUserName, clientIp)); 
-            prepareResponse(request, response, "You are not authorized VCAPS user, please contact the system administrator");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
         } else if (!"active".equalsIgnoreCase(authUser.getStatus())) {
             log.warn(String.format("%s\t%s \tLogin failed! - The user is not active!", authDomainUserName, clientIp));
-            prepareResponse(request, response, String.format("The user name %s is not active VCAPS user, please contact the system administrator", authDomainUserName));
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
         } else {
             isValid = true;
         }
         return isValid;
     }
 
-    private void prepareResponse(final HttpServletRequest request, final HttpServletResponse response, final String msg) throws ServletException, IOException {
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.setContentType(request.getContentType());
-        if ("application/json".equalsIgnoreCase(request.getContentType())) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("{\"status\": ").append(HttpServletResponse.SC_FORBIDDEN).append(", \"message\": \"").append(msg).append("\"}");
-            response.getWriter().write(sb.toString());
-            return;
-        }
-        //forward for other media types
-        dispatch(request,response,LOGIN_ERROR);
-    }
-
-    private void dispatch(final HttpServletRequest request, final HttpServletResponse response, final String nextpage) throws ServletException, IOException {
-        RequestDispatcher disp = request.getServletContext().getRequestDispatcher(nextpage);
-        disp.forward(request, response);
-    }
 
 }
