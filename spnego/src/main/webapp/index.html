@@ -33,6 +33,7 @@
 		console.log("got JWT token...");
 		
 		if(window.self !== window.top){
+			// in a frame, so send event corss origins
 	        window.parent.postMessage(this.response, "*");  // last parameter means which domain
 	        // postMessage can send event cross origins and popups, dispatchEvent can't
 		}
