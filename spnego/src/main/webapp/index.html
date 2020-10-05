@@ -29,6 +29,13 @@
 	request.open('GET', '/spnego/JWTToken', true)
 
 	request.onload = function() {
+		
+		console.log("got JWT token...");
+		
+		if(window.parent){
+	        window.parent.postMessage(this.response, "*");  // last parameter means which domain
+	        // postMessage can send event cross origins and popups, dispatchEvent can't
+		}
 		 
 		var data = JSON.parse(this.response);
 		document.getElementById("userName").innerHTML  = data.userName;

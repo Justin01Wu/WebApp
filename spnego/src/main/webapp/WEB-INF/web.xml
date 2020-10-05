@@ -6,7 +6,35 @@
          id="vcaps-treaty" version="3.1">
          
 	<display-name>Spnego JWT token Application</display-name>
-		 
+	
+	<!-- CORS filter for external JS applications -->
+	<!-- 
+    <filter>
+        <description>CORS filter</description>
+        <filter-name>cors-filter</filter-name>
+        <filter-class>wu.justa.spnego.CorsFilter</filter-class>
+        <init-param>
+            <description>Enable CORS filter: true or false</description>
+            <param-name>cors-enabled</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <description>Time unit for CORS max-age header (HOURS, MINUTES or SECONDS) </description>
+            <param-name>cors-max-age-timeunit</param-name>
+            <param-value>HOURS</param-value>
+        </init-param>
+        <init-param>
+            <description>Duration for CORS max-age header accordingly to cor-max-age-timeunit</description>
+            <param-name>cors-max-age-duration</param-name>
+            <param-value>1</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>cors-filter</filter-name>
+        <servlet-name>JWTTokenServlet</servlet-name>
+    </filter-mapping>
+	 -->
+		  
 	<filter>
 	    <filter-name>SpnegoHttpFilter</filter-name>
 	    <filter-class>net.sourceforge.spnego.SpnegoHttpFilter</filter-class>

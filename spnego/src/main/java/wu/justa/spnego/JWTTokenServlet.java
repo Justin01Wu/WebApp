@@ -46,8 +46,8 @@ public class JWTTokenServlet extends HttpServlet {
 		response.setStatus(HttpServletResponse.SC_OK);
 
 		response.setContentType("application/json");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        //response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD");
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD");
         
 		PrintWriter out = response.getWriter();
 		out.print(result);

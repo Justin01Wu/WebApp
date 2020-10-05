@@ -15,34 +15,70 @@
 	 JWTToken: <textarea id=JWTToken cols="100" rows="5" readonly="readonly"></textarea><br/>
 	 
 	 <br/><br/><br/>
-	 <button onclick="getToken()">get token</button>
+	 <button onclick="getToken3()">get token3</button>
+	 
+	 <iframe id="myIframe" width="100%" height="300px" style="display:none;"></iframe>
 	 
 <script>
 
 
+	//var tokenUrl = "http://uspasicsapts01:8380/spnego/JWTToken";
+	//var tokenUrl = "http://CA09417D:8380/spnego/JWTToken";
+	var tokenUrl = "http://uspasicsapts01:8380/spnego/JWTToken";
+	
 	function getToken(){
 		var request = new XMLHttpRequest()
 
-		request.open('GET', 'http://CA09417D:8380/spnego/JWTToken', true);
-		//request.open('GET', 'http://localhost:8380/spnego/JWTToken', true);
-		
-		// target server enabled CORS, so can directly call it		
+		request.open('GET', tokenUrl, true);		
+		// target server enabled CORS, but Spnego can't corss origins, so doesn't work		
 
 		request.onload = function() {
 			 
-			var data = JSON.parse(this.response);
-			document.getElementById("userName").innerHTML  = data.userName;
-			document.getElementById("tokenKey").innerHTML  = data.keyId;
-			var date = new Date(data.JWTCreated);
-			document.getElementById("createdTime").innerHTML = date.toString();
-			date = new Date(data.JWTExpired);
-			document.getElementById("expiredTime").innerHTML = date;
-			document.getElementById("JWTToken").value = data.JWTToken;
+			var data = JSON.parse(this.response);			
+			setTokenOnUi(data);
 		}
 		
 		request.send();
 		
 	}
+	
+	function setTokenOnUi(data){
+
+		document.getElementById("userName").innerHTML  = data.userName;
+		document.getElementById("tokenKey").innerHTML  = data.keyId;
+		var date = new Date(data.JWTCreated);
+		document.getElementById("createdTime").innerHTML = date.toString();
+		date = new Date(data.JWTExpired);
+		document.getElementById("expiredTime").innerHTML = date;
+		document.getElementById("JWTToken").value = data.JWTToken;
+	}
+	
+	function getToken2(){
+		var iframe = document.createElement('iframe');	
+		
+		//iframe.src = "http://localhost:8380/spnego/";
+		iframe.src = "http://uspasicsapts01:8380/spnego/";
+		
+		document.body.appendChild(iframe); // add it to wherever you need it in the document
+	}
+	
+	function getToken3(){
+		var iframe = document.getElementById("myIframe");		
+		//iframe.src = "http://localhost:8380/spnego/"; 
+		//iframe.src = "http://localhost:8380/spnego/JWTToken"; 
+		iframe.src = "http://uspasicsapts01:8380/spnego/";
+	}	
+	
+	window.addEventListener('message',function(event) {
+		//if(event.origin !== 'http://uspasicsapts01:8380') return;
+		console.log('message received:  ', event.data);
+		var data = JSON.parse(event.data);
+		setTokenOnUi(data);
+		//event.source.postMessage('holla back youngin!',event.origin);
+		
+		
+	},false);
+	
 	
 
  
