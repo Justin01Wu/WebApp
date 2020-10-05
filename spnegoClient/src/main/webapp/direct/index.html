@@ -15,19 +15,19 @@
 	 JWTToken: <textarea id=JWTToken cols="100" rows="5" readonly="readonly"></textarea><br/>
 	 
 	 <br/><br/><br/>
-	 <button onclick="getToken2()">get token3</button>
+	 <button onclick="getToken2()">get token</button>
 	 
 <script>
 
 
-	//var tokenUrl = "http://uspasicsapts01:8380/spnego/JWTToken";
-	//var tokenUrl = "http://CA09417D:8380/spnego/JWTToken";
-	var tokenUrl = "http://uspasicsapts01:8380/spnego/JWTToken";
+	//var tokenUrl = "http://localhost:8380/spnego/";
+	//var tokenUrl = "http://CA09417D:8380/spnego/";
+	var tokenUrl = "http://uspasicsapts01:8380/spnego/";
 	
 	function getToken(){
 		var request = new XMLHttpRequest()
 
-		request.open('GET', tokenUrl, true);		
+		request.open('GET', tokenUrl + "JWTToken", true);		
 		// target server enabled CORS, but Spnego can't corss origins, so doesn't work		
 
 		request.onload = function() {			 
@@ -57,9 +57,7 @@
 			iframe.style="display:none";
 			iframe.id="dajalsdj1234";
 		}
-		//iframe.src = "http://localhost:8380/spnego/";
-		iframe.src = "http://uspasicsapts01:8380/spnego/";
-		
+		iframe.src = tokenUrl;		
 		document.body.appendChild(iframe); // add it to wherever you need it in the document
 	}
 	
