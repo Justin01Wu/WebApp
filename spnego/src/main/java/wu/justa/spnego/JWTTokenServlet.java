@@ -70,7 +70,8 @@ public class JWTTokenServlet extends HttpServlet {
 		Date exp = new Date(expMillis); // expired time
 		
 		user.setTokenCreateTime(now);
-		user.setTokenKey(ISSUER + "_" + user.getUserName() + "_" + now.getTime());
+		String tokenKey = ISSUER + "_" + user.getUserName() + "_" + now.getTime(); 
+		user.setTokenKey(tokenKey);
 		user.setTokenExpiredTime(exp);
 		
 		String token = createToken(user);
@@ -82,7 +83,8 @@ public class JWTTokenServlet extends HttpServlet {
 		Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET);
 		String token = JWT.create()
 				.withExpiresAt(user.getTokenExpiredTime())
-				.withKeyId(user.getTokenKey()).withIssuedAt(user.getTokenCreateTime())
+				.withKeyId(user.getTokenKey())
+				.withIssuedAt(user.getTokenCreateTime())
 				.withSubject(user.getUserName())
 				.withIssuer(ISSUER)				
 				.withClaim("justin", "I can add any fields into JWT token")
