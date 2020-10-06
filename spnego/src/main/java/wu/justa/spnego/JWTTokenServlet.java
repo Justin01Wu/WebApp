@@ -18,6 +18,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 public class JWTTokenServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 15464563L;
+	public static final String JWT_SECRET = "MyPassword1234";
+	public static final String ISSUER = "Spnego";
+	
 
 	private static final Logger log = Logger.getLogger(JWTTokenServlet.class);
 
@@ -67,7 +70,7 @@ public class JWTTokenServlet extends HttpServlet {
 		Date exp = new Date(expMillis); // expired time
 		
 		user.setTokenCreateTime(now);
-		user.setTokenKey("Spnego_" + user.getUserName() + "_" + now.getTime());
+		user.setTokenKey(ISSUER + "_" + user.getUserName() + "_" + now.getTime());
 		user.setTokenExpiredTime(exp);
 		
 		String token = createToken(user);
@@ -76,12 +79,12 @@ public class JWTTokenServlet extends HttpServlet {
 	
 	private static String createToken( TokenUser user) {
 		
-		Algorithm algorithm = Algorithm.HMAC256("MyPassword1234");
+		Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET);
 		String token = JWT.create()
 				.withExpiresAt(user.getTokenExpiredTime())
 				.withKeyId(user.getTokenKey()).withIssuedAt(user.getTokenCreateTime())
 				.withSubject(user.getUserName())
-				.withIssuer("Spnego")				
+				.withIssuer(ISSUER)				
 				.withClaim("justin", "I can add any fields into JWT token")
 				.withClaim("email", "justin.wu@global.local")
 				.withClaim("preferred_username", "justin.wu")
