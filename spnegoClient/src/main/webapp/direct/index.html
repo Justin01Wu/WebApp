@@ -20,10 +20,12 @@
 <script>
 
 
-	//var tokenUrl = "http://localhost:8380/spnego/";
-	//var tokenUrl = "http://CA09417D:8380/spnego/";
-	var tokenUrl = "http://uspasicsapts01:8380/spnego/";
+	//var serverUrl = "http://localhost:8380";
+	//var serverUrl = "http://CA09417D:8380";
+	var serverUrl = "http://uspasicsapts01:8380";	
 	
+	var tokenUrl = serverUrl + "/spnego/"
+		
 	function getToken(){
 		var request = new XMLHttpRequest()
 
@@ -62,12 +64,14 @@
 	}
 	
 	window.addEventListener('message',function(event) {
-		//if(event.origin !== 'http://uspasicsapts01:8380') return;
-		console.log('message received:  ', event.data);
+		console.log('message received from:  ', event.origin);
+		if(event.origin !== serverUrl) {
+			return;
+		}
+		
 		var data = JSON.parse(event.data);
 		setTokenOnUi(data);
-		//event.source.postMessage('holla back youngin!',event.origin);
-		
+		//event.source.postMessage('holla back youngin!',event.origin);		
 		
 	},false);
 	
