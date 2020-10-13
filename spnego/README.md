@@ -19,12 +19,15 @@ Spnego authenticate center
 	+ Token is not active
 	+ Refresh token expired
 	+ Could not obtain access token for user	
-    + HttpFailure didn't override getMessage
+	+ HttpFailure didn't override getMessage
 	+ Hard code status : response.sendError(403); 
 + it is open source project, no vendor is supporting it
-+ Also services are using its public key to verify token, which forces services stay inside enterprise network, which should go to cloud
++ KeyCloak and related design forced microServices stay inside enterprise network rather than the cloud because:
+	+ KeyCloak is using Spnego protocol which has to talk to KDC
+	+ client applications using its public key to verify token
+	+ client applications has to talk to KeyCloak when they are renewing access token
 + Client applications depends on KeyCloak code:
-	+ Javascript: `import Keycloak from 'keycloak-js'`
+	+ JavaScript: `import Keycloak from 'keycloak-js'`
 	+ Java: 
 	```
 	import org.keycloak.AuthorizationContext;
