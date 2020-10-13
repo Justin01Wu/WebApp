@@ -12,8 +12,13 @@ Spnego authenticate center
 	+ dozens of social network authenticate
 	+ session status monitor
 	+ realm, client, roles, groups are unnecessary
-	+ try to authorize user, which is incorrect. Every application has different style to manage permission. 
-+ also its code quality is not so good, like 
+	+ try to authorize user, which is incorrect. Every application has different requirements to manage permission. 
++ also its code quality is not good, has many bugs: 
+	+ Session doesn't have required client
+	+ Failed to parse JWT
+	+ Token is not active
+	+ Refresh token expired
+	+ Could not obtain access token for user	
     + HttpFailure didn't override getMessage
 	+ Hard code status : response.sendError(403); 
 + it is open source project, no vendor is supporting it
