@@ -33,37 +33,9 @@
 		<dependency>
     		<groupId>com.auth0</groupId>
     		<artifactId>java-jwt</artifactId>
-    		<version>3.9.0</version>
+    		<version>3.11.0</version>
 		</dependency>
 		
-						<!-- JERSEY -->
-		<dependency>
-			<groupId>org.glassfish.jersey.containers</groupId>
-
-			<!-- use this if your Servlet API >= 3.0 -->
-			<!-- <artifactId>jersey-container-servlet</artifactId> -->
-
-			<!-- if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core" -->
-
-			<artifactId>jersey-container-servlet</artifactId>
-
-			<version>2.29.1</version>
-		</dependency>
-		
-		<!-- this is required for java json mapping -->
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-json-jackson</artifactId>
-			<scope>compile</scope>
-			<version>2.29.1</version>
-		</dependency>
-		
-		<!-- this is required for jersey-media-json-jackson since version 2.26, before it is hardcoded -->
-		<dependency>
-			<groupId>org.glassfish.jersey.inject</groupId>
-			<artifactId>jersey-hk2</artifactId>
-			<version>2.29.1</version>
-		</dependency>
 				
 		 
 	</dependencies>
