@@ -50,3 +50,4 @@ Spnego authenticate center
 + No refresh token, Clients can easily:
 	+ get a new token from existing token
 	+ get a new token from it on the fly
+	+ call this auth center to exchange new token
