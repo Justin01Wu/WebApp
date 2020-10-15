@@ -21,6 +21,7 @@ Spnego authenticate center
 	+ Could not obtain access token for user	
 	+ HttpFailure didn't override getMessage
 	+ Hard code status : response.sendError(403); 
++ Every environment has different setting, which is hard to do troubleshooting	
 + it is open source project, no vendor is supporting it
 + KeyCloak and related design forced microServices stay inside enterprise network rather than the cloud because:
 	+ KeyCloak is using Spnego protocol which has to talk to KDC
@@ -41,13 +42,17 @@ Spnego authenticate center
 ## new project benefits
 + It is much simpler than KeyCloak, just 3 java classes, less than 200 code line
 + It is stateless, KeyCloak is stateful
++ Every environment has the same setting, easy to do troubleshooting
 + Easy to maintain: It has no database, no administrator 
 + It is solid because it is so simple
-+ It give you JWT token directly, which KeyCloak didn't
++ It gives you JWT token directly, which KeyCloak didn't
 + Won't sync status after the token is created, so no performance issue
-+ Client side also become simpler, 3 filters are merged into one filter, no dependency on this project
++ Client side also become simpler:
+	+ 3 filters are merged into one filter
+	+ no dependency on this project
+	+ easy to logout, which is hard in KeyCloak solution
 + Modern applications are even more simpler, because JavaScript can directly call it now 
 + No refresh token, Clients can easily:
 	+ get a new token from existing token
 	+ get a new token from it on the fly
-	+ call this auth center to exchange new token
+	+ call this auth center to exchange new token with old one
