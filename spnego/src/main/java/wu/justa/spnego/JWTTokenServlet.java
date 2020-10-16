@@ -62,7 +62,7 @@ public class JWTTokenServlet extends HttpServlet {
 	}
 	
 	public static String createToken2( TokenUser user) {
-		long ttlMillis = 86400000l; // one day
+		long ttlMillis = 1800000; // 30 minutes
 		// long ttlMillis = 31536000000l; // one year
 
 		Date now = new Date(); // create time
