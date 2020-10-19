@@ -8,11 +8,14 @@ Spnego authenticate center
 
 ## it is designed to replace KeyCloak which has those defects:
 
-+ KeyCloak is over-designed, most of functions are not needed for us, like:
++ KeyCloak is over-delivery, most of functions are not needed for us, like:
+	+ dozens of login methods
 	+ dozens of social network authenticate
-	+ session status monitor
-	+ realm, client, roles, groups are unnecessary
-	+ try to authorize user, which is incorrect. Every application has different requirements to manage permission. 
+	+ session status monitor	
++ KeyCloak is over-designed:	
+	+ try to authorize user, which is incorrect. Every application has different requirements to manage permission.
+	+ realm, client, roles, groups are unnecessary for authentication
+	+ Every client has different setting, which is hard to do troubleshooting 
 + also its code quality is not good, has many bugs: 
 	+ Session doesn't have required client
 	+ Failed to parse JWT
@@ -20,14 +23,13 @@ Spnego authenticate center
 	+ Refresh token expired
 	+ Could not obtain access token for user	
 	+ HttpFailure didn't override getMessage
-	+ Hard code status : response.sendError(403); 
-+ Every environment has different setting, which is hard to do troubleshooting	
-+ it is open source project, no vendor is supporting it
+	+ Hard code status : response.sendError(403); 	
++ It is open source project, no vendor is supporting it
 + KeyCloak and related design forced microServices stay inside enterprise network rather than the cloud because:
 	+ KeyCloak is using Spnego protocol which has to talk to KDC
 	+ client applications using its public key to verify token
 	+ client applications has to talk to KeyCloak when they are renewing access token
-+ Client applications depends on KeyCloak code:
++ Client applications is fully coupled with KeyCloak, they depends on KeyCloak code:
 	+ JavaScript: `import Keycloak from 'keycloak-js'`
 	+ Java: 
 	```
@@ -40,10 +42,11 @@ Spnego authenticate center
  
 
 ## new project benefits
-+ It is much simpler than KeyCloak, just 3 java classes, less than 200 code line
++ It is much simpler than KeyCloak, just 3 java classes, about 200 lines code
 + It is stateless, KeyCloak is stateful
 + Every environment has the same setting, easy to do troubleshooting
 + Easy to maintain: It has no database, no administrator 
++ It has much simpler setting tahn KeyCloak
 + It is solid because it is so simple
 + It gives you JWT token directly, which KeyCloak didn't
 + Won't sync status after the token is created, so no performance issue
@@ -52,7 +55,7 @@ Spnego authenticate center
 	+ no dependency on this project
 	+ easy to logout, which is hard in KeyCloak solution
 + Modern applications are even more simpler, because JavaScript can directly call it now 
-+ No refresh token, Clients can easily:
++ No refresh token which is the big trouble maker in KeyCloak solution, Clients now can easily:
 	+ get a new token from existing token
 	+ get a new token from it on the fly
 	+ call this auth center to exchange new token with old one

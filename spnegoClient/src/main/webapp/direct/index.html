@@ -6,7 +6,7 @@
 <body>
 	<h2>This is a demo for how to directly get token from Spnego auth center</h2>
 	
-	JavaScript will directly call a http GET to get JWT Token:<br/> <br/>
+	JavaScript will directly call a method to get JWT Token:<br/> <br/>
 	
 	 UserName: <label id=userName></label><br/>
 	 TokenKey: <label id=tokenKey></label><br/>
@@ -15,9 +15,11 @@
 	 JWTToken: <textarea id=JWTToken cols="100" rows="5" readonly="readonly"></textarea><br/>
 	 
 	 <br/><br/><br/>
-	 <button onclick="getToken2()">get token</button>
+	 <button onclick="getToken()">get token</button>
 	 
-	 <button onclick="useToken()">use token</button>
+	 <button onclick="useTokenOnVcaps()">use token on VCAPS</button>
+	 
+	 <button onclick="useTokenOnReferral()">use token on Referral</button>
 	 
 	 
 <script>
@@ -29,7 +31,7 @@
 	
 	var tokenUrl = serverUrl + "/spnego/"
 		
-	function getToken(){
+	function getTokenOld(){
 		var request = new XMLHttpRequest()
 
 		request.open('GET', tokenUrl + "JWTToken", true);		
@@ -38,7 +40,7 @@
 		request.onload = function() {			 
 			var data = JSON.parse(this.response);			
 			setTokenOnUi(data);
-	}
+		}
 	
 		request.send();
 		
@@ -55,7 +57,7 @@
 		document.getElementById("JWTToken").value = data.JWTToken;
 	}
 	
-	function getToken2(){
+	function getToken(){
 		var iframe = document.getElementById("dajalsdj1234");	
 		if(!iframe){
 			iframe = document.createElement('iframe');			
@@ -79,13 +81,25 @@
 		
 	},false);
 	
-	function useToken(){
+	function useTokenOnVcaps(){
+		
+		var url = "http://localhost:8080/vcaps3/api/v2/support/currencies.json";
+		useToken(url);
+		
+	}
+	
+	function useTokenOnReferral(){
+		var url = "http://localhost:8604/api/v1/referrals/programAuthorize/program/1355/history";
+		useToken(url);
+		
+	}
+	
+	function useToken(url){
 		if(!myToken){
 			alert("didn't find token");
 			return;
 		}
 		
-		var url = "http://localhost:8080/vcaps3/api/v2/support/currencies.json";
 		var request = new XMLHttpRequest();
 		request.open('GET', url, true);
 		request.setRequestHeader('Authorization', 'Bearer ' + myToken.JWTToken);
@@ -95,7 +109,6 @@
 		request.send();	
 		
 	}
-	
 	
 
  
