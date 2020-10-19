@@ -16,7 +16,7 @@ Spnego authenticate center
 	+ try to authorize user, which is incorrect. Every application has different requirements to manage permission.
 	+ realm, client, roles, groups are unnecessary for authentication
 	+ Every client has different setting, which is hard to do troubleshooting 
-+ also its code quality is not good, has many bugs: 
++ also it has many bugs because of the complication: 
 	+ Session doesn't have required client
 	+ Failed to parse JWT
 	+ Token is not active
@@ -27,7 +27,7 @@ Spnego authenticate center
 + It is open source project, no vendor is supporting it
 + KeyCloak and related design forced microServices stay inside enterprise network rather than the cloud because:
 	+ KeyCloak is using Spnego protocol which has to talk to KDC
-	+ client applications using its public key to verify token
+	+ client applications directly access its URL to get public key
 	+ client applications has to talk to KeyCloak when they are renewing access token
 + Client applications is fully coupled with KeyCloak, they depends on KeyCloak code:
 	+ JavaScript: `import Keycloak from 'keycloak-js'`
