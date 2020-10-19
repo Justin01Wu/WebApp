@@ -8,12 +8,12 @@ Spnego authenticate center
 
 ## it is designed to replace KeyCloak which has those defects:
 
-+ KeyCloak is over-delivery, most of functions are not needed for us, like:
-	+ dozens of login methods
++ KeyCloak is over-delivery, most of functions are not needed for us:
+	+ dozens of login methods and workflow for all kinds of systems
 	+ dozens of social network authenticate
 	+ session status monitor	
-+ KeyCloak is over-designed:	
-	+ try to authorize user, which is incorrect. Every application has different requirements to manage permission.
++ KeyCloak bring troubles more than its benefits for applications because of over-designed:	
+	+ try to authorize user, which is incorrect: Every application has different requirements to manage permissions.
 	+ realm, client, roles, groups are unnecessary for authentication
 	+ Every client has different setting, which is hard to do troubleshooting 
 + also it has many bugs because of the complication: 
@@ -46,7 +46,7 @@ Spnego authenticate center
 + It is stateless, KeyCloak is stateful
 + Every environment has the same setting, easy to do troubleshooting
 + Easy to maintain: It has no database, no administrator 
-+ It has much simpler setting tahn KeyCloak
++ It has much simpler setting than KeyCloak, KeyCloak has different setting for each server because of the two dependency
 + It is solid because it is so simple
 + It gives you JWT token directly, which KeyCloak didn't
 + Won't sync status after the token is created, so no performance issue
