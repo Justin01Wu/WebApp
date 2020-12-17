@@ -31,6 +31,7 @@ End Sub
 + The token can be automatically verified when it is RSA, because the client side can get public key automatically and verify it, based on this specification: https://ldapwiki.com/wiki/Openid-configuration
 + For example: given a token, its issuers is https://ac01.abc.com:8443/auth/realms/vcaps-test/, 
     + then client side will get server info from https://ac01.abc.com:8443/auth/realms/vcaps-test/.well-known/openid-configuration
-    + client side will get server certs from https://ac01.abc.com:8443/auth/realms/vcaps-test/protocol/openid-connect/certs 
+    + In the result, it will have this "jwks_uri":  https://ac01.abc.com:8443/auth/realms/vcaps-test/protocol/openid-connect/certs 
+    + client side will get server certs from "jwks_uri"
     + Client side will verify this token based on the certs.
     + Of course, client side need to set white list for servers
