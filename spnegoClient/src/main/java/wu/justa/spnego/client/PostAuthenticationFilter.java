@@ -28,8 +28,8 @@ public class PostAuthenticationFilter implements Filter {
 
     private static final String IMPERSONATED_ENABLED = "sso.impersonated.enabled";
     
-    //private static final String AuthServer = "http://localhost:8380/spnego/Security?redirect_uri=";
-    private static final String AuthServer = "http://uspasicsapts01:8380/spnego/Security?redirect_uri=";
+    private static final String AuthServer = "http://localhost:8380/spnego/Security?redirect_uri=";
+    //private static final String AuthServer = "http://uspasicsapts01:8380/spnego/Security?redirect_uri=";
     
     public static final String DOMAIN_USER_NAME = "domainUserName";
     public static final String JWT_TOKEN_QUERY = "jwtToken";

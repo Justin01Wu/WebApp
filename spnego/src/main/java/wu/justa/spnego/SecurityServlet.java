@@ -71,8 +71,14 @@ public class SecurityServlet extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			return null;
 		}		
-
-		log.info(authDomainUserName + "\t" + request.getRemoteAddr() + " \t" + "try to login");
+		
+		String asUser = request.getParameter("as_user");
+		if (asUser == null) {
+			log.info(authDomainUserName + "\t" + request.getRemoteAddr() + " \t" + "try to login");	
+		}else {			
+			log.info(authDomainUserName + "\t" + request.getRemoteAddr() + " \t" + "try to login as " + asUser);
+			authDomainUserName = asUser;
+		}
 
 		TokenUser authUser = new TokenUser();
 		authUser.setUserName(authDomainUserName);
