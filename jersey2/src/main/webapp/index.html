@@ -3,12 +3,18 @@
 	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 	<script src="js/apiUtils.js"></script>
 	<script src="js/index.js"></script>
-
+	<style>
+		div.url-list a{
+		  margin-left: 20px
+		}
+	</style>
 </head>
 
 <body>
 	<h2>This is a demo for Jersey version 2 RESTful</h2>
-	
+
+<div class="url-list"style="display:flex;">	
+
 	<a href ="web-component/index.html" target="_blank">web-component-demo</a>
 	<br />
 
@@ -18,13 +24,22 @@
 	<a href="api/public/time" target="_blank">get server time</a>
 	<br />
 	
+	<a href="api/users/user/56239" target="_blank">test get user 56239</a>
+	<br />
+
+	<a href="api/users/user/300" target="_blank">test get user 300(not found)</a>
+	<br />
+	
+	<a href="api/users/user/-1" target="_blank">test get user -1(bad request)</a>
+	<br />
+	
 	<a href="api/public/error/errorTest.json" target="_blank">test error</a>
 	<br />
 	
 	<a href="errorDemo.html" target="_blank">test JS error</a>
 	<br />
 	
-
+</div>
 
 	<br />
 	<br />

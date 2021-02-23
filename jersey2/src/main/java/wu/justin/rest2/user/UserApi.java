@@ -63,11 +63,11 @@ public class UserApi {
 		if(userId<=0){
 			throw new BadRequestError("userId can't be negative");
 		}
-		User user = UserService.getUserById(56239);
+		User user = UserService.getUserById(userId);
 		return user;
 	}
 	
-	/** this one has exact fcuntion as /user/{userId} except its userId is int rather than Integer*/
+	/** this one has exact function as /user/{userId} except its userId is int rather than Integer*/
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user2/{userId2}")	
@@ -77,7 +77,7 @@ public class UserApi {
 		if(userId<=0){
 			throw new BadRequestError("userId can't be negative");
 		}
-		User user = UserService.getUserById(56239);
+		User user = UserService.getUserById(userId);
 		return user;
 	}
 	
