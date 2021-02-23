@@ -48,6 +48,19 @@ public class PublicApi {
 		long time = System.currentTimeMillis();
 	    return "{\"time\":"+ time + "}";
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/dbIp")
+	public String getDbIp() {
+		String value = MySetting.DbIp.getValue();
+		if(value == null || value.isEmpty()){
+			System.out.println("can't find db ip...");
+			throw new RuntimeException("can't find db ip...");
+		}
+
+	    return "{\"dbIp\":\""+ value + "\"}";
+	}
 		
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

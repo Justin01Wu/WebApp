@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.ObjectReader;
 
 import wu.justin.bean.Pair2;
 import wu.justin.bean.User;
-import wu.justin.rest2.MySetting;
 import wu.justin.rest2.exception.BadRequestError;
 
 /**
@@ -38,17 +37,10 @@ public class UserApi {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user/current.json")	
-	public User getCurrentUser() {
+	public User getCurrentUser(@Context User user) {
 		
 		System.out.println("getCurrentUser...");
 		
-		String value = MySetting.DbIp.getValue();
-		if(value == null || value.isEmpty()){
-			System.out.println("can't find db ip...");
-			throw new RuntimeException("can't find db ip...");
-		}
-		
-		User user = UserService.getUserById(56239);
 		return user;
 	}
 	
@@ -56,7 +48,7 @@ public class UserApi {
 		
 		System.out.println("getUserById...");
 		
-		User user = UserService.getUserById(56239);
+		User user = UserService.getUserById(userId);
 		return user;
 	}
 	

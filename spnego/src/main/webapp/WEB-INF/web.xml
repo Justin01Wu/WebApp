@@ -41,11 +41,11 @@
 	    <!--  using tomcat.keytab in  spnego.login.conf, so no username and password-->
 	    <init-param>
 	        <param-name>spnego.preauth.username</param-name>
-	        <param-value></param-value>
+	        <param-value>svcVCapsLDAPRead</param-value>
 	    </init-param>
 	    <init-param>
 	        <param-name>spnego.preauth.password</param-name>
-	        <param-value></param-value>
+	        <param-value>Today01Abc</param-value>
 	    </init-param>
 	    <init-param>
 	        <param-name>spnego.login.server.module</param-name>

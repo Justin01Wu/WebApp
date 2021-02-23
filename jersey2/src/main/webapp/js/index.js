@@ -95,6 +95,31 @@
 			
 		}; // end of getDateJson
 		
+		$scope.getDbIp = function(){
+			console.log("getDbIp...");
+
+			$scope.errorMessage ="";
+			$scope.responsJsonDisp ="";
+			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
+			
+			var apiUrl = API_UTIL.getAPIUrlBase() + "/public/dbIp";
+
+			console.log(apiUrl);
+			
+			$http({
+				method : 'GET',
+				url : apiUrl,
+			}).then(function(response) {
+				// success
+				$scope.responsJsonDisp = JSON.stringify(response.data, null,4);				
+			}, function(response) { 
+				console.log("get fails");				
+				$scope.errorMessage = "fail: " + response.message;
+				return false;
+			});
+			
+		}; // end of getDateJson		
+		
 		$scope.getUser2Json = function(){
 			console.log("getting objectId.json...");
 
@@ -145,6 +170,32 @@
 			});
 			
 		}; // end of getCurrentUser
+		
+		$scope.getRangeUser = function(){
+			console.log("getting getRangeUser.json...");
+
+			$scope.errorMessage ="";
+			$scope.responsJsonDisp ="";
+			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
+			
+			var apiUrl = API_UTIL.getAPIUrlBase() + "/users/range.json?from=1&to=100000";
+			
+
+			console.log(apiUrl);
+			
+			$http({
+				method : 'GET',
+				url : apiUrl,
+			}).then(function(response) {
+				// success
+				$scope.responsJsonDisp = JSON.stringify(response.data, null,4);				
+			}, function(response) { 
+				console.log("get fails");				
+				$scope.errorMessage = "get fail with status: " + response.status;
+				return false;
+			});
+			
+		}; // end of getCurrentUser		
 				
 		$scope.testSSO = function(){
 			console.log("test SSO: external API...");

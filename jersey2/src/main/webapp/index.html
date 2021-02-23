@@ -4,18 +4,6 @@
 	<script src="js/apiUtils.js"></script>
 	<script src="js/index.js"></script>
 
-<style>
-div.bigColumn {
-	display: inline-block;
-	width: 500px;
-	background-color: Lavender;
-}
-
-div.smallColumn {
-	display: inline-block;
-	width: 200px;
-}
-</style>
 </head>
 
 <body>
@@ -30,10 +18,6 @@ div.smallColumn {
 	<a href="api/public/time" target="_blank">get server time</a>
 	<br />
 	
-	<a href="api/users/range.json?from=1&to=100000" target="_blank">get range users</a>
-	<br />
-	
-
 	<a href="api/public/error/errorTest.json" target="_blank">test error</a>
 	<br />
 	
@@ -44,22 +28,26 @@ div.smallColumn {
 
 	<br />
 	<br />
-	<div ng-app="myApp" ng-controller="myCtrl" >
-		<div class="bigColumn">
+	<div ng-app="myApp" ng-controller="myCtrl"  style="display:flex;">
+		<div style="width:500px">
 			<textarea style="width: 480px; height: 500px;"
 				readonly="readonly" ng-model="requestJsonDisp"></textarea>
 		</div>
 
-		<div class="smallColumn">
+		<div style="width:200px">
 			<span style="color:red">{{errorMessage}}</span>
 			
 			<button type="button" ng-click="getDateJson()">get date </button>
 			<br/><br/>
 			
+			<button type="button" ng-click="getDbIp()">get DB IP </button>
+			<br/><br/>
 			
 			<button type="button" ng-click="getCurrentUser()">get Current User </button>
 			<br/><br/>
 			
+			<button type="button" ng-click="getRangeUser()">get Range User </button>
+			<br/><br/>
 
 			<button type="button" ng-click="getUser2Json()">get ObjectId </button>
 			<br/><br/>
@@ -69,20 +57,21 @@ div.smallColumn {
 			
 			<button type="button" ng-click="sendCorrectDateJson()">post correct date </button>
 			<br/><br/>
+			
 			<button type="button" ng-click="sendWorngUtilDateOnFormat()">post wrong date 1</button>
 			<span>utilDateOnFormat need MMM-yyyy-dd format</span>
 			<br/><br/><br/>
+			
 			<button type="button" ng-click="sendWorngDateOnCustimized()">post wrong date 2</button>
 			<span>utilDateOnCustomized need full setting</span> 
 			
 			
 			<br/><br/><br/><br/><br/><br/>		
-			<br/><br/><br/>				
+			<br/><br/><br/>
 			
-
 		</div>
 
-		<div class="bigColumn">
+		<div>
 			<textarea id="responseJson" style="width: 480px; height: 500px;"
 				readonly="readonly" ng-model="responsJsonDisp"></textarea>
 		</div>
