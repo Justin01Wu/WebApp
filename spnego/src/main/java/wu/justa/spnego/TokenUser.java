@@ -5,6 +5,7 @@ import java.util.Date;
 public class TokenUser {
 	
 	private String userName;
+	private String realUserName;
 	private String email;
 	private Date tokenCreateTime;
 	private Date tokenExpiredTime;
@@ -39,6 +40,12 @@ public class TokenUser {
 	}
 	public void setTokenKey(String tokenKey) {
 		this.tokenKey = tokenKey;
+	}
+	public String getRealUserName() {
+		return realUserName;
+	}
+	public void setRealUserName(String realUserName) {
+		this.realUserName = realUserName;
 	}
 
 }

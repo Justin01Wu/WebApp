@@ -72,6 +72,7 @@ public class SecurityServlet extends HttpServlet {
 			return null;
 		}		
 		
+		String realUserName = authDomainUserName;
 		String asUser = request.getParameter("as_user");
 		if (asUser == null) {
 			log.info(authDomainUserName + "\t" + request.getRemoteAddr() + " \t" + "try to login");	
@@ -82,6 +83,7 @@ public class SecurityServlet extends HttpServlet {
 
 		TokenUser authUser = new TokenUser();
 		authUser.setUserName(authDomainUserName);
+		authUser.setRealUserName(realUserName);
 		return authUser;
 
 	}

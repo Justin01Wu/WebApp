@@ -1,6 +1,11 @@
 <html>
 <head>
-	<title>Spnego JWT</title>	
+	<title>Spnego JWT</title>
+	<style>
+		tr:nth-child(odd) {
+        	background-color: lightgrey;
+    	}
+	</style>
 </head>
 
 <body>
@@ -9,51 +14,77 @@
 	It used Spnego protocol to authenticate user, then generate JWT Token<br/> <br/>
 	
 	Then it will redirect to original request, or home page if no original request:<br/> <br/>
-	
-	 UserName: <label id=userName></label><br/>
-	 TokenKey: <label id=tokenKey></label><br/>
-	 CreatedTime: <label id=createdTime></label><br/>
-	 ExpiredTime: <label id=expiredTime></label><br/>
-	 JWTToken: <textarea id=JWTToken cols="100" rows="5" readonly="readonly"></textarea><br/>
+
+	<table>
+		<tbody>
+			<tr>
+				<td>User Name:</td>
+				<td><label id=userName></label></td>
+			</tr>
+			<tr>
+				<td>UserRealName:</td>
+				<td><label id=userRealName></label></td>
+			</tr>
+			<tr>
+				<td>TokenKey:</td>
+				<td><label id=tokenKey></label></td>
+			</tr>
+			<tr>
+				<td>CreatedTime:</td>
+				<td><label id=createdTime></label></td>
+			</tr>
+			<tr>
+				<td>ExpiredTime:</td>
+				<td><label id=expiredTime></label></td>
+			</tr>
+			<tr style="vertical-align: top;">
+				<td>JWTToken:</td>
+				<td><textarea id=JWTToken cols="100" rows="5"
+						readonly="readonly"></textarea></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<br/><br/>
 	 
-	 <br/><br/><br/>
+	<a href="JWTToken" target="_blank">JWT Token</a>
+	<br/>
+	<a href="JWTToken?as_user=Rita.Wang" target="_blank">JWT Token as Rita.Wang</a>
 	 
-	 <a href="JWTToken" target="_blank">JWT Token</a>
-	 <br/>
-	 <a href="JWTToken?as_user=Rita.Wang" target="_blank">JWT Token as Rita.Wang</a>
 	 
 <script>
-(function() {
-	'use strict';
+	(function() {
+		'use strict';
 
-	var request = new XMLHttpRequest()
+		var request = new XMLHttpRequest()
 
-	request.open('GET', '/spnego/JWTToken', true)
+		request.open('GET', '/spnego/JWTToken', true)
 
-	request.onload = function() {
-		
-		console.log("got JWT token...");
-		
-		if(window.self !== window.top){
-			// in a frame, so send event cross origins
-	        window.parent.postMessage(this.response, "*");  // last parameter means which domain
-	        // postMessage can send event cross origins and popups, dispatchEvent can't
+		request.onload = function() {
+
+			console.log("got JWT token...");
+
+			if (window.self !== window.top) {
+				// in a frame, so send event cross origins
+				window.parent.postMessage(this.response, "*"); // last parameter means which domain
+				// postMessage can send event cross origins and popups, dispatchEvent can't
+			}
+
+			var data = JSON.parse(this.response);
+			document.getElementById("userName").innerHTML = data.userName;
+			document.getElementById("userRealName").innerHTML = data.userRealName;
+
+			document.getElementById("tokenKey").innerHTML = data.keyId;
+			var date = new Date(data.JWTCreated);
+			document.getElementById("createdTime").innerHTML = date.toString();
+			date = new Date(data.JWTExpired);
+			document.getElementById("expiredTime").innerHTML = date;
+			document.getElementById("JWTToken").value = data.JWTToken;
 		}
-		 
-		var data = JSON.parse(this.response);
-		document.getElementById("userName").innerHTML  = data.userName;
-		document.getElementById("tokenKey").innerHTML  = data.keyId;
-		var date = new Date(data.JWTCreated);
-		document.getElementById("createdTime").innerHTML = date.toString();
-		date = new Date(data.JWTExpired);
-		document.getElementById("expiredTime").innerHTML = date;
-		document.getElementById("JWTToken").value = data.JWTToken;
-	}
-	
-	request.send()
 
-}()); 
+		request.send()
 
+	}());
 </script>
 </body>
 </html>

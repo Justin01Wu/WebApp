@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator.Builder;
 import com.auth0.jwt.algorithms.Algorithm;
 
 // direct return JWT token as json format
@@ -35,12 +36,14 @@ public class JWTTokenServlet extends HttpServlet {
 
 		String newLine = System.lineSeparator();
 		String temp = "{\"userName\": \"%s\"," + newLine
+				+ " \"userRealName\": \"%s\", " + newLine
 				+ " \"JWTToken\": \"%s\", " + newLine
 				+ " \"keyId\": \"%s\", " + newLine
 				+ " \"JWTCreated\": %d, " + newLine
 				+ "\"JWTExpired\": %d}";
 		String token = createToken2 (au);
 		String result = String.format(temp, au.getUserName(), 
+				au.getRealUserName(),
 				token, 
 				au.getTokenKey(),
 				au.getTokenCreateTime().getTime(),
@@ -81,7 +84,7 @@ public class JWTTokenServlet extends HttpServlet {
 	private static String createToken( TokenUser user) {
 		
 		Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET);
-		String token = JWT.create()
+		Builder builder = JWT.create()
 				.withExpiresAt(user.getTokenExpiredTime())
 				.withKeyId(user.getTokenKey())
 				.withIssuedAt(user.getTokenCreateTime())
@@ -90,8 +93,12 @@ public class JWTTokenServlet extends HttpServlet {
 				.withClaim("justin", "I can add any fields into JWT token")
 				.withClaim("email", "justin.wu@global.local")
 				.withClaim("preferred_username", "justin.wu")
-				.withClaim("realm_access", "offline_access")
-				.sign(algorithm);
+				.withClaim("realm_access", "offline_access");
+		if(user.getRealUserName()!= null) {
+			builder.withClaim("realUserName", user.getRealUserName());
+		}
+		
+		String token = builder.sign(algorithm);
 		return token;
 	}
 
