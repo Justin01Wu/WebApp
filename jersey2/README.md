@@ -6,16 +6,45 @@
 	+ good example: /students/{studentId}/courses/{courseId}
 	+ bad example: /students/{studentId}/{courseId}
 	+ bad example: /students/{courseId}
-+ Please use symmetric rule when a java Object is used on input and output API:
-	+ output json can directly used for input json
++ Please use symmetric rule(mirror rule) when a java Object is used on input and output API:
+	+ Ie. GET should return exact data structure of PUT and POST input
+	+ output json can directly used for input json	
+	+ But some fields should be read only: like createdTime, updatedBy, pk, ï¿½
++ Try to make JSON structure flat
+	+ If it has too many layers, it usually mean you have some design issue on API 
+	+ and will make JAVA code difficult because it is usually on JAVA object reflection, which need more useless Java Class.
 	
 ## Foreign key
-+ To make RESTful simple, we don’t extend reference object in GETmethod, we only return foreign key itself.
++ To make RESTful simple, we donï¿½t extend reference object in GETmethod, we only return foreign key itself.
 + UI side use another API to get details if they need.
 + If the result is a list, we can also call the second API for foreign key list.
 	+ For example:
 	+ The program has clientId, Then API to get program or programList only return clientId itself
-	+ If UI side wants to display client name, then it needs to call  clients/51,1023 to get those client information	
+	+ If UI side wants to display client name, then it needs to call  clients/51,1023 to get those client information
+	
+## Testing
+
+
++ Sometimes, we can add extra fields or api for troubleshooting or integration testing, for example: 
+	+ You can add sequence Id or updated date to test if a record was updated properly in previous step
++ Integration test: 
+	+ for get, it is easy, because you connect the system to prod Db copy. 
+	+ But sometimes it is hard to prepare good data for post and put. So we can add a test flag on it: if it is true, we skip real job on server side. 
+	+ In this way, we can test if json structure is silently changed or not, which is most dangerous thing  on Jackson. 
+	+ Because it's json structure is a reflection of Java object. Sometimes we donï¿½t know if it's field name is changed.
+	+ specially it is extended or deeply embedded in the parent class.
++ We can also use Jackson ObjectMapper to verify if Java class structure is aligned with a Json structure:
+```
+    	ObjectMapper mapper = new ObjectMapper();    	
+        String origJsonDataFile = UserExtTest.class.getSimpleName() + ".json";
+        String templateData = ApiTestUtil.readJSONFile(origJsonDataFile);
+        UserExt dto = mapper.readValue(templateData, UserExt.class);        
+       	assertNull( dto.getId());
+        String targetJson = mapper.writeValueAsString(dto);        
+        JSONObject json = ApiTestUtil.convertJSONStr2Obj(targetJson);
+        JSONObject expectedJson = ApiTestUtil.convertJSONStr2Obj(templateData);
+        ApiTestUtil.verifyJson((Map<String, Object>)json, (Map<String, Object>)expectedJson);
+```	
 		
 ## Jackson
 Jackson is the main framework for Java Object Json mapping, So we discuss mainly on it:
@@ -28,11 +57,11 @@ Jackson is the main framework for Java Object Json mapping, So we discuss mainly
     }
 ```
 + Enum by default uses literal value, it is good enough for most of case:
-	+ `Public enum ContractStatusEnum{ Quote(10); ...}` will return ‘Quoted’ in API
+	+ `Public enum ContractStatusEnum{ Quote(10); ...}` will return ï¿½Quotedï¿½ in API
 	+So you don't need to do anything for it.
 
 + Sometimes, it is hard to reflect on Java object, then we can use flexible json:
 	+ UI using JSON.stringfy convert json into a string, then save a whole json string into a field in a table, most of DB can do it, like MS SQL have nvarchar(max), it can save 2G data into it.
 	+ API can direct return a json String or input a json string on a field:
 	+ raw json string: return "{\"id\":\""+id+"\"}";
-	+ return map: map.put("id", 1223); map.put("name", “Justin”); map can be nested.
+	+ return map: map.put("id", 1223); map.put("name", ï¿½Justinï¿½); map can be nested.
