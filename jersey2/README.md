@@ -27,11 +27,18 @@
 + Sometimes, we can add extra fields or api for troubleshooting or integration testing, for example: 
 	+ You can add sequence Id or updated date to test if a record was updated properly in previous step
 + Integration test: 
-	+ for get, it is easy, because you connect the system to prod Db copy. 
-	+ But sometimes it is hard to prepare good data for post and put. So we can add a test flag on it: if it is true, we skip real job on server side. 
-	+ In this way, we can test if json structure is silently changed or not, which is most dangerous thing  on Jackson. 
-	+ Because it's json structure is a reflection of Java object. Sometimes we don�t know if it's field name is changed.
+	+ for HTTP GET, it is easy, because you connect the system to prod Db copy. 
+	+ But sometimes it is hard to prepare good data for post and put. So we can add a test flag on it: if it is true, we skip or roll back real job on server side. 
+	+ In this way, it can test most of function without change the real data.
+	+ It means the test cases can run for ever on the same data.
+
+
+## Verify API Interface
++ Most of APIs are using reflection of Java object to generate json structure. 
++ Sometimes we don't know if it's field name is changed.
 	+ specially it is extended or deeply embedded in the parent class.
++ So we need to test if json structure is silently changed or not, which is most dangerous thing on Jackson.
++ We can use Integration test to test if json structure is silently changed or not.
 + We can also use Jackson ObjectMapper to verify if Java class structure is aligned with a Json structure:
 ```
     	ObjectMapper mapper = new ObjectMapper();    	
