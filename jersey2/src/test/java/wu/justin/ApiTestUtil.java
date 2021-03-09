@@ -363,7 +363,7 @@ public final class ApiTestUtil {
 	}	
 	
 	/** go through every fields in recursive way to verify JSON structure
-	 * expectedJson can has less fields than actual Json*/
+	 * expectedJson can has less fields than actual Json for backward compatibility */
 	// For non 3rd library implementation, please see https://stackoverflow.com/questions/50967015/how-to-compare-json-documents-and-return-the-differences-with-jackson-or-gson
 	public static void verifyJson(Map<String, Object> actualJson, Map<String, Object> expectedJson) throws JsonProcessingException, IOException {
 		
