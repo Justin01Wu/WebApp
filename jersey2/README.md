@@ -22,6 +22,36 @@
 	+ The program has clientId, Then API to get program or programList only return clientId itself
 	+ If UI side wants to display client name, then it needs to call  clients/51,1023 to get those client information
 	
+## Field convert
+To make RESTful developer friendly, data should explain itself well, So we need to do some convert on some kind of data type:
+
+### Date field
+Usually we use ISO 8601 format to display a date type field, like 2017-02-18T02:14:35.000Z
+
+By default we use GMT zone. But client can send time on other time zone:  2017-02-16T12:00:00.000+08:00
+
+So we created those serializer and deserializer:
++ ISO8601.ISO8601Serializer
++ ISO8601.ISO8601Deserializer
++ ISO8601ShortDateConverter.ISO8601ShortDateSerializer
++ ISO8601ShortDateConverter.ISO8601ShortDateDeserializer
+
+ 
+This is how we use it:
+```
+	@JsonSerialize(using = ISO8601ShortDateSerializer.class)
+	public Timestamp getReferenceDate() {	
+		return referenceDate;
+	}
+```
+ 
+```
+	@JsonDeserialize(using = ISO8601ShortDateDeserializer.class)
+	public void setReferenceDate(Timestamp referenceDate) {
+		this.referenceDate = referenceDate;
+	}	
+```	
+
 ## Testing
 
 + Sometimes, we can add extra fields or api for troubleshooting or integration testing, for example: 
