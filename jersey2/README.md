@@ -52,6 +52,11 @@
         ApiTestUtil.verifyJson((Map<String, Object>)json, (Map<String, Object>)expectedJson);
 ```	
 + expectedJson can has less fields than actual Json for backward compatibility, this is why RESTful API is more flexible than Web service  
+
+## URL conflicts
+When a system has more than 100 apis, we worried about URL conflicts.
+
+So we suggest to use Java package to match the URL :  for example: URL is a/b/c/d then the package will be a.b.c
 		
 ## Jackson
 Jackson is the main framework for Java Object Json mapping, So we discuss mainly on it:
