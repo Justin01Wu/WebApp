@@ -6,6 +6,8 @@
 	+ good example: /students/{studentId}/courses/{courseId}
 	+ bad example: /students/{studentId}/{courseId}
 	+ bad example: /students/{courseId}
++ Please use symmetric rule when a java Object is used on input and output API:
+	+ output json can directly used for input json
 	
 ## Foreign key
 + To make RESTful simple, we don’t extend reference object in GETmethod, we only return foreign key itself.
@@ -18,8 +20,19 @@
 ## Jackson
 Jackson is the main framework for Java Object Json mapping, So we discuss mainly on it:
 
-+ Please use symmetric rule when a java Object is used on input abd output API:
-	+ output json can directly used for input json
-+ 
++ @JsonIgnore can't be overwrote, sub class has to use another method to get it back:	        
+```
+	@JsonProperty("legalEntityId")
+    public Integer getCategoryId2() {
+        return super.getCategoryId();
+    }
+```
++ Enum by default uses literal value, it is good enough for most of case:
+	+ `Public enum ContractStatusEnum{ Quote(10); ...}` will return ‘Quoted’ in API
+	+So you don't need to do anything for it.
 
-
++ Sometimes, it is hard to reflect on Java object, then we can use flexible json:
+	+ UI using JSON.stringfy convert json into a string, then save a whole json string into a field in a table, most of DB can do it, like MS SQL have nvarchar(max), it can save 2G data into it.
+	+ API can direct return a json String or input a json string on a field:
+	+ raw json string: return "{\"id\":\""+id+"\"}";
+	+ return map: map.put("id", 1223); map.put("name", “Justin”); map can be nested.
