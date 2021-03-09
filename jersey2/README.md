@@ -54,7 +54,7 @@ This is how we use it:
 
 ## Testing
 
-+ Sometimes, we can add extra fields or api for troubleshooting or integration testing, for example: 
++ Sometimes, we can add extra fields on api for troubleshooting or integration testing, for example: 
 	+ You can add sequence Id or updated date to test if a record was updated properly in previous step
 + Integration test: 
 	+ for HTTP GET, it is easy, because you connect the system to prod Db copy. 
@@ -100,7 +100,7 @@ Jackson is the main framework for Java Object Json mapping, So we discuss mainly
 ```
 + Enum by default uses literal value, it is good enough for most of case:
 	+ `Public enum ContractStatusEnum{ Quote(10); ...}` will return 'Quoted' in API
-	+So you don't need to do anything for it.
+	+ So you don't need to do anything for it.
 
 + Sometimes, it is hard to reflect on Java object, then we can use flexible json:
 	+ UI using JSON.stringfy convert json into a string, then save a whole json string into a field in a table, most of DB can do it, like MS SQL have nvarchar(max), it can save 2G data into it.
