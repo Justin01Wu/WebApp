@@ -9,7 +9,7 @@ import wu.justin.rest2.exception.NotReadyErrorMapper;
 import wu.justin.rest2.exception.StatusMessageExceptionMapper;
 import wu.justin.rest2.user.UserApi;
 
-/** @deprecated, replaced with packages setting in web.xml, will be deleted soon*/
+/** @deprecated, replaced with ApiConfig, will be deleted soon*/
 @Deprecated
 public class ApiRegister extends ResourceConfig {
 	
