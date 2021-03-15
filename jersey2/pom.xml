@@ -50,15 +50,15 @@
 					<plugin>
 					
 						<groupId>org.codehaus.cargo</groupId>
-						<artifactId>cargo-maven2-plugin</artifactId>
-						<version>1.6.10</version>
+  						<artifactId>cargo-maven3-plugin</artifactId>
+						<version>1.9.2</version>
                 
 						<configuration>
 							<wait>true</wait>        
 							<container>                
 								<containerId>tomcat8x</containerId>
 								<zipUrlInstaller>
-									<url>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.33/tomcat-8.5.33.zip</url>
+									<url>https://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.63/tomcat-8.5.63.zip</url>
 								</zipUrlInstaller>								
 							</container>
 							<configuration>            
@@ -67,6 +67,7 @@
 								<properties>
 									<cargo.servlet.port>${maven.tomcat.port}</cargo.servlet.port>
 									<cargo.tomcat.ajp.port>${tomcat.ajp.port}</cargo.tomcat.ajp.port>
+									<cargo.jvmargs>-Xmx30720m</cargo.jvmargs> <!--  this will apply to container JVM -->
 								</properties>
 								<files>
 									<copy>
