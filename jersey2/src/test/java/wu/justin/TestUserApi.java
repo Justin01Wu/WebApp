@@ -38,7 +38,7 @@ public class TestUserApi extends IntegrationTestBase {
 	public void setup() throws HttpException, IOException  {
 		httpCookieStore = new BasicCookieStore();
 		UserInfo userInfo = new UserInfo();
-		LoginService.loginAsUser(httpCookieStore, userInfo);
+		TestLoginService.loginAsUser(httpCookieStore, userInfo);
 
 	}	
 
@@ -154,7 +154,7 @@ public class TestUserApi extends IntegrationTestBase {
 		
 		System.out.println("                ==>testUserApi started....");
 		
-		String url = URL_ROOT +"/api/users/user/12";
+		String url = URL_ROOT +"/api/users/user/56239";
 		
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
 		
@@ -167,7 +167,7 @@ public class TestUserApi extends IntegrationTestBase {
 		System.out.println("userName= " + userName);
 		
 		Integer userId = JsonPath.read(jsonDoc, "$.id");		
-		assertEquals(userId, new Integer(56239));		
+		assertEquals(userId, Integer.valueOf(56239));		
 		
 	}
 	
@@ -175,7 +175,7 @@ public class TestUserApi extends IntegrationTestBase {
 		
 		System.out.println("                ==>testUserApi started....");
 		
-		String url = URL_ROOT +"/api/users/user2/12";
+		String url = URL_ROOT +"/api/users/user2/56239";
 		
 		HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore).build();
 		
@@ -212,7 +212,7 @@ public class TestUserApi extends IntegrationTestBase {
 	@After
 	public void tearDown() throws Exception {		
 		// logout
-		LoginService.logout(URL_ROOT, httpCookieStore);
+		TestLoginService.logout(URL_ROOT, httpCookieStore);
 		
 
 	}

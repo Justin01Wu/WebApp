@@ -24,7 +24,8 @@ public class UserService {
 		User user = new User(56239, "Justin Wu");
 		user.addEmails("justin01.wu@gmail.com");
 		user.addEmails("wuyg719@gmail.com");
-		user.setBirthDate(new Date());
+		
+		user.setBirthDate(new Date(1589313630011l));
 		user.setType(TypeEnum.Developer);
 		
 		user.setPassword("abcd1234");

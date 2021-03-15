@@ -40,14 +40,14 @@ public class IntegrationTestBase {
 		httpCookieStore = new BasicCookieStore();
 		
 		UserInfo userInfo = new UserInfo();
-		LoginService.loginAsUser(httpCookieStore, userInfo);
+		TestLoginService.loginAsUser(httpCookieStore, userInfo);
 		HttpClientBuilder builder = ApiTestUtil.createTrustAllHttpClientBuilder();
 		client = builder.setDefaultCookieStore(httpCookieStore).build();
 	}
 
 	@After
 	public void after() throws Exception {
-		LoginService.logout(urlRoot, httpCookieStore);
+		TestLoginService.logout(urlRoot, httpCookieStore);
 	}
 	
 	protected String getUniqueName(){
