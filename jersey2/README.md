@@ -109,5 +109,6 @@ Jackson is the main framework for Java Object Json mapping, So we discuss mainly
 + Sometimes, it is hard to reflect on Java object, then we can use flexible json:
 	+ UI using JSON.stringfy convert json into a string, then save a whole json string into a field in a table, most of DB can do it, like MS SQL have nvarchar(max), it can save 2G data into it.
 	+ API can direct return a json String or input a json string on a field:
-	+ raw json string: return "{\"id\":\""+id+"\"}";
-	+ return map: map.put("id", 1223); map.put("name", "Justin"); map can be nested.
+	+ raw json string: return `"{\"id\":\""+id+"\"}"`;
+	+ return map: `map.put("id", 1223); map.put("name", "Justin");` 
+	+ map can be nested: `map.put("myData", anotherMap);`
