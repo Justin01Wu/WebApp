@@ -42,14 +42,14 @@ So we created those serializer and deserializer:
 
  
 This is how we use it:
-```
+```java
 	@JsonSerialize(using = ISO8601ShortDateSerializer.class)
 	public Timestamp getReferenceDate() {	
 		return referenceDate;
 	}
 ```
  
-```
+```java
 	@JsonDeserialize(using = ISO8601ShortDateDeserializer.class)
 	public void setReferenceDate(Timestamp referenceDate) {
 		this.referenceDate = referenceDate;
@@ -74,16 +74,16 @@ This is how we use it:
 + So we need to test if json structure is silently changed or not, which is most dangerous thing on Jackson.
 + We can use Integration test to test if json structure is silently changed or not.
 + We can also use Jackson ObjectMapper to verify if Java class structure is aligned with a Json structure:
-```
-    	ObjectMapper mapper = new ObjectMapper();    	
-        String origJsonDataFile = UserExtTest.class.getSimpleName() + ".json";
-        String templateData = ApiTestUtil.readJSONFile(origJsonDataFile);
-        UserExt dto = mapper.readValue(templateData, UserExt.class);        
-       	assertNull( dto.getId());
-        String targetJson = mapper.writeValueAsString(dto);        
-        JSONObject json = ApiTestUtil.convertJSONStr2Obj(targetJson);
-        JSONObject expectedJson = ApiTestUtil.convertJSONStr2Obj(templateData);
-        ApiTestUtil.verifyJson((Map<String, Object>)json, (Map<String, Object>)expectedJson);
+```java
+    ObjectMapper mapper = new ObjectMapper();    	
+    String origJsonDataFile = UserExtTest.class.getSimpleName() + ".json";
+    String templateData = ApiTestUtil.readJSONFile(origJsonDataFile);
+    UserExt dto = mapper.readValue(templateData, UserExt.class);        
+    assertNull( dto.getId());
+    String targetJson = mapper.writeValueAsString(dto);        
+    JSONObject json = ApiTestUtil.convertJSONStr2Obj(targetJson);
+    JSONObject expectedJson = ApiTestUtil.convertJSONStr2Obj(templateData);
+    ApiTestUtil.verifyJson((Map<String, Object>)json, (Map<String, Object>)expectedJson);
 ```	
 + expectedJson can has less fields than actual Json for backward compatibility, this is why RESTful API is more flexible than Web service  
 
@@ -96,7 +96,7 @@ So we suggest to use Java package to match the URL :  for example: URL is a/b/c/
 Jackson is the main framework for Java Object Json mapping, So we discuss mainly on it:
 
 + @JsonIgnore can't be overwrote, sub class has to use another method to get it back:	        
-```
+```java
     @JsonProperty("categoryId")
     public Integer getCategoryId2() {
         return super.getCategoryId();
