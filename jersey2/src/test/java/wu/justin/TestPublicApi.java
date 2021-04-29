@@ -72,7 +72,7 @@ public class TestPublicApi  extends IntegrationTestBase{
 		
 		String url = urlRoot +"/api/public/timestamp.json";
 
-		String body ="{ \"processEndTime\" : 1434989360380}";
+		String body ="{ \"processEndTime\" : 1434989360380, \"localDate\" : 1434989360380}";
 		
 		HttpPost request = new HttpPost(url);
 	

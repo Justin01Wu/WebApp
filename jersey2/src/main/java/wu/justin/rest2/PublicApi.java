@@ -1,5 +1,7 @@
 package wu.justin.rest2;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,6 +109,16 @@ public class PublicApi {
 	@Path("/timestamp.json")
 	public MyTimestamp postTimestamp(MyTimestamp dateConvert) {		
 	    return dateConvert;
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/timestamp.json")
+	public MyTimestamp getTimestamp() {		
+		MyTimestamp result =new MyTimestamp();
+		result.setRunDate(new Timestamp(System.currentTimeMillis()));
+		result.setLocalDate(LocalDate.of(2021, 04, 29));
+	    return result;
 	}
 
 	
