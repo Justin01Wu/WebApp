@@ -71,7 +71,7 @@
 								</properties>
 								<files>
 									<copy>
-										<file>${project.basedir}/src/main/resources/api23.properties</file>
+										<file>${project.basedir}/src/main/resources/jersey2.properties</file>
 										<todir>shared\classes</todir>										
 									</copy>
 								</files>
@@ -148,6 +148,7 @@
 		</dependency>
 		
 		<!-- this is required for jersey-media-json-jackson since version 2.26, before it is hardcoded -->
+		<!--  it is used in UserContextProvider -->
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
@@ -318,7 +319,7 @@
 				<version>3.0.0</version>
 				<configuration>
 					<packagingExcludes>
-						WEB-INF/classes/api23.properties,
+						WEB-INF/classes/jersey2.properties,
 					</packagingExcludes>
 				</configuration>
 			</plugin>
