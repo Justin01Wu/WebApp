@@ -44,7 +44,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
         <attribute>
             <name>age</name>
             <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
+            <rtexprvalue>true</rtexprvalue> <!--  support express or not -->
         </attribute>
         <bodycontent>empty</bodycontent>
     </tag>
@@ -54,7 +54,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
         <attribute>
             <name>people</name>
             <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
+            <rtexprvalue>true</rtexprvalue> <!--  support express or not -->
         </attribute>
         <bodycontent>empty</bodycontent>
     </tag>
