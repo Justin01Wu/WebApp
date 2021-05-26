@@ -23,11 +23,6 @@ Tag Test
 
 <myTag:nestedTag><myTag:nestedTag/></myTag:nestedTag>
 
-	<myTag:tagParam>
-		<jsp:attribute name="age">35years</jsp:attribute>
-	</myTag:tagParam>
-	<br/><br/>
-
 This is tagDependent:
 <myTag:tagDependent>
   <%= 3*4 %>

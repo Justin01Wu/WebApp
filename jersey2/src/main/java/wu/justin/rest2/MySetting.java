@@ -17,16 +17,26 @@ public enum MySetting {
 	private static final String PROPERTY_FILE_NAME = "jersey2.properties";
 	private static Properties config;
 	static {
-        config = new Properties();
-		try (InputStream is = createInputStream(PROPERTY_FILE_NAME)){
-			config.load(is);
-		} catch (Exception e) {
-			System.err.println("SYSTEM ERROR: cannot load the property file: "+PROPERTY_FILE_NAME);
-		}
+        config = load();
 	}
 	
 	MySetting(String key) {
 		this.key = key;
+	}
+	
+	private static Properties load() {
+		Properties p = new Properties();
+		try (InputStream is = createInputStream(PROPERTY_FILE_NAME)){
+			p.load(is);
+		} catch (Exception e) {
+			System.err.println("SYSTEM ERROR: cannot load the property file: "+PROPERTY_FILE_NAME);
+		}
+		return p;
+	}
+	
+	public String getValueWithReload() {
+		Properties p = load();
+		return p.getProperty(key);		
 	}
 	
     private static InputStream createInputStream(String fileName) {

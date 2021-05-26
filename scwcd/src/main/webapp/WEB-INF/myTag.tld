@@ -49,6 +49,18 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
         <bodycontent>empty</bodycontent>
     </tag>
     <tag>
+        <name>tagListParam</name>
+        <tagclass>tag.TagListParam</tagclass>
+        <attribute>
+            <name>people</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <bodycontent>empty</bodycontent>
+    </tag>
+    
+    
+    <tag>
         <name>nestedTag</name>
         <tagclass>tag.NestedTag</tagclass>
         <bodycontent>tagdependent</bodycontent>

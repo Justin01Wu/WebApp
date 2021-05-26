@@ -55,7 +55,10 @@ public class PublicApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/dbIp")
 	public String getDbIp() {
-		String value = MySetting.DbIp.getValue();
+		
+		//String value = MySetting.DbIp.getValue();
+		String value = MySetting.DbIp.getValueWithReload();
+		
 		if(value == null || value.isEmpty()){
 			System.out.println("can't find db ip...");
 			throw new RuntimeException("can't find db ip...");
