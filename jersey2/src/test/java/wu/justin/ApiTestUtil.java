@@ -94,13 +94,13 @@ public final class ApiTestUtil {
 
 		String port = System.getProperty("maven.tomcat.port");
 		if (port == null) {
-			port = "8380";
+			port = "8080";
 		} else {
 			try {
 				Integer.valueOf(port);
 			} catch (NumberFormatException e) {
 				System.err.println("wrong maven.tomcat.port parameter: " + port);
-				port = "8380";
+				port = "8080";
 			}
 		}
 
