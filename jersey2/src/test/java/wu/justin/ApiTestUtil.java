@@ -369,7 +369,7 @@ public final class ApiTestUtil {
 		
 		for(String key:  expectedJson.keySet()) {
 			Object expectValue = expectedJson.get(key);
-		    Object actualValue = JsonPath.read(actualJson, "$."+key);
+			Object actualValue = JsonPath.read(actualJson, "$.['"+key +"']");
 		    if(expectValue instanceof Map) {		    		
 		    	@SuppressWarnings("unchecked")
 				Map<String,Object> a = (Map<String, Object>)actualValue;
