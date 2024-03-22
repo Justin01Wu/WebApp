@@ -6,6 +6,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import wu.justa.service.UserContextProvider;
 import wu.justin.bean.User;
 
@@ -16,6 +17,8 @@ public class ApiConfig extends ResourceConfig {
 	    public ApiConfig() {
 	        
 	        packages("wu.justin.rest2;wu.justin.rest3");
+	        
+	        register(OpenApiResource.class);
 	        
 	        register(new AbstractBinder(){
 	            @Override
