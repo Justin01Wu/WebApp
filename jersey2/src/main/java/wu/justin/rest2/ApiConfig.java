@@ -11,7 +11,8 @@ import wu.justa.service.UserContextProvider;
 import wu.justin.bean.User;
 
 // from https://stackoverflow.com/questions/32119962/jersey-custom-context-injection
-@ApplicationPath("/webresources")
+@ApplicationPath("/api")  
+// this '/api' path must match api root in web.xml, which is SpnegoProxy setting when it is used on  SpnegoProxy 
 public class ApiConfig extends ResourceConfig {
 
 	    public ApiConfig() {
