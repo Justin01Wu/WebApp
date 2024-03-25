@@ -47,6 +47,20 @@ public class TestPublicApi  extends IntegrationTestBase{
 		
 	}
 	
+	// this test case will always fail
+	@Test
+	public void stepTestFailure() throws HttpException, IOException{
+		
+		String url = urlRoot +"/api/public/wrongAPI";	
+		HttpGet request = new HttpGet(url);
+		 
+		Object responseJson = getJsonByRequest(client, request, HttpStatus.SC_OK);
+		
+		long time = JsonPath.read(responseJson, "$.time");		
+		assertTrue(time>100000000);
+		
+	}
+	
 	@Test
 	public void stepDateFormatApi() throws HttpException, IOException{
 		
