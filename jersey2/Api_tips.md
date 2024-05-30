@@ -82,7 +82,7 @@ This is how we use it:
 	+ It will change API request and response structure when a Java class is refactoring
  	+ So we need to test if JSON structure is silently changed or not, which is most dangerous thing on Jackson.
 	+ so please try your best to write a unit test to avoid accidental refactoring,
-	+ sample: AuthorizeDTOtest or contractPricingresultDTOTest or UserextTest in jesery2
+	+ sample: AuthorizeDTOtest or ContractPricingresultDTOTest or UserExtTest in jesery2
 1.	We use dJackson ObjectMapper to verify if Java class structure is aligned with a JSON structure:
 ```java
     ObjectMapper mapper = new ObjectMapper();    	
