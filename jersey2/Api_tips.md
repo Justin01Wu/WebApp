@@ -1,23 +1,23 @@
 # API tips
 
 ## General rules:
-1.	To make RESTful developer friendly, url should explain itself well
+1.	To make RESTful developer friendly, URL should explain itself well
 1.	Respect Restful naming conventions, don’t use verbs…
 1.	Path parameter should always be Integer and a kind of PK, its prefix noun tell the meaning:
 	+ good example: /students/{studentId}/courses/{courseId}
 	+ bad example: /students/{studentId}/{courseId}
 	+ bad example: /students/{courseId}
 1.	Don’t add string parameter into URLs path, reason
-	+ it will get trouble from apache kind of servers like tomcat when string has / 
-	+ even you do url encode, 
+	+ it will get trouble from Apache kind of servers like tomcat when string has / 
+	+ even you do URL encode, 
 	+ if you really want to do it, please double encode and double decode it. 
 	+ It also have chance to fall into another API:  we have a/b/(c) and a/b/d. We have big trouble if string c is “d”	
-1.	To make UI easy mock api, query url should not be a part of single entity url
-	+ for example: two API urls students and students/1234 will have a trouble to save mock data for UI
+1.	To make UI easy mock API, query URL should not be a part of single entity url
+	+ for example: two API URLs students and students/1234 will have a trouble to save mock data for UI
 	+ so better to use students and student/1234
 1.	Http get, post and put should have exact same data structure
-	+ Ie. GET should return exact data structure of PUT and POST input
-	+ output json can directly used for input json	
+	+ ie. GET should return exact data structure of PUT and POST input
+	+ output JSON can directly used for input JSON	
 	+ But some fields should be read only: like createdTime, updatedBy, pk 
 1.	Try to make JSON structure flat, one Restful API should only focus on one entity
 	+ Creating huge complicated API response usually is a bad idea
@@ -25,7 +25,7 @@
 	+ and will make JAVA code difficult because it is usually on JAVA object reflection, which need more useless Java Class.
 1.	Restful API should be stateless, don’t save status into http session, better to use token, the token has user info	
 1.	Api should not return Response Java type
-	+ it will give a trouble on api doc and confuse developers
+	+ it will give a trouble on API doc and confuse developers
 	+ bad sample: DnfVFormatImportApi or commcatRatingApi
 1.	API should not formatting data, bad sample: 123,456.000	
 1.	When a system has more than 100 apis, we worried about URL conflicts.
@@ -77,13 +77,13 @@ This is how we use it:
 ```	
 
 ## Testing and Verify API Interface
-1.	Most of APIs are using reflection of Java object to generate json structure. 
+1.	Most of APIs are using reflection of Java object to generate JSON structure. 
 	+ Sometimes we don't know if it's field name is changed. Specially it is extended or deeply embedded in the parent class.
-	+ It will change api request and response structure when a Java class is refactoring
- 	+ So we need to test if json structure is silently changed or not, which is most dangerous thing on Jackson.
+	+ It will change API request and response structure when a Java class is refactoring
+ 	+ So we need to test if JSON structure is silently changed or not, which is most dangerous thing on Jackson.
 	+ so please try your best to write a unit test to avoid accidental refactoring,
 	+ sample: AuthorizeDTOtest or contractPricingresultDTOTest or UserextTest in jesery2
-1.	We use dJackson ObjectMapper to verify if Java class structure is aligned with a Json structure:
+1.	We use dJackson ObjectMapper to verify if Java class structure is aligned with a JSON structure:
 ```java
     ObjectMapper mapper = new ObjectMapper();    	
     String origJsonDataFile = UserExtTest.class.getSimpleName() + ".json";
@@ -94,8 +94,9 @@ This is how we use it:
     JSONObject json = ApiTestUtil.convertJSONStr2Obj(targetJson);
     JSONObject expectedJson = ApiTestUtil.convertJSONStr2Obj(templateData);
     ApiTestUtil.verifyJson((Map<String, Object>)json, (Map<String, Object>)expectedJson);
+	// expectedJson can has less fields than actual Json for backward compatibility
+	// this is why RESTful API is more flexible than Web service  
 ```	
-	+expectedJson can has less fields than actual Json for backward compatibility, this is why RESTful API is more flexible than Web service  
 1.	having integration testing on API level is also a good idea, specially on external APIs
 	+ for HTTP GET, it is easy, because you can connect the system to prod Db copy. 
 	+ But sometimes it is hard to prepare good data for post and put. 
@@ -104,13 +105,13 @@ This is how we use it:
 		+ sample: ContractApi.updateContract
 		+ In this way, it can test most of function without change the real data.
 		+ It means the test cases can run for ever on the same data.
-	+ Use @exteralApi to mark an api when it will be called from outside
-1.	Sometimes, we can add extra fields on api for troubleshooting or integration testing, for example: 
+	+ Use @exteralApi to mark an API when it will be called from outside
+1.	Sometimes, we can add extra fields on API for troubleshooting or integration testing, for example: 
 	+ You can add sequence Id or updated date to test if a record was updated properly in previous step
 	+ sample:
 		
 ## Jackson
-Jackson is the main framework for Java Object Json mapping, So we discuss mainly on it:
+Jackson is the main framework for Java Object JSON mapping, So we discuss mainly on it:
 
 + @JsonIgnore can't be overwrote, sub class has to use another method to get it back:	        
 ```java
@@ -123,9 +124,9 @@ Jackson is the main framework for Java Object Json mapping, So we discuss mainly
 	+ `Public enum ContractStatusEnum{ Quote(10); ...}` will return 'Quoted' in API
 	+ So you don't need to do anything for it.
 
-+ Sometimes, it is hard to reflect on Java object, then we can use flexible json:
-	+ UI using JSON.stringfy convert json into a string, then save a whole json string into a field in a table, most of DB can do it, like MS SQL have nvarchar(max), it can save 2G data into it.
-	+ API can direct return a json String or input a json string on a field:
-	+ raw json string: return `"{\"id\":\""+id+"\"}"`;
++ Sometimes, it is hard to reflect on Java object, then we can use flexible JSON:
+	+ UI using JSON.stringfy convert JSON into a string, then save a whole JSON string into a field in a table, most of DB can do it, like MS SQL have nvarchar(max), it can save 2G data into it.
+	+ API can direct return a JSON String or input a JSON string on a field:
+	+ raw JSON string: return `"{\"id\":\""+id+"\"}"`;
 	+ return map: `map.put("id", 1223); map.put("name", "Justin");` 
 	+ map can be nested: `map.put("myData", anotherMap);`
