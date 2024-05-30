@@ -1,27 +1,46 @@
 # API tips
 
 ## General rules:
-+ To make RESTful developer friendly, url should explain itself well
-+ Path parameter should always be Integer and a kind of PK,  its prefix noun tell the meaning:
+1.	To make RESTful developer friendly, url should explain itself well
+1.	Respect Restful naming conventions, don’t use verbs…
+1.	Path parameter should always be Integer and a kind of PK, its prefix noun tell the meaning:
 	+ good example: /students/{studentId}/courses/{courseId}
 	+ bad example: /students/{studentId}/{courseId}
 	+ bad example: /students/{courseId}
-+ Please use symmetric rule(mirror rule) when a java Object is used on input and output API:
+1.	Don’t add string parameter into URLs path, reason
+	+ it will get trouble from apache kind of servers like tomcat when string has / 
+	+ even you do url encode, 
+	+ if you really want to do it, please double encode and double decode it. 
+	+ It also have chance to fall into another API:  we have a/b/(c) and a/b/d. We have big trouble if string c is “d”	
+1.	To make UI easy mock api, query url should not be a part of single entity url
+	+ for example: two API urls students and students/1234 will have a trouble to save mock data for UI
+	+ so better to use students and student/1234
+1.	Http get, post and put should have exact same data structure
 	+ Ie. GET should return exact data structure of PUT and POST input
 	+ output json can directly used for input json	
 	+ But some fields should be read only: like createdTime, updatedBy, pk 
-+ Try to make JSON structure flat
+1.	Try to make JSON structure flat, one Restful API should only focus on one entity
+	+ Creating huge complicated API response usually is a bad idea
 	+ If it has too many layers, it usually mean you have some design issue on API 
 	+ and will make JAVA code difficult because it is usually on JAVA object reflection, which need more useless Java Class.
+1.	Restful API should be stateless, don’t save status into http session, better to use token, the token has user info	
+1.	Api should not return Response Java type
+	+ it will give a trouble on api doc and confuse developers
+	+ bad sample: DnfVFormatImportApi or commcatRatingApi
+1.	API should not formatting data, bad sample: 123,456.000	
+1.	When a system has more than 100 apis, we worried about URL conflicts.
+	+ So we suggest to use Java package to match the URL :  for example: URL is a/b/c/d then the package will be a.b.c
+	+ And the class name is d
+
 	
 ## Foreign key
-+ To make RESTful simple and flexibility, we don't add reference object in API, we only return foreign key itself.
-+ UI side use another API to get details if they need.
-+ If the result is a list, we can also call the second API for foreign key list.
+1.	To make RESTful simple and flexibility, we don't add reference object in API, we only return foreign key itself.
+1.	UI side use another API to get details if they need.
+1.	If the result is a list, we can also call the second API for foreign key list.
 	+ For example:
 	+ The program has clientId, Then API to get program or programList only return clientId itself
-	+ If UI side wants to display client name, then it needs to call  clients/51,1023 to get those client information
-+ If first API directly get client name, then it will be not good:
+	+ If UI side wants to display client name, then it needs to call  clients?ids=51,1023 to get those client information
+1.	If first API directly get client name, then it will be not good:
 	+ It is costly if UI don't want to get client Name
 	+ It is hard if UI want to get client type rather than client name, we need another API with this small changing
 	
@@ -30,6 +49,7 @@
 To make RESTful developer friendly, data should explain itself well, So we need to do some convert on some kind of data type:
 
 ### Date field
+Using ISO format on date type data rather than long timestamp, it is more developer friendly, 
 Usually we use ISO 8601 format to display a date type field, like 2017-02-18T02:14:35.000Z
 
 By default we use GMT zone. But client can send time on other time zone:  2017-02-16T12:00:00.000+08:00
@@ -56,24 +76,14 @@ This is how we use it:
 	}	
 ```	
 
-## Testing
-
-+ Sometimes, we can add extra fields on api for troubleshooting or integration testing, for example: 
-	+ You can add sequence Id or updated date to test if a record was updated properly in previous step
-+ Integration test: 
-	+ for HTTP GET, it is easy, because you can connect the system to prod Db copy. 
-	+ But sometimes it is hard to prepare good data for post and put. So we can add a test flag on it: if it is true, we skip or roll back real job on server side. 
-	+ In this way, it can test most of function without change the real data.
-	+ It means the test cases can run for ever on the same data.
-
-
-## Verify API Interface
-+ Most of APIs are using reflection of Java object to generate json structure. 
-+ Sometimes we don't know if it's field name is changed.
-	+ specially it is extended or deeply embedded in the parent class.
-+ So we need to test if json structure is silently changed or not, which is most dangerous thing on Jackson.
-+ We can use Integration test to test if json structure is silently changed or not.
-+ We can also use Jackson ObjectMapper to verify if Java class structure is aligned with a Json structure:
+## Testing and Verify API Interface
+1.	Most of APIs are using reflection of Java object to generate json structure. 
+	+ Sometimes we don't know if it's field name is changed. Specially it is extended or deeply embedded in the parent class.
+	+ It will change api request and response structure when a Java class is refactoring
+ 	+ So we need to test if json structure is silently changed or not, which is most dangerous thing on Jackson.
+	+ so please try your best to write a unit test to avoid accidental refactoring,
+	+ sample: AuthorizeDTOtest or contractPricingresultDTOTest or UserextTest in jesery2
+1.	We use dJackson ObjectMapper to verify if Java class structure is aligned with a Json structure:
 ```java
     ObjectMapper mapper = new ObjectMapper();    	
     String origJsonDataFile = UserExtTest.class.getSimpleName() + ".json";
@@ -85,12 +95,19 @@ This is how we use it:
     JSONObject expectedJson = ApiTestUtil.convertJSONStr2Obj(templateData);
     ApiTestUtil.verifyJson((Map<String, Object>)json, (Map<String, Object>)expectedJson);
 ```	
-+ expectedJson can has less fields than actual Json for backward compatibility, this is why RESTful API is more flexible than Web service  
-
-## URL conflicts
-When a system has more than 100 apis, we worried about URL conflicts.
-
-So we suggest to use Java package to match the URL :  for example: URL is a/b/c/d then the package will be a.b.c
+	+expectedJson can has less fields than actual Json for backward compatibility, this is why RESTful API is more flexible than Web service  
+1.	having integration testing on API level is also a good idea, specially on external APIs
+	+ for HTTP GET, it is easy, because you can connect the system to prod Db copy. 
+	+ But sometimes it is hard to prepare good data for post and put. 
+		+ So we can add a test flag on it: 
+		+ if it is true, we skip or roll back real job on server side. 
+		+ sample: ContractApi.updateContract
+		+ In this way, it can test most of function without change the real data.
+		+ It means the test cases can run for ever on the same data.
+	+ Use @exteralApi to mark an api when it will be called from outside
+1.	Sometimes, we can add extra fields on api for troubleshooting or integration testing, for example: 
+	+ You can add sequence Id or updated date to test if a record was updated properly in previous step
+	+ sample:
 		
 ## Jackson
 Jackson is the main framework for Java Object Json mapping, So we discuss mainly on it:
