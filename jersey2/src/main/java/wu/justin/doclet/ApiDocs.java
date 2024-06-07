@@ -1,5 +1,6 @@
 package wu.justin.doclet;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -16,14 +17,19 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.ws.rs.Path;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sun.source.doctree.DocCommentTree;
 import com.sun.source.util.DocTrees;
 
 import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;
 import jdk.javadoc.doclet.Reporter;
+import wu.justin.rest2.ApiUtil;
 
 public class ApiDocs implements Doclet {
+	
+	private List<ApiEntry> apiList = new ArrayList<>();;
+	
     @Override
     public void init(Locale locale, Reporter reporter) {  }
  
@@ -98,17 +104,27 @@ public class ApiDocs implements Doclet {
 
 	            Path[] myPaths = t.getAnnotationsByType(javax.ws.rs.Path.class);
 	            String rootPath = myPaths[0].value();
+	            String classFullName =  t.toString();
 				System.out.println(t.getKind() + ":" + t + " API path:" + rootPath);
 	            for (Element e : t.getEnclosedElements()) {
-	                printElement(docTrees, e, rootPath);
+	                printElement(docTrees, e, rootPath, classFullName);
 	            }
 			}
 
         }
+        
+        try {
+			String json = ApiUtil.convertObject2JSONStr(this.apiList);
+			System.out.println(json);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         return OK;
     }
     
-    public void printElement(DocTrees trees, Element e, String rootPath) {
+    public void printElement(DocTrees trees, Element e, String rootPath, String className) {
     	
     	
     	if(e.getKind() == ElementKind.METHOD) {
@@ -129,17 +145,49 @@ public class ApiDocs implements Doclet {
 	            	apiUrl = rootPath + "/" + myPaths[0].value();
 	            }
 	            
+	            String methodName = e.toString();
+	            System.out.println("  Element (" + e.getKind() + ": "  + methodName + "), apiUrl = " + apiUrl );
 
-	            System.out.println("  Element (" + e.getKind() + ": "  + e + "), apiUrl = " + apiUrl );
+	            String httpMethod = findHttpMethod(e);
+                ApiEntry oneAPi = new ApiEntry(httpMethod, apiUrl, className, methodName);
+                this.apiList.add(oneAPi);
+                
                 DocCommentTree docCommentTree = trees.getDocCommentTree(e);
                 if (docCommentTree != null) {
                     System.out.println("      Entire body: " + docCommentTree.getFullBody());
+                    oneAPi.setComment(docCommentTree.getFullBody().toString());
+                    
                     System.out.println("      Block tags: " + docCommentTree.getBlockTags());
+                    oneAPi.setBlockComment(docCommentTree.getBlockTags().toString());
                 }   
     		}
  		
     	}
     }
+    
+    private static String findHttpMethod(Element method){
+    	javax.ws.rs.GET[] myGETs = method.getAnnotationsByType(javax.ws.rs.GET.class);
+		if(myGETs.length >0){
+			return "GET";
+		}else{
+			javax.ws.rs.POST[] myPOSTs = method.getAnnotationsByType(javax.ws.rs.POST.class);
+			if(myPOSTs.length >0){
+				
+				return "POST";
+			}else{
+				javax.ws.rs.PUT[] myPUTs = method.getAnnotationsByType(javax.ws.rs.PUT.class);
+				if(myPUTs.length >0){
+					return "PUT";
+				}else{
+					javax.ws.rs.DELETE[] myDELETEs = method.getAnnotationsByType(javax.ws.rs.DELETE.class);
+					if(myDELETEs.length >0){
+						return "DELETE";
+					}
+				}
+			}
+		}
+		return "UNKNOWN";
+	}
     
     
     void print(Set<? extends Element> elements){

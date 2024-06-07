@@ -28,6 +28,9 @@ public class ErrorHandlerApi {
 	}
 	
 	
+	/**
+	 * Justin test comment
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/ipMapper.json")
@@ -38,6 +41,10 @@ public class ErrorHandlerApi {
 	    // i.e. it will use InvalidParameterExceptionMapper rather than IllegalArgumentExceptionMapper, no matter the order they register
 	}
 
+	/**
+	 * Justin test block comment
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/iaMapper.json")

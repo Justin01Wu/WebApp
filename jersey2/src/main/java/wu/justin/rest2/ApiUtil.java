@@ -17,6 +17,7 @@ import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -106,4 +107,10 @@ public class ApiUtil {
 		}
 		return ;
 	}
+	
+    public static String convertObject2JSONStr(Object obj) throws JsonProcessingException  {
+    	ObjectMapper objectMapper = new ObjectMapper();
+    	String result = objectMapper.writeValueAsString(obj);
+        return result;
+    }
 }

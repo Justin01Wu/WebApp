@@ -9,6 +9,7 @@ public class ApiEntry implements Comparable<ApiEntry> {
 	private String className;
 	private String methodName;
 	private String comment;
+	private String blockComment;
 	private boolean caseCovered= false;
 	private List<TestResult> results = new ArrayList<>(); 
 	private List<TestResultInput> inputs = new ArrayList<>();
@@ -107,6 +108,14 @@ public class ApiEntry implements Comparable<ApiEntry> {
 
 	public void setCaseCovered(boolean caseCovered) {
 		this.caseCovered = caseCovered;
+	}
+
+	public String getBlockComment() {
+		return blockComment;
+	}
+
+	public void setBlockComment(String blockComment) {
+		this.blockComment = blockComment;
 	}
 
 }
