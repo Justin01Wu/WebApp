@@ -1,6 +1,7 @@
 package wu.justin.rest2.user;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 
+import wu.justin.bean.IdText;
 import wu.justin.bean.Pair2;
 import wu.justin.bean.User;
 import wu.justin.rest2.exception.BadRequestError;
@@ -95,6 +97,30 @@ public class UserApi {
 		Pair2<Integer, Integer> range = new Pair2<>(from, to);
 		
 		return UserService.getUserByRange(range);
+	}
+	
+	/** demo how to use PathParam  */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/users.json")	
+	public List<IdText> getUsers(		
+			@QueryParam("from") int from,
+			@QueryParam("to") int to)  {
+		
+		System.out.println("getUserByRange...");
+		
+		Pair2<Integer, Integer> range = new Pair2<>(from, to);
+		List<User> users = UserService.getUserByRange(range);
+		List<IdText> result = new ArrayList<>();
+		for(User u :users) {
+			
+			IdText vo = new IdText();
+			vo.setId(u.getId());
+			vo.setText(u.getName());
+			result.add(vo);
+			
+		}
+		return result;
 	}
 	
 	/** demo how to convert java object tree to json 
