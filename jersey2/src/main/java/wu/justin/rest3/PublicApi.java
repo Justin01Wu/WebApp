@@ -1,4 +1,4 @@
-package wu.justin.rest2;
+package wu.justin.rest3;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import wu.justin.bean.DateConvert;
 import wu.justin.bean.MyTimestamp;
 import wu.justin.bean.Student;
+import wu.justin.rest2.MySetting;
 import wu.justin.rest2.exception.StatusMessageException;
 
 /**

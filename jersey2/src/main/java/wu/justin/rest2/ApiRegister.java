@@ -8,6 +8,7 @@ import wu.justin.rest2.exception.InvalidParameterExceptionMapper;
 import wu.justin.rest2.exception.NotReadyErrorMapper;
 import wu.justin.rest2.exception.StatusMessageExceptionMapper;
 import wu.justin.rest2.user.UserApi;
+import wu.justin.rest3.PublicApi;
 
 /** @deprecated, replaced with ApiConfig, will be deleted soon*/
 @Deprecated

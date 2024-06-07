@@ -315,7 +315,7 @@
 
 					<docletPath>${project.build.directory}/classes</docletPath>
 					<sourcepath>${project.basedir}/src/main/java</sourcepath>
-					<subpackages>wu.justin.rest2</subpackages>
+					<subpackages>wu.justin.rest2:wu.justin.rest3</subpackages>
 					<useStandardDocletOptions>false</useStandardDocletOptions>
 					<docletArtifacts>
                 		<!--  has to declare doclet dependency if we need it -->
