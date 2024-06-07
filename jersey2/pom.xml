@@ -339,7 +339,7 @@
 				<executions>
 					<execution>
 						<id>attach-javadoc</id>
-						<phase>post-integration-test</phase>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>

@@ -28,7 +28,6 @@ public class ApiDocsTest {
 
 		//  "wu.justin.rest2:wu.justin.rest3"
 		String subpackages  = "wu.justin.rest2";
-		//String subpackages  = "*.java";
 		String[] myArgs = { 
 				"-doclet", ApiDocs.class.getName(), 
 				"-docletpath", "target/classes/", 

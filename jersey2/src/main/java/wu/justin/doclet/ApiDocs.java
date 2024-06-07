@@ -1,5 +1,8 @@
 package wu.justin.doclet;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +20,6 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.ws.rs.Path;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sun.source.doctree.DocCommentTree;
 import com.sun.source.util.DocTrees;
 
@@ -28,10 +30,11 @@ import wu.justin.rest2.ApiUtil;
 
 public class ApiDocs implements Doclet {
 	
-	private List<ApiEntry> apiList = new ArrayList<>();;
+	private List<ApiEntry> apiList = new ArrayList<>();
 	
     @Override
-    public void init(Locale locale, Reporter reporter) {  }
+    public void init(Locale locale, Reporter reporter) { 
+    }
  
     @Override
     public String getName() {
@@ -48,8 +51,8 @@ public class ApiDocs implements Doclet {
         return Collections.emptySet();
         //	return new StandardDoclet().getSupportedOptions();
     }
- 
-    @Override
+
+                @Override
     public SourceVersion getSupportedSourceVersion() {
         // This doclet supports all source versions.
         // More sophisticated doclets may use a more
@@ -114,9 +117,10 @@ public class ApiDocs implements Doclet {
         }
         
         try {
-			String json = ApiUtil.convertObject2JSONStr(this.apiList);
-			System.out.println(json);
-		} catch (JsonProcessingException e) {
+			String jsonString = ApiUtil.convertObject2JSONStr(this.apiList);
+			writeOutputFile(jsonString);
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -124,6 +128,30 @@ public class ApiDocs implements Doclet {
         return OK;
     }
     
+    
+    private static void writeOutputFile(String jsonString) throws IOException {
+    	java.nio.file.Path currentRelativePath = java.nio.file.Paths.get("");
+    	String s = currentRelativePath.toAbsolutePath().toString();
+    	System.out.println("Current absolute path is: " + s);
+    	
+
+   	    // 
+    	String outputFile = null;
+    	if(s.endsWith("\\target\\apidocs")){
+        	// it will get this folder if it is run in maven     	${project.build.directory}\target\apidocs
+    		outputFile = s.substring(0, s.length()-8) + "\\jersey2\\apiFrom.json";
+    	}else {
+    		//it will get this folder if it is run in unit test:   ${project.build.directory}
+    		outputFile = s + "\\target\\jersey2\\apiFrom.json";
+    	}
+    	System.out.println("output file is : " + outputFile);
+    	
+		System.out.println(jsonString);	
+		FileWriter fw = new FileWriter(outputFile);
+		try(PrintWriter out1 = new PrintWriter(fw)) {
+		    out1.write(jsonString);
+		}
+    }
     public void printElement(DocTrees trees, Element e, String rootPath, String className) {
     	
     	
