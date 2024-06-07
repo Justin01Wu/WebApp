@@ -19,8 +19,6 @@ public class ApiConfig extends ResourceConfig {
 	    	// tell API frame which packages can scan API implementation
 	        packages("wu.justin.rest2;wu.justin.rest3");
 	        
-	        // tell swagger to generate openapi.json under [apiRoot]
-	        
 	        register(new AbstractBinder(){
 	            @Override
 	            protected void configure() {
