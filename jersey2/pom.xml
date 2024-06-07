@@ -305,6 +305,51 @@
 					</packagingExcludes>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.6.3</version>
+				<configuration>
+					<doclet>wu.justin.doclet.ApiDocs</doclet>
+
+					<docletPath>${project.build.directory}/classes</docletPath>
+					<sourcepath>${project.basedir}/src/main/java</sourcepath>
+					<subpackages>wu.justin.rest2</subpackages>
+					<useStandardDocletOptions>false</useStandardDocletOptions>
+					<docletArtifacts>
+                		<!--  has to declare doclet dependency if we need it -->
+                    	<docletArtifact>
+                        	<groupId>javax.ws.rs</groupId>
+                        	<artifactId>javax.ws.rs-api</artifactId>
+                        	<version>2.1.1</version>
+                    	</docletArtifact>
+                    	<docletArtifact>
+                        	<groupId>javax.servlet</groupId>
+                        	<artifactId>servlet-api</artifactId>
+                        	<version>2.5</version>
+                    	</docletArtifact>
+                    	
+                    	<docletArtifact>
+            				<groupId>com.fasterxml.jackson.core</groupId>
+            				<artifactId>jackson-databind</artifactId>
+            				<version>2.16.2</version>
+                    	</docletArtifact>
+                    	
+                	</docletArtifacts>					
+
+
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadoc</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>			
 
 
 		</plugins>
