@@ -120,7 +120,6 @@ public class PublicApi {
 	public MyTimestamp getTimestamp() {		
 		MyTimestamp result =new MyTimestamp();
 		result.setRunDate(new Timestamp(System.currentTimeMillis()));
-		result.setLocalDate(LocalDate.of(2021, 04, 29));
 	    return result;
 	}
 

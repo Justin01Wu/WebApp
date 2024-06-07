@@ -156,12 +156,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-jaxrs2</artifactId>
-			<version>2.2.21</version>
-		</dependency>
-		
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.13.1</version>
@@ -215,10 +209,36 @@
 				<version>3.1</version>
 				<configuration>
 					<debug>true</debug>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>21</source>
+					<target>21</target>
+					<release>21</release>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-maven-plugin</artifactId>
+				<version>2.2.22</version>
+				<configuration>
+					<outputFileName>openapi</outputFileName>
+					<outputPath>${project.build.directory}/jersey2</outputPath>
+					<outputFormat>JSON</outputFormat>
+					<sortOutput>true</sortOutput>
+					<alwaysResolveAppPath>true</alwaysResolveAppPath>
+					<resourcePackages>wu.justin.rest2;wu.justin.rest3</resourcePackages>
+					<prettyPrint>TRUE</prettyPrint>
+					<openapi31>false</openapi31>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-api-docs</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>resolve</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>			
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -278,81 +298,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.3.2</version>
 				<configuration>
 					<packagingExcludes>
 						WEB-INF/classes/jersey2.properties,
 					</packagingExcludes>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<doclet>wu.justin.doclet.MyDoclet</doclet>
-
-					<docletPath>${project.build.directory}/classes</docletPath>
-
-					<encoding>UTF-8</encoding>
-					<show>public</show>
-					<subpackages>wu.justin.rest2</subpackages>
-					<useStandardDocletOptions>false</useStandardDocletOptions>
-                	<docletArtifacts>
-                		<!--  has to declare doclet dependency if we need it -->
-                    	<docletArtifact>
-                        	<groupId>javax.ws.rs</groupId>
-                        	<artifactId>javax.ws.rs-api</artifactId>
-                        	<version>2.0.1</version>
-                    	</docletArtifact>
-                    	<docletArtifact>
-                        	<groupId>javax.servlet</groupId>
-                        	<artifactId>servlet-api</artifactId>
-                        	<version>2.5</version>
-                    	</docletArtifact>
-
-                    	<docletArtifact>
-            				<groupId>org.freemarker</groupId>
-            				<artifactId>freemarker</artifactId>
-            				<version>2.3.26-incubating</version>
-                    	</docletArtifact>
-                    	
-                    	<docletArtifact>
-            				<groupId>com.fasterxml.jackson.core</groupId>
-            				<artifactId>jackson-databind</artifactId>
-            				<version>2.3.2</version>
-                    	</docletArtifact>
-
-                    	<docletArtifact>
-            				<groupId>wu.justa</groupId>
-            				<artifactId>object-tree-creator</artifactId>
-            				<version>1.5</version>
-                    	</docletArtifact>
-                    	
-                	</docletArtifacts>
- 					
- 					<!--  pass some parameter into doclet -->
-                	<additionalJOptions>
-        				<additionalJOption>-J-Dmaven.tomcat.port=${maven.tomcat.port}</additionalJOption>
-        				<additionalJOption>-J-Dintegration.test.result=${basedir}\target\test-output</additionalJOption>
-        				<additionalJOption>-J-Dintegration.test.result.input=${basedir}\target\test-input</additionalJOption>
-        				<additionalJOption>-J-Drestful.doc.output.path=${basedir}\target\apiDoc.html</additionalJOption>   
-        				<additionalJOption>-J-Drestful.api.prefix=/api</additionalJOption>   
-        				    				
-        				
-    				</additionalJOptions>
-
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadoc</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 
