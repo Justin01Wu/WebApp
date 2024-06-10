@@ -13,8 +13,9 @@ public class ApiDocsTest {
 	
 
 	/**
-	 * subpackages can only accept one package, not a list of comma or semi-common
-	 * the root  of the package must have java classes, it won't scan sub packages
+	 * In the unit testing, subpackages can only accept one package, it can accept multiple subpackages in maven pom.xml
+	 * In the unit testing, it won't scan sub packages, but it can in in maven pom.xml	 *  
+	 * the root of the package must have java classes, 
 	 */
 	@Test
 	public void testApiDocs() {

@@ -28,6 +28,7 @@ import jdk.javadoc.doclet.DocletEnvironment;
 import jdk.javadoc.doclet.Reporter;
 import wu.justin.rest2.ApiUtil;
 
+// For details, please see https://docs.oracle.com/en/java/javase/11/docs/api/jdk.javadoc/jdk/javadoc/doclet/package-summary.html#migration
 public class ApiDocs implements Doclet {
 	
 	private List<ApiEntry> apiList = new ArrayList<>();
