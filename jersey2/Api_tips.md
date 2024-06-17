@@ -7,6 +7,7 @@
 	+ good example: /students/{studentId}/courses/{courseId}
 	+ bad example: /students/{studentId}/{courseId}
 	+ bad example: /students/{courseId}
+	+ bad example: /api/v2/air/databases/{databaseIdOrName}
 1.	Don’t add string parameter into URLs path, reason
 	+ it will get trouble from Apache kind of servers like tomcat when string has / 
 	+ even you do URL encode, 
@@ -121,7 +122,7 @@ Jackson is the main framework for Java Object JSON mapping, So we discuss mainly
     }
 ```
 + Enum by default uses literal value, it is good enough for most of case:
-	+ `Public enum ContractStatusEnum{ Quote(10); ...}` will return 'Quoted' in API
+	+ `Public enum ContractStatusEnum{ Quote(10); ...}` will return 'Quote' in API
 	+ So you don't need to do anything for it.
 
 + Sometimes, it is hard to reflect on Java object, then we can use flexible JSON:
