@@ -30,9 +30,14 @@
 	+ Creating huge complicated API response usually is a bad idea
 	+ If it has too many layers, it usually mean you have some design issue on API 
 	+ and will make JAVA code difficult because it is usually on JAVA object reflection, which need more useless Java Class.
+	+ and it is diffcult to match the same structure of HTTP GET , POST and PUT
+	+ and it is difficult to test 
 	+ good example:  /api/v2/deals/{dealId}
 	+ bad example:  /api/v2/pricing-comparison/life-cycle/{programNumber}	
-1.	Restful API should be stateless, don’t save status into http session, better to use token, the token has user info	
+1.	Restful API should be stateless, don’t save status into http session, 
+	+ better to use token rather than user session
+	+ better to return a seq id rather than save status in the session
+	+ good example: /api/v2/pricing/validusVers/{validusVerId}/EPCurveResultJob.json
 1.	Api should not return Response Java type
 	+ it will give a trouble on API doc and confuse developers
 	+ bad sample: /api/v2/uw/dnf/vformat/accounts/list 
