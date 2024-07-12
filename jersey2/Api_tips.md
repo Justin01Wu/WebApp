@@ -4,15 +4,19 @@
 1.	To make RESTful developer friendly, URL should explain itself well
 1.	Respect Restful naming conventions, don’t use verbs…
 1.	Path parameter should always be Integer and a kind of PK, its prefix noun tell the meaning:
-	+ good example: /students/{studentId}/courses/{courseId}
-	+ bad example: /students/{studentId}/{courseId}
-	+ bad example: /students/{courseId}
-	+ bad example: /api/v2/air/databases/{databaseIdOrName}
+	+ good example: /student/{studentId}/course/{courseId}
+	+ bad example: /student/{studentId}/{courseId}
+	+ bad example: /student/{courseId}
+	+ bad example: /api/v2/programs/{programIds}
+	+ bad example: /api/v2/support/producer/{systemId}
+	+ bad example: /api/v2/udpf/{programId}/{udpfColumnId}
 1.	Don’t add string parameter into URLs path, reason
-	+ it will get trouble from Apache kind of servers like tomcat when string has / 
-	+ even you do URL encode, 
+	+ It will get trouble from Apache kind of servers like tomcat when string has / even you do URL encode. 
 	+ if you really want to do it, please double encode and double decode it. 
-	+ It also have chance to fall into another API:  we have a/b/(c) and a/b/d. We have big trouble if string c is “d”	
+	+ It also have chance to fall into another API:  we have a/b/{c} and a/b/d. We have big trouble if string c is “d”	
+	+ bad example: /api/v2/air/databases/{databaseIdOrName}
+	+ bad example: /api/v2/cmc/deals/{dealId}/databases/{databaseType}/versions/{version}
+	+ bad example: /api/v2/modelFiles/{modelFileId}
 1.	To make UI easy mock API, query URL should not be a part of single entity url
 	+ for example: two API URLs students and students/1234 will have a trouble to save mock data for UI
 	+ so better to use students and student/1234
@@ -20,14 +24,19 @@
 	+ ie. GET should return exact data structure of PUT and POST input
 	+ output JSON can directly used for input JSON	
 	+ But some fields should be read only: like createdTime, updatedBy, pk 
+	+ good example:  /api/v2/dealModelFiles/{dealModelFileId}
+	+ bad example:  /api/v2/deals/{dealId}
 1.	Try to make JSON structure flat, one Restful API should only focus on one entity
 	+ Creating huge complicated API response usually is a bad idea
 	+ If it has too many layers, it usually mean you have some design issue on API 
 	+ and will make JAVA code difficult because it is usually on JAVA object reflection, which need more useless Java Class.
+	+ good example:  /api/v2/deals/{dealId}
+	+ bad example:  /api/v2/pricing-comparison/life-cycle/{programNumber}	
 1.	Restful API should be stateless, don’t save status into http session, better to use token, the token has user info	
 1.	Api should not return Response Java type
 	+ it will give a trouble on API doc and confuse developers
-	+ bad sample: DnfVFormatImportApi or commcatRatingApi
+	+ bad sample: /api/v2/uw/dnf/vformat/accounts/list 
+	+ bad sample: /api/v2/dnf/accounts/{accountId}/ccr/layer-details
 1.	API should not formatting data, bad sample: 123,456.000	
 1.	When a system has more than 100 apis, we worried about URL conflicts.
 	+ So we suggest to use Java package to match the URL :  for example: URL is a/b/c/d then the package will be a.b.c
@@ -41,6 +50,8 @@
 	+ For example:
 	+ The program has clientId, Then API to get program or programList only return clientId itself
 	+ If UI side wants to display client name, then it needs to call  clients?ids=51,1023 to get those client information
+	+ bad example: /api/v2/deals/{dealId}
+	+ good example: /api/v2/portfolio/{portfolioId}/affectedPrograms
 1.	If first API directly get client name, then it will be not good:
 	+ It is costly if UI don't want to get client Name
 	+ It is hard if UI want to get client type rather than client name, we need another API with this small changing
@@ -98,6 +109,8 @@ This is how we use it:
 	// expectedJson can has less fields than actual Json for backward compatibility
 	// this is why RESTful API is more flexible than Web service  
 ```	
+	+ good example: ContractBaseTest
+	+ good example: ProgramBase2Test
 1.	having integration testing on API level is also a good idea, specially on external APIs
 	+ for HTTP GET, it is easy, because you can connect the system to prod Db copy. 
 	+ But sometimes it is hard to prepare good data for post and put. 
