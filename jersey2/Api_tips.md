@@ -1,7 +1,10 @@
 # API tips
 
 ## General rules:
-1.	To make RESTful developer friendly, URL should explain itself well
+1.	To make RESTful developer friendly, URL and response should explain itself well	
+	+ bad example: /api/v2/support/producer/{systemId}
+	+ bad example: /api/v2/udpf/{programId}/{udpfColumnId}	
+	+ bad example of response: /api/v2/support/originOfBusiness.json
 1.	Respect Restful naming conventions, don’t use verbs…
 1.	Path parameter should always be Integer and a kind of PK, its prefix noun tell the meaning:
 	+ good example: /student/{studentId}/course/{courseId}
@@ -10,6 +13,7 @@
 	+ bad example: /api/v2/programs/{programIds}
 	+ bad example: /api/v2/support/producer/{systemId}
 	+ bad example: /api/v2/udpf/{programId}/{udpfColumnId}
+	+ bad example: /api/v2/support/servers/{serverType}
 1.	Don’t add string parameter into URLs path, reason
 	+ It will get trouble from Apache kind of servers like tomcat when string has / even you do URL encode. 
 	+ if you really want to do it, please double encode and double decode it. 
@@ -42,7 +46,10 @@
 	+ it will give a trouble on API doc and confuse developers
 	+ bad sample: /api/v2/uw/dnf/vformat/accounts/list 
 	+ bad sample: /api/v2/dnf/accounts/{accountId}/ccr/layer-details
-1.	API should not formatting data, bad sample: 123,456.000	
+1.	API should not formatting data
+	+ bad sample: 123,456.000	
+	+ good sample: /api/v2/programs/{programId}/pricingResult.json
+	+ good sample: /api/v2/dealModelFile/{dealModelFileId}/simulations
 1.	When a system has more than 100 apis, we worried about URL conflicts.
 	+ So we suggest to use Java package to match the URL :  for example: URL is a/b/c/d then the package will be a.b.c
 	+ And the class name is d
