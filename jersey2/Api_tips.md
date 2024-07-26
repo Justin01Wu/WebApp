@@ -46,6 +46,7 @@
 	+ it will give a trouble on API doc and confuse developers
 	+ bad sample: /api/v2/uw/dnf/vformat/accounts/list 
 	+ bad sample: /api/v2/dnf/accounts/{accountId}/ccr/layer-details
+1.	Api should return minimize fields in the begining because adding a new field is much easier to removing a field
 1.	API should not formatting data
 	+ bad sample: 123,456.000	
 	+ good sample: /api/v2/programs/{programId}/pricingResult.json
