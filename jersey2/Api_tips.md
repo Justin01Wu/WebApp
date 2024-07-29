@@ -68,7 +68,9 @@
 1.	If first API directly get client name, then it will be not good:
 	+ It is costly if UI don't want to get client Name
 	+ It is hard if UI want to get client type rather than client name, we need another API with this small changing
-	
+	+ it can't do lazy loading: some columns loading are pretty heavy, users don't need to wait for basic list while heavy loading is processing
+	+ lazy loading good canadiate: model file RMS page, the Source Account or Portfolio column need 4 minutes in local dev
+		
 	
 ## Field convert
 To make RESTful developer friendly, data should explain itself well, So we need to do some convert on some kind of data type:
