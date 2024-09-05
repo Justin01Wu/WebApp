@@ -6,6 +6,8 @@
 	+ bad example: /api/v2/udpf/{programId}/{udpfColumnId}	
 	+ bad example of response: /api/v2/support/originOfBusiness.json
 1.	Respect Restful naming conventions, don’t use verbs…
+1.	Don't use user role on API url…
+	+ bad sample: /api/v2/uw/dnf/vformat/accounts/list 
 1.	Path parameter should always be Integer and a kind of PK, its prefix noun tell the meaning:
 	+ good example: /student/{studentId}/course/{courseId}
 	+ bad example: /student/{studentId}/{courseId}
@@ -17,7 +19,7 @@
 1.	Don’t add string parameter into URLs path, reason
 	+ It will get trouble from Apache kind of servers like tomcat when string has / even you do URL encode. 
 	+ if you really want to do it, please double encode and double decode it. 
-	+ It also have chance to fall into another API:  we have a/b/{c} and a/b/d. We have big trouble if string c is “d”	
+	+ It also have a chance to fall into another API:  we have a/b/{c} and a/b/d. We have big trouble if string c is “d”	
 	+ bad example: /api/v2/air/databases/{databaseIdOrName}
 	+ bad example: /api/v2/cmc/deals/{dealId}/databases/{databaseType}/versions/{version}
 	+ bad example: /api/v2/modelFiles/{modelFileId}
@@ -48,7 +50,8 @@
 	+ bad sample: /api/v2/dnf/accounts/{accountId}/ccr/layer-details
 1.	Api should return minimize fields in the begining because adding a new field is much easier than removing a field
 1.	API should not formatting data
-	+ bad sample: 123,456.000	
+	+ bad sample: 123,456.000
+	+ bad sample: createdTime in /api/v2/programs/{programId}/notes/{noteId}, which is server local time format	
 	+ good sample: /api/v2/programs/{programId}/pricingResult.json
 	+ good sample: /api/v2/dealModelFile/{dealModelFileId}/simulations
 1.	When a system has more than 100 apis, we worried about URL conflicts.
