@@ -54,6 +54,9 @@
 	+ bad sample: createdTime in /api/v2/programs/{programId}/notes/{noteId}, which is server local time format	
 	+ good sample: /api/v2/programs/{programId}/pricingResult.json
 	+ good sample: /api/v2/dealModelFile/{dealModelFileId}/simulations
+1.	API should have info level logs in the entry, specially on PUT POST or DELETE operation
+	+ bad sample: DealModelFileCommonApi.deleteModelFile
+	+ good sample: DealModelFileApi.getDealModelFileSimulations
 1.	When a system has more than 100 apis, we worried about URL conflicts.
 	+ So we suggest to use Java package to match the URL :  for example: URL is a/b/c/d then the package will be a.b.c
 	+ And the class name is d
