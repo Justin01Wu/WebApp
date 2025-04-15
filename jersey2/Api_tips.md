@@ -16,10 +16,10 @@
 	+ bad example: /api/v2/support/producer/{systemId}
 	+ bad example: /api/v2/udpf/{programId}/{udpfColumnId}
 	+ bad example: /api/v2/support/servers/{serverType}
-1.	Don’t add string parameter into URLs path, reason
+1.	Don’t add string path parameter into URLs path, reason
 	+ It will get trouble from Apache kind of servers like tomcat when string has / even you do URL encode. 
 	+ if you really want to do it, please double encode and double decode it. 
-	+ It also have a chance to fall into another API:  we have a/b/{c} and a/b/d. We have big trouble if string c is “d”	
+	+ It also have a chance to fall into another API:  we have a/b/{c} and a/b/d. We have a big trouble if string c is “d”	
 	+ bad example: /api/v2/air/databases/{databaseIdOrName}
 	+ bad example: /api/v2/cmc/deals/{dealId}/databases/{databaseType}/versions/{version}
 	+ bad example: /api/v2/modelFiles/{modelFileId}
@@ -41,7 +41,7 @@
 	+ good example:  /api/v2/deals/{dealId}
 	+ bad example:  /api/v2/pricing-comparison/life-cycle/{programNumber}	
 1.	Restful API should be stateless, don’t save status into http session, 
-	+ better to use token rather than user session
+	+ better to use token rather than http session
 	+ better to return a seq id rather than save status in the session
 	+ good example: /api/v2/pricing/validusVers/{validusVerId}/EPCurveResultJob.json
 1.	Api should not return Response Java type
