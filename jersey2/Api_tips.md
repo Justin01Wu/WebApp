@@ -118,10 +118,11 @@ This is how we use it:
 	// origJsonDataFile can has less fields than actual Json for backward compatibility
 	// this is why RESTful API is more flexible than Web service  
 ```	
-Some samples:
+1.	Some samples:
 	+ good example: ContractBaseTest
 	+ good example: ProgramBase2Test
 	+ good example: DnfLocationVO
+	
 1.	having integration testing on API level is also a good idea, specially on external APIs
 	+ for HTTP GET, it is easy, because you can connect the system to prod Db copy. 
 	+ But sometimes it is hard to prepare good data for post and put. 
