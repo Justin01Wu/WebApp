@@ -84,27 +84,21 @@ To make RESTful developer friendly, data should explain itself well, So we need 
 ### Date field
 We can use  ISO format or long timestamp on date type data
 + the first soultion is more UI friendly but more cost 
-+ The long timestamp is teh default solution for Jackson
-+ Usually we use ISO 8601 format to display a date type field, like 2017-02-18T02:14:35.000Z
++ The long timestamp is the default solution for Jackson
++ ISO 8601 format sample:2017-02-18T02:14:35.000Z
 + By default we use GMT zone. But client can send time on other time zone:  2017-02-16T12:00:00.000+08:00
 
 So we created those serializer and deserializer:
 + ISO8601.ISO8601Serializer
 + ISO8601.ISO8601Deserializer
-+ ISO8601ShortDateConverter.ISO8601ShortDateSerializer
-+ ISO8601ShortDateConverter.ISO8601ShortDateDeserializer
-
  
 This is how we use it:
 ```java
-	@JsonSerialize(using = ISO8601ShortDateSerializer.class)
-	public Timestamp getReferenceDate() {	
+	@JsonSerialize(using = ISO8601Serializer.class)
+	public Timestamp getSimStartDate() {	
 		return referenceDate;
 	}
-```
- 
-```java
-	@JsonDeserialize(using = ISO8601ShortDateDeserializer.class)
+	@JsonDeserialize(using = ISO8601Deserializer.class)
 	public void setReferenceDate(Timestamp referenceDate) {
 		this.referenceDate = referenceDate;
 	}	
@@ -124,6 +118,7 @@ This is how we use it:
 	// origJsonDataFile can has less fields than actual Json for backward compatibility
 	// this is why RESTful API is more flexible than Web service  
 ```	
+Some samples:
 	+ good example: ContractBaseTest
 	+ good example: ProgramBase2Test
 	+ good example: DnfLocationVO
