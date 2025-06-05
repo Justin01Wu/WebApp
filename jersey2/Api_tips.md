@@ -82,10 +82,11 @@
 To make RESTful developer friendly, data should explain itself well, So we need to do some convert on some kind of data type:
 
 ### Date field
-Using ISO format on date type data rather than long timestamp, it is more developer friendly, 
-Usually we use ISO 8601 format to display a date type field, like 2017-02-18T02:14:35.000Z
-
-By default we use GMT zone. But client can send time on other time zone:  2017-02-16T12:00:00.000+08:00
+We can use  ISO format or long timestamp on date type data
++ the first soultion is more UI friendly but more cost 
++ The long timestamp is teh default solution for Jackson
++ Usually we use ISO 8601 format to display a date type field, like 2017-02-18T02:14:35.000Z
++ By default we use GMT zone. But client can send time on other time zone:  2017-02-16T12:00:00.000+08:00
 
 So we created those serializer and deserializer:
 + ISO8601.ISO8601Serializer
@@ -118,16 +119,9 @@ This is how we use it:
 	+ sample: AuthorizeDTOtest or ContractPricingresultDTOTest or UserExtTest in jesery2
 1.	We used Jackson ObjectMapper to verify if Java class structure aligned with a JSON structure:
 ```java
-    ObjectMapper mapper = new ObjectMapper();    	
-    String origJsonDataFile = UserExtTest.class.getSimpleName() + ".json";
-    String templateData = ApiTestUtil.readJSONFile(origJsonDataFile);
-    UserExt dto = mapper.readValue(templateData, UserExt.class);        
-    assertNull( dto.getId());
-    String targetJson = mapper.writeValueAsString(dto);        
-    JSONObject json = ApiTestUtil.convertJSONStr2Obj(targetJson);
-    JSONObject expectedJson = ApiTestUtil.convertJSONStr2Obj(templateData);
-    ApiTestUtil.verifyJson((Map<String, Object>)json, (Map<String, Object>)expectedJson);
-	// expectedJson can has less fields than actual Json for backward compatibility
+    String origJsonDataFile = DnfLocationVOTest.class.getSimpleName() + "_25024.json";
+    ApiTestUtil.verifyClassJsonStructure(origJsonDataFile, DnfLocationVO.class);
+	// origJsonDataFile can has less fields than actual Json for backward compatibility
 	// this is why RESTful API is more flexible than Web service  
 ```	
 	+ good example: ContractBaseTest
@@ -141,7 +135,7 @@ This is how we use it:
 		+ sample: ContractApi.updateContract
 		+ In this way, it can test most of function without change the real data.
 		+ It means the test cases can run for ever on the same data.
-	+ Use @exteralApi to mark an API when it will be called from outside
+	+ Use @exteralApi to mark an API when it will be called from outside	
 1.	Sometimes, we can add extra fields on API for troubleshooting or integration testing, for example: 
 	+ You can add sequence Id or updated date to test if a record was updated properly in previous step
 	+ sample:
@@ -149,6 +143,8 @@ This is how we use it:
 ## Jackson
 Jackson is the main framework for Java Object JSON mapping, So we discuss mainly on it:
 
++ You can use @JsonIgnore to remove a field if you don't want to expose it to API
+	+ You can also add @JsonIgnore on the fields rather than getter or setter when the name match java bean spec
 + @JsonIgnore can't be overwrote, sub class has to use another method to get it back:	        
 ```java
     @JsonProperty("categoryId")
@@ -156,6 +152,15 @@ Jackson is the main framework for Java Object JSON mapping, So we discuss mainly
         return super.getCategoryId();
     }
 ```
++ You can also turn off auto detection if you need to ignore too many fields:
+```
+ @JsonAutoDetect(
+    fieldVisibility = Visibility.NONE,
+    getterVisibility = Visibility.NONE,
+    isGetterVisibility = Visibility.NONE,
+    setterVisibility = Visibility.NONE)
+```
++ Please add this on API bean:  `@JsonPropertyOrder(alphabetic = true)`, it helps to compare json on different versions
 + Enum by default uses literal value, it is good enough for most of case:
 	+ `Public enum ContractStatusEnum{ Quote(10); ...}` will return 'Quote' in API
 	+ So you don't need to do anything for it.
