@@ -11,6 +11,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import net.minidev.json.parser.ParseException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
@@ -21,6 +23,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
 import wu.justin.rest2.exception.BadRequestError;
 import wu.justin.rest2.exception.NotReadyError;
 
@@ -107,6 +111,12 @@ public class ApiUtil {
 		}
 		return ;
 	}
+	
+	  public static JSONObject convertJSONStr2Obj(String jsonStr) throws ParseException {
+		    JSONObject expectedJson =
+		        (JSONObject) new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE).parse(jsonStr);
+		    return expectedJson;
+		  }
 	
     public static String convertObject2JSONStr(Object obj) throws JsonProcessingException  {
     	ObjectMapper objectMapper = new ObjectMapper();

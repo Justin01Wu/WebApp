@@ -3,6 +3,8 @@ package wu.justin;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
@@ -13,12 +15,16 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 public class TestLoginService {
 
+	public static final String ACCESS_TOKEN_STR = "_ACCESS_TOKEN_STR";
+	public static final String EXPIRY_TIME_STR = "_EXPIRY_TIME";
+
+	public static String ACCESS_TOKEN;
+
 	public static String URL_ROOT = ApiTestUtil.getUrlRoot();
 
-	public static void loginAsUser(CookieStore httpCookieStore, UserInfo userInfo)
-			throws HttpException, IOException {
+	public static void loginAsUser(CookieStore httpCookieStore, UserInfo userInfo) throws HttpException, IOException {
 
-		String url = URL_ROOT + "/index.html" ;
+		String url = URL_ROOT + "/index.html";
 		System.out.println("url = " + url);
 
 		HttpClient client = initClient(httpCookieStore);
@@ -29,9 +35,10 @@ public class TestLoginService {
 		// will automatically save Http SessionId into httpCookieStore
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			System.out.println("http status = " + response.getStatusLine().getStatusCode() );
-			throw new RuntimeException("status should be 200"); 
-		};
+			System.out.println("http status = " + response.getStatusLine().getStatusCode());
+			throw new RuntimeException("status should be 200");
+		}
+		;
 
 		String bodyStr = getReturn(response);
 
@@ -40,7 +47,7 @@ public class TestLoginService {
 	}
 
 	public static void logout(String baseUrl, CookieStore httpCookieStore) throws HttpException, IOException {
-		
+
 	}
 
 	public static HttpClient initClient(CookieStore httpCookieStore) {

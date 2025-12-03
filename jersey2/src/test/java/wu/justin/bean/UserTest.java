@@ -17,95 +17,55 @@ import wu.justin.ApiTestUtil;
 
 /**
  * 
- * Because User class exposed to external APi, 
- * so we need to verify the JSON structure is back ward compatible to stop accidental refactoring
+ * Because User class exposed to external APi, so we need to verify the JSON
+ * structure is back ward compatible to stop accidental refactoring
  *
  */
 public class UserTest {
 
-    @Test
-    public void verifyUserJsonStructure() throws IOException, URISyntaxException, ParseException {
+	@Test
+	public void verifyUserJsonStructure() throws IOException, URISyntaxException, ParseException {
+		String origJsonDataFile = UserTest.class.getSimpleName() + "_justin.json";
+		ApiTestUtil.verifyClassJsonStructure(origJsonDataFile, User.class);
 
-        ObjectMapper mapper = new ObjectMapper();
+	}
 
-        String origJsonDataFile = UserTest.class.getSimpleName() + "_justin.json";
-        String jsonData = ApiTestUtil.readJSONFile(origJsonDataFile);
+	/**
+	 * it still can pass if the json doesn't have desc( User class added desc field
+	 * recently)
+	 */
+	@Test
+	public void verifyJsonBackWardCompatible() throws IOException, URISyntaxException, ParseException {
 
-        User u = mapper.readValue(jsonData, User.class);
-        assertEquals( Integer.valueOf(56239), u.getId());
+		ObjectMapper mapper = new ObjectMapper();
 
-        String targetJson = mapper.writeValueAsString(u);
-        JSONObject json = ApiTestUtil.convertJSONStr2Obj(targetJson);
-        JSONObject expectedJson = ApiTestUtil.convertJSONStr2Obj(jsonData);
+		String origJsonDataFile = UserTest.class.getSimpleName() + "_noDesc.json";
+		ApiTestUtil.verifyClassJsonStructure(origJsonDataFile, User.class);
 
-        ApiTestUtil.verifyJson((Map<String, Object>)json, (Map<String, Object>)expectedJson);
+	}
 
-    }
-    
-    /**
-     * it still can pass if the json doesn't have desc( User class added desc field recently) 
-     */
-    @Test
-    public void verifyJsonBackWardCompatible() throws IOException, URISyntaxException, ParseException {
+	/**
+	 * it will fail the json have desc2( User class renamed desc field recently)
+	 */
+	@Test(expected = UnrecognizedPropertyException.class)
+	public void failOnFieldRename() throws IOException, URISyntaxException, ParseException {
 
-        ObjectMapper mapper = new ObjectMapper();
+		String origJsonDataFile = UserTest.class.getSimpleName() + "_desc2.json";
+		ApiTestUtil.verifyClassJsonStructure(origJsonDataFile, User.class);
 
-        String origJsonDataFile = UserTest.class.getSimpleName() + "_noDesc.json";
-        String jsonData = ApiTestUtil.readJSONFile(origJsonDataFile);
+	}
 
-        User u = mapper.readValue(jsonData, User.class);
-        assertEquals( Integer.valueOf(56239), u.getId());
+	/**
+	 * it will fail the json have deletedField( User class delete renamed
+	 * deletedField field recently)
+	 */
+	@Test(expected = UnrecognizedPropertyException.class)
+	public void failOnFieldDeleted() throws IOException, URISyntaxException, ParseException {
 
-        String targetJson = mapper.writeValueAsString(u);
-        JSONObject json = ApiTestUtil.convertJSONStr2Obj(targetJson);
-        JSONObject expectedJson = ApiTestUtil.convertJSONStr2Obj(jsonData);
+		String origJsonDataFile = UserTest.class.getSimpleName() + "_deletedField.json";
 
-        ApiTestUtil.verifyJson((Map<String, Object>)json, (Map<String, Object>)expectedJson);
+		ApiTestUtil.verifyClassJsonStructure(origJsonDataFile, User.class);
 
-    }
-    
-    /**
-     * it will fail the json have desc2( User class renamed desc field recently) 
-     */
-    @Test(expected = UnrecognizedPropertyException.class)
-    public void failOnFieldRename() throws IOException, URISyntaxException, ParseException {
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        String origJsonDataFile = UserTest.class.getSimpleName() + "_desc2.json";
-        String jsonData = ApiTestUtil.readJSONFile(origJsonDataFile);
-
-        User u = mapper.readValue(jsonData, User.class);
-        assertEquals( Integer.valueOf(56239), u.getId());
-
-        String targetJson = mapper.writeValueAsString(u);
-        JSONObject json = ApiTestUtil.convertJSONStr2Obj(targetJson);
-        JSONObject expectedJson = ApiTestUtil.convertJSONStr2Obj(jsonData);
-
-        ApiTestUtil.verifyJson((Map<String, Object>)json, (Map<String, Object>)expectedJson);
-
-    }
-    
-    /**
-     * it will fail the json have deletedField( User class delete renamed deletedField field recently) 
-     */
-    @Test(expected = UnrecognizedPropertyException.class)
-    public void failOnFieldDeleted() throws IOException, URISyntaxException, ParseException {
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        String origJsonDataFile = UserTest.class.getSimpleName() + "_deletedField.json";
-        String jsonData = ApiTestUtil.readJSONFile(origJsonDataFile);
-
-        User u = mapper.readValue(jsonData, User.class);
-        assertEquals( Integer.valueOf(56239), u.getId());
-
-        String targetJson = mapper.writeValueAsString(u);
-        JSONObject json = ApiTestUtil.convertJSONStr2Obj(targetJson);
-        JSONObject expectedJson = ApiTestUtil.convertJSONStr2Obj(jsonData);
-
-        ApiTestUtil.verifyJson((Map<String, Object>)json, (Map<String, Object>)expectedJson);
-
-    }
+	}
 
 }
