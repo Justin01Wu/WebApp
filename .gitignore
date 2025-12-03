@@ -13,6 +13,7 @@
 .settings/
 .classpath
 .project
+Servers/
 
 # maven folder and log4j output files
 target/
