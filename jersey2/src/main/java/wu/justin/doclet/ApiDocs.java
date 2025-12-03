@@ -1,32 +1,14 @@
 package wu.justin.doclet;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.Modifier;
-import javax.lang.model.element.PackageElement;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.ElementFilter;
-import javax.ws.rs.Path;
-
-import com.sun.source.doctree.DocCommentTree;
-import com.sun.source.util.DocTrees;
 
 import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;
 import jdk.javadoc.doclet.Reporter;
-import wu.justin.rest2.ApiUtil;
 
 // For details, please see https://docs.oracle.com/en/java/javase/11/docs/api/jdk.javadoc/jdk/javadoc/doclet/package-summary.html#migration
 public class ApiDocs implements Doclet {

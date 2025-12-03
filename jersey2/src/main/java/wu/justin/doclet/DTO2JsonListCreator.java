@@ -99,7 +99,7 @@ private static String getOutputFile() {
    // executed
    outputFile =
        myPath.substring(0, myPath.length() - apiDocsSuffix.length() - 1)
-           + "/vcaps3/"
+           + "/jersey2/"
            + OUTPUT_FILE;
 
    // we need include output file in the war file, so put it in src/main/webapp

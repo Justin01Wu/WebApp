@@ -97,9 +97,7 @@ public final class ApiTestUtil {
 			}
 		}
 
-		final String URL_ROOT = "http://localhost:" + port + "/vcaps3";
-		// final String URL_ROOT =
-		// "https://waterloo-qa.validusholdings.com:8090/vcaps3";
+		final String URL_ROOT = "http://localhost:" + port + "/jersey2";
 
 		return URL_ROOT;
 	}

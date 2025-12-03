@@ -229,7 +229,7 @@ public abstract class GeneralHttpProxy implements Filter {
 	}
 	
 	protected String getTargetUri(HttpServletRequest servletRequest) {
-		// convert vcaps3/api/... vcaps3/apiReal/...
+		// convert jersey2/api/... jersey2/apiReal/...
 		String origUrlStart =  getValidOriginalUrlStart();
 		String targetUrlStart =  getValidTargetUrlStart();		
 		String targetURI = servletRequest.getRequestURI().replaceFirst(origUrlStart, targetUrlStart);

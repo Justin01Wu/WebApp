@@ -83,7 +83,7 @@ public class TestResultHandler {
 			//System.out.println("TestResult: " + file.getAbsolutePath());
 			try {
 				TestResultInput result = handleOneInputFile(file);
-				allTestInputResults.put(file.getAbsolutePath(), result);
+				allTestInputResults.put(result.getCaseName(), result);
 			} catch (IOException e) {
 				// impossible to get here
 				throw new RuntimeException("impossible error:", e);
