@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Map;
 
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
@@ -27,7 +26,7 @@ import net.minidev.json.parser.ParseException;
 
 
 @Category(IntegrationTest.class)
-public class TestUserApi extends IntegrationTestBase {
+public class UserApiTest extends IntegrationTestBase {
 	
 	private CookieStore httpCookieStore;
 	public static String URL_ROOT = ApiTestUtil.getUrlRoot();
@@ -72,7 +71,7 @@ public class TestUserApi extends IntegrationTestBase {
 	public void step5_UpdateCurrentUserSucceed() throws HttpException, IOException, URISyntaxException{
 
 		
-		String origVriscJsonFile2 = TestUserApi.class.getSimpleName() + "_rita.json";
+		String origVriscJsonFile2 = UserApiTest.class.getSimpleName() + "_rita.json";
 		
 		String payLoad = ApiTestUtil.readJSONFile(origVriscJsonFile2);
 
@@ -142,7 +141,7 @@ public class TestUserApi extends IntegrationTestBase {
 		Integer userId = JsonPath.read(jsonDoc, "$.id");		
 		assertEquals(userId, Integer.valueOf(56239));
 		
-		String file = TestUserApi.class.getSimpleName() + "_justin.json";
+		String file = UserApiTest.class.getSimpleName() + "_justin.json";
 		JSONObject expectedJson = ApiTestUtil.readJSONFile2Obj(file);
 		
 		ApiTestUtil.verifyJson2(file, expectedJson);
