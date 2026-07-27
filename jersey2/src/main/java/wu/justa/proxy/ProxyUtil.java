@@ -9,8 +9,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.BitSet;
 import java.util.Formatter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;

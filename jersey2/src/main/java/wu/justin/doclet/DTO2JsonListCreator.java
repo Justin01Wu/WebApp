@@ -194,7 +194,7 @@ private static Pair2<String, String> handleOneLine(String oneLine, String target
  // LOG.info("     ==>> one line: " + oneLine);
  String[] two = oneLine.split(JSON_LIST_SEPARATOR);
 
- File f = new File(targetRoot + "/test-classes/" + two[1]);
+ File f = new File(targetRoot + "/test-classes/unit_test/" + two[1]);
  if (!f.exists()) {
    LOG.info("     ==>> didn't find JSON structure file: " + f.getAbsolutePath());
    return null;

@@ -10,11 +10,11 @@ import java.util.Enumeration;
 import java.util.Formatter;
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -239,7 +239,7 @@ public class ProxyFilterOld extends HttpServlet {
 	      //   only way to pass the reason along too.
 	      int statusCode = proxyResponse.getStatusLine().getStatusCode();
 	      //noinspection deprecation
-	      servletResponse.setStatus(statusCode, proxyResponse.getStatusLine().getReasonPhrase());
+	      servletResponse.setStatus(statusCode);
 
 	      // Copying response headers to make sure SESSIONID or other Cookie which comes from the remote
 	      // server will be saved in client when the proxied url was redirected to another one.

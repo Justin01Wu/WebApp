@@ -273,7 +273,7 @@ public final class ApiTestUtil {
 	/** Sometimes you can replace it with readJSONFile2Obj */
 	public static String readJSONFile(String fileName) throws FileNotFoundException, URISyntaxException {
 
-		File targetFile = new File("src/test/resources/" + fileName);
+		File targetFile = new File("src/test/resources/unit_test/" + fileName);
 		LOG.info("Json File: " + targetFile.getAbsolutePath());
 
 		Scanner scanner = new Scanner(targetFile);
@@ -382,7 +382,7 @@ public final class ApiTestUtil {
 
 	/**
 	 * verify a java class JSON structure match expectedJsonFile, which is in the
-	 * folder src/test/resources/
+	 * folder src/test/resources/unit_test/
 	 */
 	public static <T> void verifyClassJsonStructure(String expectedJsonFile, Class<T> t)
 			throws IOException, URISyntaxException, ParseException {
@@ -495,7 +495,7 @@ public final class ApiTestUtil {
 
 	/**
 	 * verify if actualJsonObj matched expectedJsonFile, which is in the folder
-	 * src/test/resources/ expectedJson can has less fields than actual Json for
+	 * src/test/resources/unit_test/ expectedJson can has less fields than actual Json for
 	 * backward compatibility
 	 */
 	public static void verifyJson2(String expectedJsonFile, Object actualJsonObj)

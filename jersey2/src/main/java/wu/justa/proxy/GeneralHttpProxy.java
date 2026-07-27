@@ -5,14 +5,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Enumeration;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntityEnclosingRequest;
@@ -164,7 +164,7 @@ public abstract class GeneralHttpProxy implements Filter {
 		      //   only way to pass the reason along too.
 		      int statusCode = proxyResponse.getStatusLine().getStatusCode();
 		      //noinspection deprecation
-		      servletResponse.setStatus(statusCode, proxyResponse.getStatusLine().getReasonPhrase());
+		      servletResponse.setStatus(statusCode);
 
 		      // Copying response headers to make sure SESSIONID or other Cookie which comes from the remote
 		      // server will be saved in client when the proxied url was redirected to another one.

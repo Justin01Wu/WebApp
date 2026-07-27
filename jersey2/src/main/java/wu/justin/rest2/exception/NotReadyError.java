@@ -1,6 +1,6 @@
 package wu.justin.rest2.exception;
 
-import javax.ws.rs.WebApplicationException;
+import jakarta.ws.rs.WebApplicationException;
 
 public class NotReadyError extends  WebApplicationException {
 

@@ -145,7 +145,7 @@ public class TestUserApi extends IntegrationTestBase {
 		String file = TestUserApi.class.getSimpleName() + "_justin.json";
 		JSONObject expectedJson = ApiTestUtil.readJSONFile2Obj(file);
 		
-		ApiTestUtil.verifyJson((Map<String, Object>)jsonDoc, (Map<String, Object>)expectedJson);
+		ApiTestUtil.verifyJson2(file, expectedJson);
 		
 	}
 	

@@ -12,8 +12,7 @@ import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;
 import jdk.javadoc.doclet.Reporter;
 
-//collect all unit and integration result and convert into two JSON files dto-json-list.json,
-//apiCaseCovers.json
+//collect all unit and integration result and convert into apiCaseCovers.json
 public class TestResultDocs implements Doclet {
 
 	@Override

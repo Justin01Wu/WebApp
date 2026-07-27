@@ -18,7 +18,7 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
-import javax.ws.rs.Path;
+import jakarta.ws.rs.Path;
 
 import com.sun.source.doctree.DocCommentTree;
 import com.sun.source.util.DocTrees;
@@ -75,14 +75,14 @@ public class ApiFromCreator {
 			for (AnnotationMirror one : annotations) {
 				// System.out.println(" Annotation: " + one.getAnnotationType());
 				String myType = one.getAnnotationType().toString();
-				if ("javax.ws.rs.Path".equals(myType)) {
+				if ("jakarta.ws.rs.Path".equals(myType)) {
 					isRESTfulAPI = true;
 					break;
 				}
 			}
 			if (isRESTfulAPI) {
 
-				Path[] myPaths = t.getAnnotationsByType(javax.ws.rs.Path.class);
+				Path[] myPaths = t.getAnnotationsByType(jakarta.ws.rs.Path.class);
 				String rootPath = myPaths[0].value();
 				String classFullName = t.toString();
 				System.out.println(t.getKind() + ":" + t + " API path:" + rootPath);
@@ -136,7 +136,7 @@ public class ApiFromCreator {
 			Set<Modifier> modifiers = e.getModifiers();
 			if (modifiers.contains(Modifier.PUBLIC)) {
 
-				Path[] myPaths = e.getAnnotationsByType(javax.ws.rs.Path.class);
+				Path[] myPaths = e.getAnnotationsByType(jakarta.ws.rs.Path.class);
 
 				if (myPaths.length == 0) {
 					return;
@@ -169,20 +169,20 @@ public class ApiFromCreator {
 	}
 
 	private static String findHttpMethod(Element method) {
-		javax.ws.rs.GET[] myGETs = method.getAnnotationsByType(javax.ws.rs.GET.class);
+		jakarta.ws.rs.GET[] myGETs = method.getAnnotationsByType(jakarta.ws.rs.GET.class);
 		if (myGETs.length > 0) {
 			return "GET";
 		} else {
-			javax.ws.rs.POST[] myPOSTs = method.getAnnotationsByType(javax.ws.rs.POST.class);
+			jakarta.ws.rs.POST[] myPOSTs = method.getAnnotationsByType(jakarta.ws.rs.POST.class);
 			if (myPOSTs.length > 0) {
 
 				return "POST";
 			} else {
-				javax.ws.rs.PUT[] myPUTs = method.getAnnotationsByType(javax.ws.rs.PUT.class);
+				jakarta.ws.rs.PUT[] myPUTs = method.getAnnotationsByType(jakarta.ws.rs.PUT.class);
 				if (myPUTs.length > 0) {
 					return "PUT";
 				} else {
-					javax.ws.rs.DELETE[] myDELETEs = method.getAnnotationsByType(javax.ws.rs.DELETE.class);
+					jakarta.ws.rs.DELETE[] myDELETEs = method.getAnnotationsByType(jakarta.ws.rs.DELETE.class);
 					if (myDELETEs.length > 0) {
 						return "DELETE";
 					}

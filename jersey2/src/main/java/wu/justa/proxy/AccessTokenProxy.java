@@ -2,7 +2,7 @@ package wu.justa.proxy;
 
 import java.sql.SQLException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpRequest;
 import org.apache.log4j.Logger;

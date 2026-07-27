@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import net.minidev.json.parser.ParseException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
