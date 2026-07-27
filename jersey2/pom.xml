@@ -217,7 +217,7 @@
 			
 			<plugin>
 				<groupId>io.swagger.core.v3</groupId>
-				<artifactId>swagger-maven-plugin</artifactId>
+				<artifactId>swagger-maven-plugin-jakarta</artifactId>
 				<version>2.2.22</version>
 				<configuration>
 					<outputFileName>openapi</outputFileName>
@@ -320,9 +320,9 @@
 					<docletArtifacts>
                 		<!--  has to declare doclet dependency if we need it -->
                     	<docletArtifact>
-                        	<groupId>javax.ws.rs</groupId>
-                        	<artifactId>javax.ws.rs-api</artifactId>
-                        	<version>2.1.1</version>
+                        	<groupId>jakarta.ws.rs</groupId>
+                        	<artifactId>jakarta.ws.rs-api</artifactId>
+                        	<version>3.1.0</version>
                     	</docletArtifact>
 
                     	
