@@ -10,13 +10,17 @@
 	<br /> It comes from <a	href="https://stackoverflow.com/questions/119432/logging-clientside-javascript-errors-on-server" target="_blank">here</a>
 	<br/><br/>		
 		
-	<button type="button" onclick="triggerJsError()">Trigger an JS error</button>
-	<button type="button" onclick="triggerWrappedError()">Trigger an wrapped JS error</button>
+	<button type="button" onclick="addErrorHandler()">add JS error handler</button> &nbsp;will add Js error handler on window
+	<br/><br/>
+	
+	<button type="button" onclick="triggerJsError()">Trigger an JS error</button> &nbsp; will go to server side when Js error handler is added	
+	<br/><br/>
+	
+	<button type="button" onclick="triggerWrappedError()">Trigger an wrapped JS error</button> &nbsp;silent failure
 	
 	<br/><br/>
 		
-	<button type="button" onclick="addErrorHandler()">add JS error handler</button>
-	<br/><br/>
+	
 		
 	<h2>Please check the server side to see JS error details</h2>
 

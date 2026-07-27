@@ -17,17 +17,17 @@ public class JSErrorServlet extends HttpServlet {
 
 		String msg = request.getParameter("msg");
 		if (msg !=null && msg.length()>0) {
-			log.warning(msg);
+			log.warning("error msg: " + msg);
 		}
 		
 		String url = request.getParameter("url");
 		if (url !=null && url.length()>0) {
-			log.warning(url);
+			log.warning("which page: " + url);
 		}
 		
 		String line = request.getParameter("line");
 		if (line !=null && line.length()>0) {
-			log.warning(line);
+			log.warning("which line: "  + line);
 		}
 
     }		
