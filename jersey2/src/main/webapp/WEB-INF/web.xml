@@ -13,10 +13,20 @@
 		<servlet-name>RestApi</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		
+		 
         <init-param>
          	<param-name>jersey.config.server.provider.packages</param-name>
             <param-value>wu.justin.rest2;wu.justin.rest3</param-value>
 		</init-param>    
+		
+		 
+		 <!-- this doesn't work  with Jakarta tomcat 10-->
+		 <!--  
+       	<init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>wu.justin.rest2.ApiConfig</param-value>
+        </init-param>
+		-->
 		  
 		<!-- for file upload -->
 		<init-param>

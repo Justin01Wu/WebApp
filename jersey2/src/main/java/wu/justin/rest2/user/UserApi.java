@@ -39,11 +39,12 @@ public class UserApi {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user/current.json")	
-	public User getCurrentUser(@Context User user) {
+	public User getCurrentUser() {
 		
 		System.out.println("getCurrentUser...");
+		User u = UserService.getUserById(56239); // TODO find current user from token or session
 		
-		return user;
+		return u;
 	}
 	
 	public User iAmNotApi(@Context HttpServletRequest httpRequest, @PathParam("userId") Integer userId) {
