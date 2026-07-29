@@ -152,7 +152,7 @@
 			$scope.responsJsonDisp ="";
 			$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
 			
-			var apiUrl = API_UTIL.getAPIUrlBase() + "/users/user/current.json";
+			var apiUrl = API_UTIL.getAPIUrlBase() + "/users/user/current2.json";
 			
 
 			console.log(apiUrl);
@@ -170,6 +170,32 @@
 			});
 			
 		}; // end of getCurrentUser
+		
+		$scope.getUser56239 = function(){
+					console.log("getting getCurrentUser.json...");
+
+					$scope.errorMessage ="";
+					$scope.responsJsonDisp ="";
+					$scope.requestJsonDisp = JSON.stringify($scope.requestJson, null, 4);
+					
+					var apiUrl = API_UTIL.getAPIUrlBase() + "/users/user/current.json";
+					
+
+					console.log(apiUrl);
+					
+					$http({
+						method : 'GET',
+						url : apiUrl,
+					}).then(function(response) {
+						// success
+						$scope.responsJsonDisp = JSON.stringify(response.data, null,4);				
+					}, function(response) { 
+						console.log("get fails");				
+						$scope.errorMessage = "get fail with status: " + response.status;
+						return false;
+					});
+					
+				}; // end of getCurrentUser
 		
 		$scope.getRangeUser = function(){
 			console.log("getting getRangeUser.json...");

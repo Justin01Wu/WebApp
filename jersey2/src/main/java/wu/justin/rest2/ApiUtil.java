@@ -9,29 +9,92 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.Objects;
-
-import net.minidev.json.parser.ParseException;
-
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
+import wu.justa.proxy.InnerUser;
+import wu.justa.proxy.InnerUserService;
+import wu.justin.bean.User;
 import wu.justin.rest2.exception.BadRequestError;
 import wu.justin.rest2.exception.NotReadyError;
+import wu.justin.rest2.user.UserService;
 
 public class ApiUtil {
 	
+	private static final Logger LOG = Logger.getLogger(ApiUtil.class.getSimpleName());
+	
+	public static final String UserNameField = "username";
+	public static final String KEY_AUTH_USER = "authUser";
+	public static final String JWTToken = "JWTToken";	
+	public static final String JWTExpireAt = "JWTExpireAt";
+	
 	private ApiUtil() {
 		//do nothing
+	}
+	
+	public static InnerUser getCurrentUser( HttpServletRequest request) throws SQLException {
+		HttpSession session = request.getSession(false);
+		
+		String userName = (String)request.getAttribute(UserNameField);
+		// can we directly get decoded token from SecurityConfig.JWTToken?
+		
+		InnerUser user = null;
+		if (userName != null) {
+			user = getUserFromToken(request, userName);
+		} else if(session != null){
+			// web based access
+			user = (InnerUser) session.getAttribute(KEY_AUTH_USER);			
+		} else {
+			 throw new 	JWTVerificationException("token or session is not found " );
+		}
+		return user;
+	} 
+	
+	
+    public static String getSimpledUserName(String userName) {
+
+        String[] userNameParts = userName.split("\\\\");
+        if(userNameParts.length >  2) {        	
+        	String msg =  "token user name format is incorrect: " + userName;
+        	System.out.println(msg);        	
+			throw new JWTVerificationException(msg);
+        }
+        String simpledUserName = userNameParts.length == 2 ?  userNameParts[1] : userName;
+        return simpledUserName;
+    }
+	
+	private static InnerUser getUserFromToken(HttpServletRequest request, String userName) throws SQLException {
+		// token based access		
+        String simpledUserName = getSimpledUserName(userName) ;
+        InnerUser user = InnerUserService.load(1); // TODO fix hard coded userId, should get userId from token
+		if(user == null) {
+			String msg = String.format("could not load user info for %s", userName);
+			LOG.warning(msg);
+			throw new 	JWTVerificationException(msg );					
+		}
+		String token = (String)request.getAttribute(JWTToken);
+		Long expireAt = (Long)request.getAttribute(JWTExpireAt);
+		Date expire = new Date();
+		expire.setTime(expireAt);
+		//user.setTokenBin(token, expire);
+		return user;
+
 	}
 	
 	public static String getFormatedJsonOrNull(String jsonInString) {

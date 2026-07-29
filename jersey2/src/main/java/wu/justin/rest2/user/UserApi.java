@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.ForbiddenException;
@@ -16,10 +19,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-
+import wu.justa.proxy.InnerUser;
 import wu.justin.bean.IdText;
 import wu.justin.bean.Pair2;
 import wu.justin.bean.User;
@@ -39,7 +39,23 @@ public class UserApi {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user/current.json")	
-	public User getCurrentUser(@Context User user) {
+	public User getCurrentUser() {
+		
+		// UserContextProvider will provide current user from token or session, 
+		// so we don't need to get it from API itself
+		
+		User u = UserService.getUserById(56239);	
+		
+		System.out.println("getCurrentUser...");
+		 
+		
+		return u;
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/user/current2.json")	
+	public InnerUser getCurrentUser2(@Context InnerUser user) {
 		
 		// UserContextProvider will provide current user from token or session, 
 		// so we don't need to get it from API itself

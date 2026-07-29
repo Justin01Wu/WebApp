@@ -7,13 +7,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import wu.justin.rest2.ApiUtil;
 
 public class CreateAccessToken extends HttpServlet {
 
@@ -21,7 +23,9 @@ public class CreateAccessToken extends HttpServlet {
 	
 	private static Logger LOG = Logger.getLogger(CreateAccessToken.class);
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		HttpSession session = request.getSession(true);
 		try (OutputStream out = response.getOutputStream()) {
 
 			String tokenId = request.getParameter("tokenId");
@@ -86,6 +90,7 @@ public class CreateAccessToken extends HttpServlet {
 			
 			response.setContentType("application/json");
 			response.setStatus(HttpServletResponse.SC_OK);
+			session.setAttribute(ApiUtil.KEY_AUTH_USER, user);
 		    out.write(jsonInString.getBytes("UTF-8"));        
 		    out.flush();
 		    

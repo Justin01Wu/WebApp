@@ -1,101 +1,117 @@
 <html>
 <head>
-	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-	<script src="js/apiUtils.js"></script>
-	<script src="js/index.js"></script>
-	<style>
-		div.url-list a{
-		  margin-left: 20px
-		}
-	</style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script src="js/apiUtils.js"></script>
+<script src="js/index.js"></script>
+<style>
+div.url-list a {
+	margin-left: 20px
+}
+</style>
 </head>
 
 <body>
 	<h2>This is a demo for Jersey version 2 RESTful</h2>
 
-<div class="url-list"style="display:flex;">	
+	<h3 style="text-align: right; margin-top: 20px; margin-bottom: 20px;">
+		<a
+			href="http://localhost:8080/jersey2/CreateAccessToken?tokenId=1&tokenPassword=justin719"
+			target="_blank">Login</a>
+	</h3>
 
 
-	<a href ="./openapi.json" target="_blank">API help</a>
-	<br />
+	<div class="url-list" style="display: flex;">
 
 
-	<a href ="web-component/index.html" target="_blank">web-component-demo</a>
-	<br />
+		<a href="./openapi.json" target="_blank">API help</a> <br /> 
+		
+		<a
+			href="web-component/index.html" target="_blank">web-component-demo</a>
+			
+		<br /> <a href="api/public/ping" target="_blank">json sample</a> <br />
 
-	<a href="api/public/ping" target="_blank">json sample</a>
-	<br />
+		<a href="api/public/time" target="_blank">get server time</a> <br />
 
-	<a href="api/public/time" target="_blank">get server time</a>
-	<br />
-	
-	<a href="api/public/timestamp.json" target="_blank">timestamp format</a>
-	<br />
-	
-	
-	<a href="api/users/user/56239" target="_blank">test get user 56239</a>
-	<br />
-	
-	<a href="api/users/user/56239" target="_blank">test get user 56239</a>
-	<br />
+		<a href="api/public/timestamp.json" target="_blank">timestamp
+			format</a> 
+			
+			<br /> 
+			
+			<a href="api/users/user/56239" target="_blank">test
+			get user 56239</a>		
+		
+			<br /> 
+			
+			<a href="api/users/users.json?from=1&to=60000"
+			target="_blank">test all user</a> 
+			
+			<br /> 
+			
+			<a href="api/users/user/-1"
+			target="_blank">test get user -1(bad request)</a> 
+			
+			<br /> 
+			
+			<a
+			href="api/public/error/errorTest.json" target="_blank">test error</a>
+			
+			
+		<br /> <a href="errorDemo.html" target="_blank">test JS error</a> <br />
 
-	<a href="api/users/users.json?from=1&to=60000" target="_blank">test all user</a>
-	<br />
-	
-	<a href="api/users/user/-1" target="_blank">test get user -1(bad request)</a>
-	<br />
-	
-	<a href="api/public/error/errorTest.json" target="_blank">test error</a>
-	<br />
-	
-	<a href="errorDemo.html" target="_blank">test JS error</a>
-	<br />
-	
-</div>
+	</div>
 
 	<br />
 	<br />
-	<div ng-app="myApp" ng-controller="myCtrl"  style="display:flex;">
-		<div style="width:500px">
-			<textarea style="width: 480px; height: 500px;"
-				readonly="readonly" ng-model="requestJsonDisp"></textarea>
+	<div ng-app="myApp" ng-controller="myCtrl" style="display: flex;">
+		<div style="width: 500px">
+			<textarea style="width: 480px; height: 500px;" readonly="readonly"
+				ng-model="requestJsonDisp"></textarea>
 		</div>
 
-		<div style="width:200px">
-			<span style="color:red">{{errorMessage}}</span>
-			
-			<button type="button" ng-click="getDateJson()">get date </button>
-			<br/><br/>
-			
-			<button type="button" ng-click="getDbIp()">get DB IP </button>
-			<br/><br/>
-			
-			<button type="button" ng-click="getCurrentUser()">get Current User </button>
-			<br/><br/>
-			
-			<button type="button" ng-click="getRangeUser()">get Range User </button>
-			<br/><br/>
+		<div style="width: 200px">
+			<span style="color: red">{{errorMessage}}</span>
 
-			<button type="button" ng-click="getUser2Json()">get ObjectId </button>
-			<br/><br/>
-			
-			<button type="button" ng-click="testSSO()">test SSO </button>
-			<br/><br/>
-			
-			<button type="button" ng-click="sendCorrectDateJson()">post correct date </button>
-			<br/><br/>
-			
-			<button type="button" ng-click="sendWorngUtilDateOnFormat()">post wrong date 1</button>
-			<span>utilDateOnFormat need MMM-yyyy-dd format</span>
-			<br/><br/><br/>
-			
-			<button type="button" ng-click="sendWorngDateOnCustimized()">post wrong date 2</button>
-			<span>utilDateOnCustomized need full setting</span> 
-			
-			
-			<br/><br/><br/><br/><br/><br/>		
-			<br/><br/><br/>
-			
+			<button type="button" ng-click="getDateJson()">get date</button>
+			<br /> <br />
+
+			<button type="button" ng-click="getDbIp()">get DB IP</button>
+			<br /> <br />
+
+			<button type="button" ng-click="getCurrentUser()">get
+				Current login User(login firstly)</button>
+			<br /> <br />
+
+			<button type="button" ng-click="getUser56239()">get User
+				56239</button>
+			<br /> <br />
+
+			<button type="button" ng-click="getRangeUser()">get Range
+				User</button>
+			<br /> <br />
+
+
+			<button type="button" ng-click="getUser2Json()">get ObjectId
+			</button>
+			<br /> <br />
+
+			<button type="button" ng-click="testSSO()">test SSO</button>
+			<br /> <br />
+
+			<button type="button" ng-click="sendCorrectDateJson()">post
+				correct date</button>
+			<br /> <br />
+
+			<button type="button" ng-click="sendWorngUtilDateOnFormat()">post
+				wrong date 1</button>
+			<span>utilDateOnFormat need MMM-yyyy-dd format</span> <br /> <br />
+			<br />
+
+			<button type="button" ng-click="sendWorngDateOnCustimized()">post
+				wrong date 2</button>
+			<span>utilDateOnCustomized need full setting</span> <br /> <br /> <br />
+			<br /> <br /> <br /> <br /> <br /> <br />
+
 		</div>
 
 		<div>

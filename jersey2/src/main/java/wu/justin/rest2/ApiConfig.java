@@ -1,13 +1,12 @@
 package wu.justin.rest2;
 
-import jakarta.ws.rs.ApplicationPath;
-
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import jakarta.ws.rs.ApplicationPath;
+import wu.justa.proxy.InnerUser;
 import wu.justa.service.UserContextProvider;
-import wu.justin.bean.User;
 
 // from https://stackoverflow.com/questions/32119962/jersey-custom-context-injection
 @ApplicationPath("/")
@@ -23,7 +22,7 @@ public class ApiConfig extends ResourceConfig {
 	            @Override
 	            protected void configure() {
 	                bindFactory(UserContextProvider.class)
-	                        .to(User.class)
+	                        .to(InnerUser.class)
 	                        .in(RequestScoped.class);
 	            }
 	        });

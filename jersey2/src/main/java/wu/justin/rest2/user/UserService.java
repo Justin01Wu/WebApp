@@ -47,6 +47,12 @@ public class UserService {
 		
 	}
 	
+	public static synchronized User getUserByName(String userName) {
+		User u2 = users.values().stream().filter(u -> u.getName().equals(userName)).findFirst().orElse(null);
+		return u2;
+		
+	}
+	
 	public static synchronized List<User> getUserByRange(Pair2<Integer,Integer> range) {
 		List<User> userList = new ArrayList<>(); 
 		for(User user :users.values()) {
