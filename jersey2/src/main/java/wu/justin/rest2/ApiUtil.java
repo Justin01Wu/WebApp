@@ -30,10 +30,8 @@ import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import wu.justa.proxy.InnerUser;
 import wu.justa.proxy.InnerUserService;
-import wu.justin.bean.User;
 import wu.justin.rest2.exception.BadRequestError;
 import wu.justin.rest2.exception.NotReadyError;
-import wu.justin.rest2.user.UserService;
 
 public class ApiUtil {
 	
