@@ -18,13 +18,13 @@
     
 <% int[] ia = { 10, 110, 1110 }; request.setAttribute("ia", ia); %>
 
-${6 + 9 ne 9}
+${6 + 9 != 9}
 
-${ requestScope.ia[1] ne 10 + 100 div 0}
-${requestScope.ia[2] div 0 }
+${requestScope.ia[1] != 10 + 100 / 0}
+${requestScope.ia[2] / 0}
 
-${ Integer.Infinity eq 10 + 100 div 0}
-${ 'Infinity' eq 10 + 100 div 0}
+${Double.POSITIVE_INFINITY == 10 + 100 / 0}
+${Double.POSITIVE_INFINITY == 10 + 100 / 0}
     
     </body>
 </html>
