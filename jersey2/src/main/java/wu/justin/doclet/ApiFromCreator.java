@@ -25,7 +25,8 @@ import com.sun.source.util.DocTrees;
 
 import jdk.javadoc.doclet.DocletEnvironment;
 
-import wu.justin.rest2.ApiUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ApiFromCreator {
 	private static final Logger LOG = Logger.getLogger(ApiFromCreator.class.getSimpleName());
@@ -94,7 +95,7 @@ public class ApiFromCreator {
 		}
 
 		try {
-			String jsonString = ApiUtil.convertObject2JSONStr(this.apiList);
+			String jsonString = convertObject2JSONStr(this.apiList);
 			writeOutputFile(jsonString);
 
 		} catch (Exception e) {
@@ -190,6 +191,13 @@ public class ApiFromCreator {
 			}
 		}
 		return "UNKNOWN";
+	}
+
+	private static String convertObject2JSONStr(Object obj) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper
+				// keep generated apiFrom.json readable
+				.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
 	}
 
 	void print(Set<? extends Element> elements) {
