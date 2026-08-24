@@ -195,9 +195,7 @@ public class ApiFromCreator {
 
 	private static String convertObject2JSONStr(Object obj) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
-		return mapper
-				// keep generated apiFrom.json readable
-				.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+		return mapper.writeValueAsString(obj);
 	}
 
 	void print(Set<? extends Element> elements) {
