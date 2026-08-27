@@ -5,21 +5,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.io.FileUtils;
 
 import wu.justin.business.Address;
 import wu.justin.business.User;
-import wu.justin.rest.dto.AddressHideDTO;
-import wu.justin.rest.dto.AddressXMLDTO;
 import wu.justin.rest.dto.UserDTO;
 
 //it comes from 
